@@ -1,0 +1,14 @@
+# Claude and system folders
+.claude/
+.gemini/
+
+# Open design folders
+open-design/
+
+# Screenshots
+*.png
+*.jpg
+*.jpeg
+*.webp
+*Снимок-экрана*
+*Screenshot*
