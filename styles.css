@@ -1216,6 +1216,10 @@ section {
 /* ============================================
    Responsive — additional
    ============================================ */
+.nav-toggle {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .process-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1231,5 +1235,155 @@ section {
     right: 20px;
     width: 52px;
     height: 52px;
+  }
+
+  /* Mobile menu hamburger toggle button */
+  .nav-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 101;
+  }
+
+  .nav-toggle-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-primary);
+    transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out);
+  }
+
+  .nav.is-open .nav-toggle-bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .nav.is-open .nav-toggle-bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav.is-open .nav-toggle-bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* Mobile navigation links drawer */
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    padding: 96px 40px 40px;
+    gap: 24px;
+    transition: right 0.3s var(--ease-out);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+    z-index: 99;
+  }
+
+  .nav.is-open .nav-links {
+    right: 0;
+  }
+
+  /* Span 5th item across 2 columns in 2-column grids */
+  .process-step:nth-child(5),
+  .stack-category:nth-child(5) {
+    grid-column: span 2;
+  }
+
+  /* Reduce project featured card paddings */
+  .project-card--featured .project-card-body {
+    padding: 24px 20px;
+  }
+
+  .project-card--featured .project-card-footer {
+    padding: 0 20px 24px;
+  }
+
+  /* Reduce role card padding */
+  .experience-role {
+    padding: 24px 20px;
+  }
+
+  /* Tooltips snackbar behavior on mobile */
+  .tooltip .tooltip-text {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    transform: none;
+    width: auto;
+    max-width: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+  }
+
+  .tooltip .tooltip-text::after,
+  .tooltip .tooltip-text::before {
+    display: none;
+  }
+
+  /* Fix hero-panel top colored bar alignment */
+  .hero-panel::before {
+    margin: -18px -18px 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Card header grid layout to prevent text squeezing */
+  .project-card-header {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px 16px;
+    padding: 20px;
+  }
+
+  .project-icon {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .project-card-header-text {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .project-status {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    justify-self: start;
+    margin-top: 0;
+  }
+
+  .project-card-body {
+    padding: 20px 20px;
+  }
+
+  .project-card-footer {
+    padding: 0 20px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Contact buttons full width */
+  .contact-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Reset grid span to 1 column for stack and process grid on mobile */
+  .process-step:nth-child(5),
+  .stack-category:nth-child(5) {
+    grid-column: auto;
   }
 }

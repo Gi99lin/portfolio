@@ -40,6 +40,32 @@ document.addEventListener('DOMContentLoaded', () => {
     lastScroll = y;
   }, { passive: true });
 
+  // ── Mobile menu ──
+  const navToggle = document.getElementById('nav-toggle');
+  if (navToggle && nav) {
+    navToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = nav.classList.toggle('is-open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close menu on link click
+    nav.querySelectorAll('.nav-links a').forEach((link) => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+      if (nav.classList.contains('is-open') && !nav.contains(e.target)) {
+        nav.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
   // ── Smooth scroll for nav links ──
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener('click', (e) => {
