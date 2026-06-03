@@ -7,6 +7,24 @@
   <title>Иван Якимкин — разработчик ИИ-сервисов, автоматизации и инфраструктуры</title>
   <meta name="description"
     content="Превращаю ручные процессы команд в сервисы: Telegram-боты, ИИ-инструменты, мультиагентные системы и собственная инфраструктура." />
+  <link rel="canonical" href="https://ivanyakimkin.ru/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ivanyakimkin.ru/" />
+  <meta property="og:site_name" content="Иван Якимкин" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:title"
+    content="Иван Якимкин — разработчик ИИ-сервисов, автоматизации и инфраструктуры" />
+  <meta property="og:description"
+    content="Превращаю ручные процессы команд в сервисы: Telegram-боты, ИИ-инструменты, мультиагентные системы и собственная инфраструктура." />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title"
+    content="Иван Якимкин — разработчик ИИ-сервисов, автоматизации и инфраструктуры" />
+  <meta name="twitter:description"
+    content="Превращаю ручные процессы команд в сервисы: Telegram-боты, ИИ-инструменты, мультиагентные системы и собственная инфраструктура." />
   <style>
     /* ============================================
    Design System - Premium Tech Utility
@@ -583,6 +601,11 @@
       align-items: start;
     }
 
+    /* Wrapper is transparent on desktop; becomes a swipe carousel on mobile */
+    .projects-scroller {
+      display: contents;
+    }
+
     /* Нижний ряд: выравниваем по ровному нижнему краю секции */
     #project-homelab,
     #project-dashboard {
@@ -786,9 +809,13 @@
       font-weight: 500;
       color: var(--text-secondary);
       background: var(--bg-secondary);
-      padding: 4px 10px;
+      padding: 3px 10px 5px;
       border-radius: 6px;
       letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
     }
 
     /* Card footer with actions */
@@ -878,12 +905,18 @@
       margin-bottom: 8px;
     }
 
+    .experience-role-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
     .experience-role-company {
       font-family: var(--font-mono);
       font-size: 0.875rem;
       font-weight: 500;
       color: var(--text-on-dark-muted);
-      margin-bottom: 14px;
     }
 
     .experience-role-desc {
@@ -895,16 +928,17 @@
     .nda-badge {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
       font-size: 0.75rem;
       font-weight: 500;
       color: var(--text-on-dark-muted);
       background: color-mix(in oklch, var(--surface) 7%, transparent);
       border: 1px solid color-mix(in oklch, var(--surface) 12%, transparent);
-      padding: 4px 12px;
+      padding: 3px 12px 5px;
       border-radius: 100px;
-      margin-top: 16px;
       letter-spacing: 0.03em;
+      line-height: 1;
     }
 
     /* ============================================
@@ -1076,16 +1110,51 @@
       transition-delay: 0.5s;
     }
 
+    .hero-description,
+    .project-card-desc,
+    .process-step-desc,
+    .experience-role-desc,
+    .section-subtitle {
+      text-wrap: pretty;
+    }
+
     /* ============================================
    Responsive
    ============================================ */
     @media (max-width: 768px) {
+      :root {
+        --section-padding: clamp(40px, 7vw, 64px);
+      }
+
       .projects-grid {
         grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .project-card-title {
+        font-size: 1.25rem;
+      }
+
+      .project-card--featured .project-card-title {
+        font-size: 1.5rem;
+      }
+
+      .project-card--featured .project-card-desc {
+        font-size: 0.95rem;
+      }
+
+      .project-card-desc {
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+
+      .project-tags {
+        margin-bottom: 16px;
       }
 
       .projects-header {
         grid-template-columns: 1fr;
+        margin-bottom: 40px;
       }
 
       .project-card--featured {
@@ -1096,6 +1165,24 @@
         grid-row: auto;
         border-right: 0;
         border-bottom: 1px solid var(--border-light);
+        justify-content: flex-start;
+        gap: 14px;
+      }
+
+      .project-card--featured .project-card-header-text {
+        margin-top: 0;
+      }
+
+      .project-card-body {
+        padding: 20px 24px;
+      }
+
+      .project-card-footer {
+        padding: 0 24px 24px;
+      }
+
+      .project-card-header {
+        padding: 24px;
       }
 
       .capabilities-layout {
@@ -1106,8 +1193,23 @@
         grid-template-columns: 1fr;
       }
 
+      .capabilities {
+        padding: clamp(36px, 6vw, 56px) 0;
+      }
+
+      .capability-card {
+        min-height: auto;
+        padding: 18px 20px;
+      }
+
+      .capability-number {
+        margin-bottom: 12px;
+      }
+
       .experience-content {
         grid-template-columns: 1fr;
+        margin-top: 28px;
+        gap: 16px;
       }
 
       .nav-links {
@@ -1120,23 +1222,102 @@
 
       .stack-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 24px;
       }
 
+      .stack-category {
+        padding: 18px;
+      }
+
+      .process-grid {
+        margin-top: 32px;
+      }
+
+      /* ── Hero compaction ── */
       .hero {
         min-height: auto;
-        padding-top: 112px;
+        padding-top: 96px;
+        padding-bottom: clamp(36px, 5vw, 56px);
       }
 
       .hero-grid {
         grid-template-columns: 1fr;
+        gap: 28px;
       }
 
       .hero-title {
-        font-size: clamp(3rem, 16vw, 4.6rem);
+        font-size: clamp(2.2rem, 9vw, 3rem);
+        margin-bottom: 16px;
+        text-wrap: balance;
+      }
+
+      .hero-eyebrow {
+        margin-bottom: 14px;
+        font-size: 0.75rem;
+      }
+
+      .hero-description {
+        margin-bottom: 20px;
+        font-size: 1rem;
       }
 
       .hero-panel {
-        padding: 18px;
+        padding: 16px;
+      }
+
+      .hero-panel::before {
+        margin: -16px -16px 14px;
+      }
+
+      .hero-brief div {
+        padding: 9px 0;
+      }
+
+      .hero-brief dt {
+        margin-bottom: 4px;
+        font-size: 0.7rem;
+      }
+
+      .hero-brief dd {
+        font-size: 0.88rem;
+      }
+
+      .hero-terminal {
+        margin-top: 14px;
+        padding: 12px;
+      }
+
+      .hero-terminal span {
+        margin-bottom: 6px;
+        font-size: 0.68rem;
+      }
+
+      .hero-terminal p {
+        font-size: 0.78rem;
+      }
+
+      .hero-panel-top {
+        padding-bottom: 12px;
+      }
+
+      /* ── Section headers ── */
+      .section-eyebrow {
+        margin-bottom: 10px;
+        font-size: 0.75rem;
+      }
+
+      .section-title {
+        font-size: 1.75rem;
+        margin-bottom: 16px;
+        text-wrap: balance;
+      }
+
+      .section-subtitle {
+        font-size: 1rem;
+      }
+
+      .contact .section-subtitle {
+        margin: 0 auto 32px;
       }
 
       .footer-inner {
@@ -1146,9 +1327,15 @@
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
       .stack-grid {
         grid-template-columns: 1fr;
+      }
+
+      .stack-category-items {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px 16px;
       }
 
       .hero-cta {
@@ -1280,6 +1467,11 @@
       line-height: 1.65;
     }
 
+    /* Carousel dots — shown only on mobile (see media query) */
+    .carousel-dots {
+      display: none;
+    }
+
     /* ============================================
    Floating Telegram CTA
    ============================================ */
@@ -1407,16 +1599,16 @@
 
       /* Reduce project featured card paddings */
       .project-card--featured .project-card-body {
-        padding: 24px 20px;
+        padding: 18px 20px;
       }
 
       .project-card--featured .project-card-footer {
-        padding: 0 20px 24px;
+        padding: 0 20px 18px;
       }
 
       /* Reduce role card padding */
       .experience-role {
-        padding: 24px 20px;
+        padding: 20px;
       }
 
       /* Tooltips snackbar behavior on mobile */
@@ -1444,6 +1636,7 @@
     }
 
     @media (max-width: 600px) {
+
       /* Card header grid layout to prevent text squeezing */
       .project-card-header {
         display: grid;
@@ -1456,6 +1649,8 @@
       .project-icon {
         grid-column: 1;
         grid-row: 1;
+        width: 40px;
+        height: 40px;
       }
 
       .project-card-header-text {
@@ -1472,25 +1667,170 @@
       }
 
       .project-card-body {
-        padding: 20px 20px;
+        padding: 18px 20px;
       }
 
       .project-card-footer {
-        padding: 0 20px 20px;
+        padding: 0 20px 18px;
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 600px) {
+
       /* Contact buttons full width */
       .contact-link {
         width: 100%;
         justify-content: center;
       }
 
-      /* Reset grid span to 1 column for stack and process grid on mobile */
+      /* Reset grid span to 1 column for stack on mobile */
       .process-step:nth-child(5),
       .stack-category:nth-child(5) {
         grid-column: auto;
+      }
+
+      /* Process → horizontal swipe carousel */
+      .process-grid {
+        display: flex;
+        position: relative;
+        gap: 12px;
+        margin-top: 28px;
+        border: 0;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 0 4px;
+        scrollbar-width: none;
+      }
+
+      .process-grid::-webkit-scrollbar {
+        display: none;
+      }
+
+      .process-step {
+        flex: 0 0 82%;
+        scroll-snap-align: start;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 24px 20px;
+      }
+
+      /* Keep off-screen carousel cards visible (no reveal cascade here) */
+      .process-step.reveal {
+        opacity: 1;
+        transform: none;
+      }
+
+      .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 20px;
+      }
+
+      .carousel-dot {
+        width: 7px;
+        height: 7px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: var(--border);
+        cursor: pointer;
+        transition: background 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+      }
+
+      .carousel-dot.active {
+        background: var(--accent);
+        transform: scale(1.3);
+      }
+
+      /* Projects → swipe carousel of the 4 non-featured cards */
+      .projects-scroller {
+        display: flex;
+        position: relative;
+        gap: 14px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 0 4px;
+        scrollbar-width: none;
+      }
+
+      .projects-scroller::-webkit-scrollbar {
+        display: none;
+      }
+
+      .projects-scroller>.project-card {
+        flex: 0 0 86%;
+        scroll-snap-align: start;
+        align-self: flex-start;
+        opacity: 1;
+        transform: none;
+      }
+
+      #project-homelab,
+      #project-dashboard {
+        align-self: flex-start;
+      }
+
+      /* Capabilities → swipe carousel (consistency with process/projects) */
+      .capabilities-grid {
+        display: flex;
+        position: relative;
+        gap: 12px;
+        border: 0;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 0 4px;
+        scrollbar-width: none;
+      }
+
+      .capabilities-grid::-webkit-scrollbar {
+        display: none;
+      }
+
+      .capability-card {
+        flex: 0 0 85%;
+        scroll-snap-align: start;
+        align-self: flex-start;
+        border: 1px solid color-mix(in oklch, var(--surface) 14%, transparent);
+        border-radius: 10px;
+      }
+
+      .capability-card.reveal {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* Stack → flat tag cloud (drop category cards on mobile, low visual weight) */
+      .stack-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 20px;
+        border: 0;
+      }
+
+      .stack-category {
+        display: contents;
+      }
+
+      .stack-category-title {
+        display: none;
+      }
+
+      .stack-category-items {
+        display: contents;
+      }
+
+      .stack-item {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 12px;
+        background: var(--surface);
+        font-size: 0.85rem;
+        line-height: 1.2;
       }
     }
   </style>
@@ -1577,7 +1917,8 @@
       <div class="reveal">
         <p class="section-eyebrow">Что делаю</p>
         <h2 class="section-title">Сервисы под конкретную задачу</h2>
-        <p class="section-subtitle">Каждый сервис собирается под&nbsp;бизнес&#8209;процесс заказчика и&nbsp;не&nbsp;требует постоянного сопровождения.</p>
+        <p class="section-subtitle">Каждый сервис собирается под&nbsp;бизнес&#8209;процесс заказчика
+          и&nbsp;не&nbsp;требует постоянного сопровождения.</p>
       </div>
 
       <div class="capabilities-grid">
@@ -1590,7 +1931,8 @@
         <article class="capability-card reveal reveal-delay-2">
           <span class="capability-number">02</span>
           <h3>Агенты и&nbsp;автоматизация</h3>
-          <p>Мультиагентные системы и&nbsp;пайплайны: от&nbsp;обработки документов до&nbsp;агентов, которые сами планируют шаги и&nbsp;доставляют результат.</p>
+          <p>Мультиагентные системы и&nbsp;пайплайны: от&nbsp;обработки документов до&nbsp;агентов, которые сами
+            планируют шаги и&nbsp;доставляют результат.</p>
         </article>
         <article class="capability-card reveal reveal-delay-3">
           <span class="capability-number">03</span>
@@ -1610,7 +1952,8 @@
           <p class="section-eyebrow">Работы</p>
           <h2 class="section-title">Проекты в продакшене</h2>
         </div>
-        <p class="section-subtitle">Каждый проект — не&nbsp;демо ради портфолио, а&nbsp;рабочий инструмент под&nbsp;реальную задачу. Часть из&nbsp;них можно попробовать прямо сейчас.</p>
+        <p class="section-subtitle">Каждый проект — не&nbsp;демо ради портфолио, а&nbsp;рабочий инструмент
+          под&nbsp;реальную задачу. Часть из&nbsp;них можно попробовать прямо сейчас.</p>
       </div>
 
       <div class="projects-grid">
@@ -1627,7 +1970,8 @@
           </div>
           <div class="project-card-body">
             <p class="project-card-desc">Бот ведёт соискателя по&nbsp;полному циклу: оценка резюме → сопроводительное
-              письмо → подбор вакансий на&nbsp;HH.ru. Расширенные функции&nbsp;— за&nbsp;оплату через Telegram Stars.</p>
+              письмо → подбор вакансий на&nbsp;HH.ru. Расширенные функции&nbsp;— за&nbsp;оплату через Telegram Stars.
+            </p>
             <div class="project-tags">
               <span class="project-tag">Python</span>
               <span class="project-tag">PostgreSQL</span>
@@ -1645,123 +1989,128 @@
           </div>
         </article>
 
-        <!-- Card 2: Assistant System -->
-        <article class="project-card reveal reveal-delay-2" id="project-agents">
-          <div class="project-card-header">
-            <div class="project-icon">02</div>
-            <div class="project-card-header-text">
-              <h3 class="project-card-title">Мультиагентная система</h3>
-              <p class="project-card-type">Команда ИИ-агентов для регулярных задач</p>
-            </div>
-            <span class="project-status project-status--live"><span class="project-status-dot"></span>Работает</span>
-          </div>
-          <div class="project-card-body">
-            <p class="project-card-desc">30+ специализированных ИИ&#8209;агентов работают автономно: финансовая
-              аналитика, ревью кода, генерация гипотез. Результаты — в&nbsp;Telegram или&nbsp;другой привычный
-              мессенджер.</p>
-            <div class="project-tags">
-              <span class="project-tag">Node.js</span>
-              <span class="project-tag">OpenClaw</span>
-              <span class="project-tag">Docker</span>
-              <span class="project-tag">LLM-интеграции</span>
-              <span class="project-tag">MCP</span>
-              <span class="project-tag">Telegram Bot API</span>
-            </div>
-          </div>
-          <div class="project-card-footer">
-            <a href="#contact" class="project-action project-action--secondary">
-              Обсудить похожую систему
-            </a>
-          </div>
-        </article>
+        <div class="projects-scroller">
 
-        <!-- Card 3: Test-case automation (NDA) -->
-        <article class="project-card reveal reveal-delay-3" id="project-testcases">
-          <div class="project-card-header">
-            <div class="project-icon">03</div>
-            <div class="project-card-header-text">
-              <h3 class="project-card-title">Сервис автоматизации написания тест&#8209;кейсов</h3>
-              <p class="project-card-type">Внутренний сервис для QA · NDA</p>
+          <!-- Card 2: Assistant System -->
+          <article class="project-card reveal reveal-delay-2" id="project-agents">
+            <div class="project-card-header">
+              <div class="project-icon">02</div>
+              <div class="project-card-header-text">
+                <h3 class="project-card-title">Мультиагентная система</h3>
+                <p class="project-card-type">Команда ИИ-агентов для регулярных задач</p>
+              </div>
+              <span class="project-status project-status--live"><span class="project-status-dot"></span>Работает</span>
             </div>
-            <span class="project-status project-status--live"><span class="project-status-dot"></span>Работает</span>
-          </div>
-          <div class="project-card-body">
-            <p class="project-card-desc">Превращает требования в&nbsp;готовые тест&#8209;кейсы: продумывает сценарии и&nbsp;граничные случаи,
-              оформляет их в&nbsp;принятом командой формате. Снимает с&nbsp;команды тестирования ежедневную рутину
-              написания и&nbsp;загружает их в&nbsp;<span class="tooltip">TMS<span
-                  class="tooltip-text">Система управления тестированием: хранит тест&#8209;кейсы и&nbsp;историю
-                  прогонов. Например, Test&nbsp;IT или&nbsp;TestRail.</span></span>.</p>
-            <div class="project-tags">
-              <span class="project-tag">NDA</span>
-              <span class="project-tag">TMS-интеграция</span>
+            <div class="project-card-body">
+              <p class="project-card-desc">30+ специализированных ИИ&#8209;агентов работают автономно: финансовая
+                аналитика, ревью кода, генерация гипотез. Результаты — в&nbsp;Telegram или&nbsp;другой привычный
+                мессенджер.</p>
+              <div class="project-tags">
+                <span class="project-tag">Node.js</span>
+                <span class="project-tag">OpenClaw</span>
+                <span class="project-tag">Docker</span>
+                <span class="project-tag">LLM-интеграции</span>
+                <span class="project-tag">MCP</span>
+                <span class="project-tag">Telegram Bot API</span>
+              </div>
             </div>
-          </div>
-          <div class="project-card-footer">
-            <a href="#contact" class="project-action project-action--secondary">
-              Обсудить похожую задачу
-            </a>
-          </div>
-        </article>
+            <div class="project-card-footer">
+              <a href="#contact" class="project-action project-action--secondary">
+                Обсудить похожую систему
+              </a>
+            </div>
+          </article>
 
-        <!-- Card 4: Infrastructure -->
-        <article class="project-card reveal reveal-delay-4" id="project-homelab">
-          <div class="project-card-header">
-            <div class="project-icon">04</div>
-            <div class="project-card-header-text">
-              <h3 class="project-card-title">Инфраструктура</h3>
-              <p class="project-card-type">10+ рабочих сервисов</p>
+          <!-- Card 3: Test-case automation (NDA) -->
+          <article class="project-card reveal reveal-delay-3" id="project-testcases">
+            <div class="project-card-header">
+              <div class="project-icon">03</div>
+              <div class="project-card-header-text">
+                <h3 class="project-card-title">Сервис автоматизации написания тест&#8209;кейсов</h3>
+                <p class="project-card-type">Внутренний сервис для QA · NDA</p>
+              </div>
+              <span class="project-status project-status--live"><span class="project-status-dot"></span>Работает</span>
             </div>
-            <span class="project-status project-status--live"><span class="project-status-dot"></span>Работает</span>
-          </div>
-          <div class="project-card-body">
-            <p class="project-card-desc">Собственная инфраструктура: ИИ&#8209;шлюз к&nbsp;моделям,
-              Matrix с&nbsp;VoIP для звонков, облачное хранилище, VPN и&nbsp;мониторинг. Задача&nbsp;— держать всё
-              управляемым,
-              наблюдаемым и&nbsp;готовым к&nbsp;расширению.</p>
-            <div class="project-tags">
-              <span class="project-tag">K3s</span>
-              <span class="project-tag">Nginx</span>
-              <span class="project-tag">PostgreSQL</span>
-              <span class="project-tag">Prometheus</span>
-              <span class="project-tag">Grafana</span>
+            <div class="project-card-body">
+              <p class="project-card-desc">Превращает требования в&nbsp;готовые тест&#8209;кейсы: продумывает сценарии
+                и&nbsp;граничные случаи,
+                оформляет их в&nbsp;принятом командой формате. Снимает с&nbsp;команды тестирования ежедневную рутину
+                написания и&nbsp;загружает их в&nbsp;<span class="tooltip">TMS<span class="tooltip-text">Система
+                    управления тестированием: хранит тест&#8209;кейсы и&nbsp;историю
+                    прогонов. Например, Test&nbsp;IT или&nbsp;TestRail.</span></span>.</p>
+              <div class="project-tags">
+                <span class="project-tag">NDA</span>
+                <span class="project-tag">TMS-интеграция</span>
+              </div>
             </div>
-          </div>
-          <div class="project-card-footer">
-            <a href="#contact" class="project-action project-action--secondary">
-              Обсудить инфраструктуру
-            </a>
-          </div>
-        </article>
+            <div class="project-card-footer">
+              <a href="#contact" class="project-action project-action--secondary">
+                Обсудить похожую задачу
+              </a>
+            </div>
+          </article>
 
-        <!-- Card 5: Day Panel -->
-        <article class="project-card reveal reveal-delay-4" id="project-dashboard">
-          <div class="project-card-header">
-            <div class="project-icon">05</div>
-            <div class="project-card-header-text">
-              <h3 class="project-card-title">Дашборд</h3>
-              <p class="project-card-type">Личная аналитика и планирование</p>
+          <!-- Card 4: Infrastructure -->
+          <article class="project-card reveal reveal-delay-4" id="project-homelab">
+            <div class="project-card-header">
+              <div class="project-icon">04</div>
+              <div class="project-card-header-text">
+                <h3 class="project-card-title">Инфраструктура</h3>
+                <p class="project-card-type">10+ рабочих сервисов</p>
+              </div>
+              <span class="project-status project-status--live"><span class="project-status-dot"></span>Работает</span>
             </div>
-            <span class="project-status project-status--live"><span class="project-status-dot"></span>Работает</span>
-          </div>
-          <div class="project-card-body">
-            <p class="project-card-desc">Собирает данные о&nbsp;здоровье, продуктивности, погоде и&nbsp;расписании
-              из&nbsp;разных источников в&nbsp;одну панель, чтобы видеть динамику и&nbsp;не&nbsp;сводить
-              всё вручную.</p>
-            <div class="project-tags">
-              <span class="project-tag">Vite</span>
-              <span class="project-tag">Express</span>
-              <span class="project-tag">Python</span>
-              <span class="project-tag">Docker</span>
-              <span class="project-tag">Socket.io</span>
-              <span class="project-tag">Chart.js</span>
+            <div class="project-card-body">
+              <p class="project-card-desc">Собственная инфраструктура: ИИ&#8209;шлюз к&nbsp;моделям,
+                Matrix с&nbsp;VoIP для звонков, облачное хранилище, VPN и&nbsp;мониторинг. Задача&nbsp;— держать всё
+                управляемым,
+                наблюдаемым и&nbsp;готовым к&nbsp;расширению.</p>
+              <div class="project-tags">
+                <span class="project-tag">K3s</span>
+                <span class="project-tag">Nginx</span>
+                <span class="project-tag">PostgreSQL</span>
+                <span class="project-tag">Prometheus</span>
+                <span class="project-tag">Grafana</span>
+              </div>
             </div>
-          </div>
-          <div class="project-card-footer">
-            <a href="#contact" class="project-action project-action--secondary">
-              Обсудить панель
-            </a>
-          </div>
-        </article>
+            <div class="project-card-footer">
+              <a href="#contact" class="project-action project-action--secondary">
+                Обсудить инфраструктуру
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 5: Day Panel -->
+          <article class="project-card reveal reveal-delay-4" id="project-dashboard">
+            <div class="project-card-header">
+              <div class="project-icon">05</div>
+              <div class="project-card-header-text">
+                <h3 class="project-card-title">Дашборд</h3>
+                <p class="project-card-type">Личная аналитика и планирование</p>
+              </div>
+              <span class="project-status project-status--live"><span class="project-status-dot"></span>Работает</span>
+            </div>
+            <div class="project-card-body">
+              <p class="project-card-desc">Собирает данные о&nbsp;здоровье, продуктивности, погоде и&nbsp;расписании
+                из&nbsp;разных источников в&nbsp;одну панель, чтобы видеть динамику и&nbsp;не&nbsp;сводить
+                всё вручную.</p>
+              <div class="project-tags">
+                <span class="project-tag">Vite</span>
+                <span class="project-tag">Express</span>
+                <span class="project-tag">Python</span>
+                <span class="project-tag">Docker</span>
+                <span class="project-tag">Socket.io</span>
+                <span class="project-tag">Chart.js</span>
+              </div>
+            </div>
+            <div class="project-card-footer">
+              <a href="#contact" class="project-action project-action--secondary">
+                Обсудить панель
+              </a>
+            </div>
+          </article>
+
+        </div>
 
       </div>
     </div>
@@ -1786,7 +2135,8 @@
         <div class="process-step reveal reveal-delay-2">
           <span class="process-step-number">02</span>
           <h3 class="process-step-title">Описать решение</h3>
-          <p class="process-step-desc">Фиксирую на&nbsp;бумаге, как устроено решение, его объём и&nbsp;границы — чтобы обе
+          <p class="process-step-desc">Фиксирую на&nbsp;бумаге, как устроено решение, его объём и&nbsp;границы — чтобы
+            обе
             стороны одинаково понимали, что будет на&nbsp;выходе.</p>
         </div>
         <div class="process-step reveal reveal-delay-3">
@@ -1798,14 +2148,16 @@
         <div class="process-step reveal reveal-delay-4">
           <span class="process-step-number">04</span>
           <h3 class="process-step-title">Протестировать</h3>
-          <p class="process-step-desc">Тестирую, что сервис решает задачу и&nbsp;предсказуемо ведёт себя при&nbsp;ошибках,
-             проблемах с&nbsp;оплатой и&nbsp;некорректных ответах внешнего
+          <p class="process-step-desc">Тестирую, что сервис решает задачу и&nbsp;предсказуемо ведёт себя
+            при&nbsp;ошибках,
+            проблемах с&nbsp;оплатой и&nbsp;некорректных ответах внешнего
             сервиса.</p>
         </div>
         <div class="process-step reveal reveal-delay-5">
           <span class="process-step-number">05</span>
           <h3 class="process-step-title">Развернуть</h3>
-          <p class="process-step-desc">Разворачиваю в&nbsp;продакшене с&nbsp;логами и&nbsp;мониторингом, передаю доступы,
+          <p class="process-step-desc">Разворачиваю в&nbsp;продакшене с&nbsp;логами и&nbsp;мониторингом, передаю
+            доступы,
             инструкции и&nbsp;документацию.</p>
         </div>
       </div>
@@ -1818,16 +2170,19 @@
       <div class="reveal">
         <p class="section-eyebrow">Опыт</p>
         <h2 class="section-title">Продуктовые команды и&nbsp;внедрение ИИ</h2>
-        <p class="section-subtitle">6&nbsp;лет в&nbsp;разработке и&nbsp;тестировании, 3+ года руковожу командами. Внедряю LLM в&nbsp;продакшен&#8209;процессы компаний. Финтех, ритейл, корпоративный
+        <p class="section-subtitle">6&nbsp;лет в&nbsp;разработке и&nbsp;тестировании, 3+ года руковожу командами.
+          Внедряю LLM в&nbsp;продакшен&#8209;процессы компаний. Финтех, ритейл, корпоративный
           SaaS.</p>
       </div>
 
       <div class="experience-content">
         <div class="experience-role reveal reveal-delay-1">
           <h3 class="experience-role-title">Заместитель руководителя центра тестирования</h3>
-          <p class="experience-role-company">Команды до&nbsp;20&nbsp;человек</p>
+          <div class="experience-role-meta">
+            <span class="experience-role-company">Команды до&nbsp;20&nbsp;человек</span>
+          </div>
           <p class="experience-role-desc">
-            Развиваю методологию &nbsp;тестированя и&nbsp;практику применения языковых
+            Развиваю методологию тестирования и&nbsp;практику применения языковых
             моделей в&nbsp;работе команды. Отвечаю не&nbsp;только за&nbsp;идею, но&nbsp;и&nbsp;за&nbsp;то, чтобы решение
             прижилось после внедрения.
           </p>
@@ -1835,15 +2190,15 @@
 
         <div class="experience-role reveal reveal-delay-2">
           <h3 class="experience-role-title">Внутренние ИИ&#8209;инструменты</h3>
-          <p class="experience-role-company">Финтех</p>
+          <div class="experience-role-meta">
+            <span class="experience-role-company">Финтех</span>
+            <span class="nda-badge">NDA</span>
+          </div>
           <p class="experience-role-desc">
             Автоматизация написания тест&#8209;кейсов, подготовки презентаций, инструменты для
             QA&#8209;процессов. Детали под NDA, но принцип тот же: полезный результат, контроль качества, понятное
             сопровождение.
           </p>
-          <span class="nda-badge">
-            NDA
-          </span>
         </div>
       </div>
     </div>
@@ -1865,7 +2220,6 @@
           <div class="stack-category-items">
             <span class="stack-item">Python</span>
             <span class="stack-item">JavaScript</span>
-            <span class="stack-item">Node.js</span>
             <span class="stack-item">SQL</span>
           </div>
         </div>
@@ -1901,7 +2255,7 @@
         </div>
 
         <div class="stack-category reveal reveal-delay-1">
-          <h3 class="stack-category-title">Проверка и наблюдение</h3>
+          <h3 class="stack-category-title">Метрики и тестирование</h3>
           <div class="stack-category-items">
             <span class="stack-item">Playwright</span>
             <span class="stack-item">Prometheus</span>
@@ -1928,11 +2282,11 @@
           <span class="contact-link-code">TG</span>
           Telegram
         </a>
-        <a href="https://github.com/Gigglin" target="_blank" rel="noopener" class="contact-link" id="contact-github">
+        <a href="https://github.com/Gi99lin" target="_blank" rel="noopener" class="contact-link" id="contact-github">
           <span class="contact-link-code">GH</span>
           GitHub
         </a>
-        <a href="mailto:ivan@yakimkin.dev" class="contact-link" id="contact-email">
+        <a href="mailto:i.yakimkin@yandex.ru" class="contact-link" id="contact-email">
           <span class="contact-link-code">EM</span>
           Почта
         </a>
@@ -2033,6 +2387,39 @@
           }
         });
       });
+
+      // ── Swipe carousels (mobile): process steps + project cards + capabilities ──
+      function setupCarousel(scroller, itemSelector) {
+        if (!scroller) return;
+        const items = Array.from(scroller.querySelectorAll(itemSelector));
+        if (items.length < 2) return;
+        const dots = document.createElement('div');
+        dots.className = 'carousel-dots';
+        items.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+          dot.setAttribute('aria-label', 'Слайд ' + (i + 1));
+          dot.addEventListener('click', () => {
+            scroller.scrollTo({ left: items[i].offsetLeft, behavior: 'smooth' });
+          });
+          dots.appendChild(dot);
+        });
+        scroller.insertAdjacentElement('afterend', dots);
+        const dotEls = Array.from(dots.children);
+        scroller.addEventListener('scroll', () => {
+          const x = scroller.scrollLeft;
+          let active = 0;
+          items.forEach((s, i) => {
+            if (Math.abs(s.offsetLeft - x) < Math.abs(items[active].offsetLeft - x)) active = i;
+          });
+          dotEls.forEach((d, i) => d.classList.toggle('active', i === active));
+        }, { passive: true });
+      }
+
+      setupCarousel(document.querySelector('.process-grid'), '.process-step');
+      setupCarousel(document.querySelector('.projects-scroller'), '.project-card');
+      setupCarousel(document.querySelector('.capabilities-grid'), '.capability-card');
     });
   </script>
 </body>

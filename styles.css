@@ -696,9 +696,13 @@ section {
   font-weight: 500;
   color: var(--text-secondary);
   background: var(--bg-secondary);
-  padding: 4px 10px;
+  padding: 3px 10px 5px;
   border-radius: 6px;
   letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 /* Card footer with actions */
@@ -788,12 +792,18 @@ section {
   margin-bottom: 8px;
 }
 
+.experience-role-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
 .experience-role-company {
   font-family: var(--font-mono);
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--text-on-dark-muted);
-  margin-bottom: 14px;
 }
 
 .experience-role-desc {
@@ -805,16 +815,17 @@ section {
 .nda-badge {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--text-on-dark-muted);
   background: color-mix(in oklch, var(--surface) 7%, transparent);
   border: 1px solid color-mix(in oklch, var(--surface) 12%, transparent);
-  padding: 4px 12px;
+  padding: 3px 12px 5px;
   border-radius: 100px;
-  margin-top: 16px;
   letter-spacing: 0.03em;
+  line-height: 1;
 }
 
 /* ============================================
@@ -970,16 +981,26 @@ section {
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
 
+.hero-description,
+.project-card-desc,
+.process-step-desc,
+.experience-role-desc,
+.section-subtitle {
+  text-wrap: pretty;
+}
+
 /* ============================================
    Responsive
    ============================================ */
 @media (max-width: 768px) {
   .projects-grid {
     grid-template-columns: 1fr;
+    gap: 32px;
   }
 
   .projects-header {
     grid-template-columns: 1fr;
+    margin-bottom: 40px;
   }
 
   .project-card--featured {
@@ -992,6 +1013,18 @@ section {
     border-bottom: 1px solid var(--border-light);
   }
 
+  .project-card-body {
+    padding: 20px 24px;
+  }
+
+  .project-card-footer {
+    padding: 0 24px 24px;
+  }
+
+  .project-card-header {
+    padding: 24px;
+  }
+
   .capabilities-layout {
     grid-template-columns: 1fr;
   }
@@ -1000,8 +1033,23 @@ section {
     grid-template-columns: 1fr;
   }
 
+  .capabilities {
+    padding: clamp(44px, 6vw, 64px) 0;
+  }
+
+  .capability-card {
+    min-height: auto;
+    padding: 24px 20px;
+  }
+
+  .capability-number {
+    margin-bottom: 24px;
+  }
+
   .experience-content {
     grid-template-columns: 1fr;
+    margin-top: 32px;
+    gap: 24px;
   }
 
   .nav-links {
@@ -1014,23 +1062,97 @@ section {
 
   .stack-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 32px;
   }
 
+  .process-grid {
+    margin-top: 32px;
+  }
+
+  /* ── Hero compaction ── */
   .hero {
     min-height: auto;
     padding-top: 112px;
+    padding-bottom: clamp(40px, 6vw, 64px);
   }
 
   .hero-grid {
     grid-template-columns: 1fr;
+    gap: 40px;
   }
 
   .hero-title {
-    font-size: clamp(3rem, 16vw, 4.6rem);
+    font-size: clamp(2.8rem, 12vw, 4rem);
+    margin-bottom: 20px;
+    text-wrap: balance;
+  }
+
+  .hero-eyebrow {
+    margin-bottom: 14px;
+    font-size: 0.75rem;
+  }
+
+  .hero-description {
+    margin-bottom: 26px;
+    font-size: 1rem;
   }
 
   .hero-panel {
-    padding: 18px;
+    padding: 16px;
+  }
+
+  .hero-panel::before {
+    margin: -16px -16px 14px;
+  }
+
+  .hero-brief div {
+    padding: 12px 0;
+  }
+
+  .hero-brief dt {
+    margin-bottom: 4px;
+    font-size: 0.7rem;
+  }
+
+  .hero-brief dd {
+    font-size: 0.88rem;
+  }
+
+  .hero-terminal {
+    margin-top: 14px;
+    padding: 12px;
+  }
+
+  .hero-terminal span {
+    margin-bottom: 6px;
+    font-size: 0.68rem;
+  }
+
+  .hero-terminal p {
+    font-size: 0.78rem;
+  }
+
+  .hero-panel-top {
+    padding-bottom: 12px;
+  }
+
+  /* ── Section headers ── */
+  .section-eyebrow {
+    margin-bottom: 10px;
+    font-size: 0.75rem;
+  }
+
+  .section-title {
+    margin-bottom: 16px;
+    text-wrap: balance;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  .contact .section-subtitle {
+    margin: 0 auto 32px;
   }
 
   .footer-inner {
@@ -1040,9 +1162,15 @@ section {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .stack-grid {
     grid-template-columns: 1fr;
+  }
+
+  .stack-category-items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 16px;
   }
 
   .hero-cta {
@@ -1374,7 +1502,7 @@ section {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   /* Contact buttons full width */
   .contact-link {
     width: 100%;
@@ -1385,5 +1513,9 @@ section {
   .process-step:nth-child(5),
   .stack-category:nth-child(5) {
     grid-column: auto;
+  }
+
+  .process-grid {
+    grid-template-columns: 1fr;
   }
 }
