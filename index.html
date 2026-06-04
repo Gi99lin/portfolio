@@ -1419,7 +1419,9 @@
     .process-grid {
       margin-top: 48px;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      /* minmax(0,1fr) — без auto-минимума, иначе длинные неразрывные слова
+         (Протестировать/Разворачиваю) раздувают свои колонки на узких экранах */
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 0;
       border-top: 1px solid var(--border);
       border-left: 1px solid var(--border);
