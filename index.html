@@ -4,6 +4,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Theme: set before paint to avoid FOUC. Auto by system, persisted choice wins. -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t !== 'light' && t !== 'dark') {
+          t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) { }
+    })();
+  </script>
+  <meta name="theme-color" content="#ffffff" id="meta-theme-color" />
   <title>Иван Якимкин — разработчик ИИ-сервисов, автоматизации и инфраструктуры</title>
   <meta name="description"
     content="Превращаю ручные процессы команд в сервисы: Telegram-боты, ИИ-инструменты, мультиагентные системы и собственная инфраструктура." />
@@ -1893,6 +1906,373 @@
         line-height: 1.2;
       }
     }
+    /* ============================================
+   Dark theme — "Dashboard glass" (matches life-dashboard)
+   ============================================ */
+
+    /* Shared glass tokens (white-based hairlines, work over any dark surface) */
+    :root {
+      --glass-bg: color-mix(in oklch, oklch(100% 0 0) 4%, transparent);
+      --glass-border: color-mix(in oklch, oklch(100% 0 0) 9%, transparent);
+      --glass-blur: 24px;
+    }
+
+    /* Slate near-black palette, green accent lifted for dark — from dashboard */
+    html[data-theme="dark"] {
+      --bg: oklch(13% 0.015 245);
+      --surface: oklch(18% 0.018 245);
+      --fg: oklch(95% 0.008 240);
+      --muted: oklch(74% 0.014 242);
+      --border: oklch(32% 0.014 245);
+      --accent: oklch(72% 0.15 148);
+
+      --bg-dark: oklch(11% 0.015 245);
+      --bg-card: oklch(21% 0.018 245);
+
+      /* keep "on dark" text light even though --surface is now dark */
+      --text-on-dark: oklch(95% 0.008 240);
+      --text-on-dark-muted: oklch(74% 0.014 242);
+    }
+
+    /* Smooth theme cross-fade */
+    @media (prefers-reduced-motion: no-preference) {
+      body,
+      .nav,
+      .nav.scrolled,
+      section,
+      .project-card,
+      .stack-category,
+      .stack-item,
+      .process-step,
+      .contact-link,
+      .experience-role,
+      .nav-logo-mark {
+        transition:
+          background-color 0.45s var(--ease-out),
+          color 0.45s var(--ease-out),
+          border-color 0.45s var(--ease-out),
+          box-shadow 0.45s var(--ease-out);
+      }
+    }
+
+    /* Blueprint backdrop: technical grid + corner green glow + noise (dashboard hero) */
+    html[data-theme="dark"] body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(110% 70% at 88% -8%, color-mix(in oklch, var(--accent) 14%, transparent), transparent 55%),
+        linear-gradient(to right, color-mix(in oklch, oklch(100% 0 0) 4%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in oklch, oklch(100% 0 0) 4%, transparent) 1px, transparent 1px),
+        var(--bg);
+      background-size: auto, 56px 56px, 56px 56px;
+    }
+
+    html[data-theme="dark"] body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    /* Backdrop sits at z-index:-1, so content paints above it naturally —
+       no need to lift anything (which would clobber position:fixed elements). */
+
+    /* --- Section rhythm: plain bands stay clear, feature bands get a faint
+       translucent lift + hairline separators, so blocks read as distinct
+       while the blueprint still shows through. --- */
+    html[data-theme="dark"] .hero,
+    html[data-theme="dark"] .projects,
+    html[data-theme="dark"] .contact {
+      background: transparent;
+    }
+
+    /* Emphasis sections (dark bands in light theme) stay the DEEP/recessed
+       bands in dark too — keeps the light↔dark relationship consistent. */
+    html[data-theme="dark"] .capabilities,
+    html[data-theme="dark"] .experience {
+      background: color-mix(in oklch, oklch(0% 0 0) 30%, transparent);
+    }
+
+    /* Subtle bands (light-gray in light theme) get a faint lift in dark. */
+    html[data-theme="dark"] .process,
+    html[data-theme="dark"] .stack {
+      background: color-mix(in oklch, oklch(100% 0 0) 3%, transparent);
+    }
+
+    html[data-theme="dark"] .capabilities,
+    html[data-theme="dark"] .projects,
+    html[data-theme="dark"] .process,
+    html[data-theme="dark"] .experience,
+    html[data-theme="dark"] .stack,
+    html[data-theme="dark"] .contact {
+      border-top: 1px solid var(--glass-border);
+      border-bottom-color: var(--glass-border);
+    }
+
+    /* --- "Что делаю": inverted in light (dark band + light text); in dark the
+       tokens flip, so re-light its text and re-show its hairline grid. --- */
+    html[data-theme="dark"] .capabilities {
+      color: var(--fg);
+    }
+
+    html[data-theme="dark"] .capabilities .section-title,
+    html[data-theme="dark"] .capability-card h3 {
+      color: var(--fg);
+    }
+
+    html[data-theme="dark"] .capabilities .section-eyebrow,
+    html[data-theme="dark"] .capabilities .section-subtitle,
+    html[data-theme="dark"] .capability-card p {
+      color: var(--muted);
+    }
+
+    html[data-theme="dark"] .capabilities-grid,
+    html[data-theme="dark"] .capability-card {
+      border-color: var(--glass-border);
+    }
+
+    /* --- Hero "Как работаю" terminal box: inverted → dark glass + light text --- */
+    html[data-theme="dark"] .hero-terminal {
+      background: var(--glass-bg);
+      border-color: var(--glass-border);
+    }
+
+    html[data-theme="dark"] .hero-terminal p {
+      color: var(--fg);
+    }
+
+    html[data-theme="dark"] .hero-terminal span {
+      color: var(--muted);
+    }
+
+    /* Accent the КОРОТКО panel's top bar instead of a stark white slab */
+    html[data-theme="dark"] .hero-panel::before {
+      background: var(--accent);
+    }
+
+    /* --- Primary buttons: white-on-dark reads off; use the brand accent.
+       The outline variant (Написать в Telegram) is excluded — it stays a
+       quiet bordered button, same hierarchy as in light theme. --- */
+    html[data-theme="dark"] .hero-cta:not(.hero-cta--outline),
+    html[data-theme="dark"] .project-action--primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: oklch(16% 0.03 250);
+    }
+
+    html[data-theme="dark"] .hero-cta:not(.hero-cta--outline):hover,
+    html[data-theme="dark"] .project-action--primary:hover {
+      background: color-mix(in oklch, var(--accent) 86%, oklch(100% 0 0));
+      border-color: color-mix(in oklch, var(--accent) 86%, oklch(100% 0 0));
+      color: oklch(16% 0.03 250);
+    }
+
+    /* Quiet outline CTA in dark: visible border + light text, gentle hover */
+    html[data-theme="dark"] .hero-cta--outline {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--fg);
+    }
+
+    html[data-theme="dark"] .hero-cta--outline:hover {
+      background: var(--glass-bg);
+      border-color: color-mix(in oklch, var(--accent) 40%, var(--border));
+      color: var(--fg);
+    }
+
+    /* Glass cards (translucent, blurred, white hairline). NOTE: .stack-item and
+       .project-card-header are intentionally NOT here — items are plain text
+       rows, and the header must share the card's single glass fill (a separate
+       fill would stack into an odd two-tone grey). */
+    html[data-theme="dark"] .project-card,
+    html[data-theme="dark"] .stack-category,
+    html[data-theme="dark"] .process-step,
+    html[data-theme="dark"] .contact-link,
+    html[data-theme="dark"] .experience-role,
+    html[data-theme="dark"] .nda-badge {
+      background: var(--glass-bg);
+      border-color: var(--glass-border);
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      backdrop-filter: blur(var(--glass-blur));
+    }
+
+    /* Project card header shares the card fill (just keeps its divider line) */
+    html[data-theme="dark"] .project-card-header {
+      background: transparent;
+      border-color: var(--glass-border);
+    }
+
+    /* --- Floating buttons: were var(--fg) → glaring white discs in dark.
+       Back-to-top becomes a quiet dark glass disc; the Telegram CTA takes the
+       brand accent so it still reads as the primary action. --- */
+    html[data-theme="dark"] .back-to-top {
+      background: color-mix(in oklch, var(--surface) 78%, transparent);
+      color: var(--fg);
+      border: 1px solid var(--glass-border);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+    }
+
+    html[data-theme="dark"] .back-to-top:hover {
+      background: color-mix(in oklch, var(--surface) 92%, transparent);
+      color: var(--accent);
+      border-color: color-mix(in oklch, var(--accent) 40%, var(--glass-border));
+    }
+
+    html[data-theme="dark"] .floating-cta {
+      background: var(--accent);
+      color: oklch(16% 0.03 250);
+    }
+
+    html[data-theme="dark"] .floating-cta:hover {
+      background: color-mix(in oklch, var(--accent) 86%, oklch(100% 0 0));
+      color: oklch(16% 0.03 250);
+    }
+
+    /* Glass hover: accent hairline + lift + soft shadow (dashboard stat-card) */
+    html[data-theme="dark"] .project-card:hover,
+    html[data-theme="dark"] .stack-category:hover,
+    html[data-theme="dark"] .process-step:hover,
+    html[data-theme="dark"] .contact-link:hover {
+      border-color: color-mix(in oklch, var(--accent) 35%, transparent);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.28),
+        0 0 24px color-mix(in oklch, var(--accent) 7%, transparent);
+    }
+
+    html[data-theme="dark"] .nav-logo-mark {
+      background: var(--glass-bg);
+      border-color: var(--glass-border);
+    }
+
+    /* ============================================
+   Theme toggle + nav grouping
+   ============================================ */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      position: relative;
+    }
+
+    .theme-toggle {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: color-mix(in oklch, var(--surface) 60%, transparent);
+      color: var(--text-secondary);
+      cursor: pointer;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      transition:
+        color 0.3s var(--ease-out),
+        border-color 0.3s var(--ease-out),
+        background 0.3s var(--ease-out),
+        transform 0.3s var(--ease-out);
+    }
+
+    .theme-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent-border);
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle .theme-icon {
+      grid-area: 1 / 1;
+    }
+
+    /* Show sun in dark mode (click → go light), moon in light mode (click → go dark) */
+    .theme-icon-sun {
+      display: none;
+    }
+
+    .theme-icon-moon {
+      display: block;
+    }
+
+    html[data-theme="dark"] .theme-icon-sun {
+      display: block;
+    }
+
+    html[data-theme="dark"] .theme-icon-moon {
+      display: none;
+    }
+
+    /* One-time nudge that the other theme exists */
+    .theme-hint {
+      position: absolute;
+      top: calc(100% + 12px);
+      right: 0;
+      z-index: 120;
+      max-width: 220px;
+      padding: 9px 13px;
+      border: 1px solid var(--accent-border);
+      border-radius: 10px;
+      background: color-mix(in oklch, var(--surface) 92%, transparent);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      line-height: 1.4;
+      letter-spacing: 0.01em;
+      white-space: normal;
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+    }
+
+    .theme-hint::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      right: 14px;
+      width: 9px;
+      height: 9px;
+      background: inherit;
+      border-left: 1px solid var(--accent-border);
+      border-top: 1px solid var(--accent-border);
+      transform: rotate(45deg);
+    }
+
+    .theme-hint.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Gentle attention pulse on the toggle until the user has seen the hint */
+    @media (prefers-reduced-motion: no-preference) {
+      .theme-toggle.is-pulsing {
+        animation: themePulse 2.4s var(--ease-out) infinite;
+      }
+    }
+
+    @keyframes themePulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 color-mix(in oklch, var(--accent) 40%, transparent);
+      }
+
+      50% {
+        box-shadow: 0 0 0 6px color-mix(in oklch, var(--accent) 0%, transparent);
+      }
+    }
   </style>
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◆</text></svg>" />
@@ -1907,19 +2287,31 @@
         <span class="nav-logo-mark">IY</span>
         <span class="nav-logo-label">разработчик ИИ-сервисов, автоматизации и инфраструктуры</span>
       </a>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Открыть меню" aria-expanded="false">
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-      </button>
-      <ul class="nav-links">
-        <li><a href="#capabilities">Что делаю</a></li>
-        <li><a href="#projects">Работы</a></li>
-        <li><a href="#process">Подход</a></li>
-        <li><a href="#experience">Опыт</a></li>
-        <li><a href="#stack">Стек</a></li>
-        <li><a href="#contact">Контакты</a></li>
-      </ul>
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="#capabilities">Что делаю</a></li>
+          <li><a href="#projects">Работы</a></li>
+          <li><a href="#process">Подход</a></li>
+          <li><a href="#experience">Опыт</a></li>
+          <li><a href="#stack">Стек</a></li>
+          <li><a href="#contact">Контакты</a></li>
+        </ul>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Переключить тему" aria-pressed="false" title="Переключить тему">
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+          </svg>
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Открыть меню" aria-expanded="false">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+        <span class="theme-hint" id="theme-hint" role="status" hidden></span>
+      </div>
     </div>
   </nav>
 
@@ -2374,6 +2766,58 @@
        Scroll-reveal & Navigation behavior
        ============================================ */
     document.addEventListener('DOMContentLoaded', () => {
+      // ── Theme toggle (light / dark "dashboard glass") ──
+      (function () {
+        const root = document.documentElement;
+        const toggle = document.getElementById('theme-toggle');
+        const hint = document.getElementById('theme-hint');
+        const metaColor = document.getElementById('meta-theme-color');
+        if (!toggle) return;
+
+        const COLORS = { light: '#ffffff', dark: '#0a0f14' };
+
+        function current() {
+          return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        }
+        function apply(theme) {
+          root.setAttribute('data-theme', theme);
+          toggle.setAttribute('aria-pressed', theme === 'dark');
+          if (metaColor) metaColor.setAttribute('content', COLORS[theme]);
+        }
+        apply(current());
+
+        let hintTimer;
+        function dismissHint() {
+          if (hint) hint.classList.remove('is-visible');
+          toggle.classList.remove('is-pulsing');
+          clearTimeout(hintTimer);
+          try { localStorage.setItem('themeHintSeen', '1'); } catch (e) { }
+        }
+
+        toggle.addEventListener('click', () => {
+          const next = current() === 'dark' ? 'light' : 'dark';
+          apply(next);
+          try { localStorage.setItem('theme', next); } catch (e) { }
+          dismissHint();
+        });
+
+        // One-time, unobtrusive nudge that the other theme exists.
+        let seen = true;
+        try { seen = localStorage.getItem('themeHintSeen') === '1'; } catch (e) { }
+        if (!seen && hint) {
+          hint.textContent = current() === 'dark'
+            ? 'Здесь есть и светлая тема'
+            : 'Здесь есть и тёмная тема';
+          hint.hidden = false;
+          setTimeout(() => {
+            hint.classList.add('is-visible');
+            toggle.classList.add('is-pulsing');
+            hintTimer = setTimeout(dismissHint, 6500);
+          }, 1400);
+          hint.addEventListener('click', dismissHint);
+        }
+      })();
+
       // ── Scroll reveal ──
       const reveals = document.querySelectorAll('.reveal');
       const observer = new IntersectionObserver(
