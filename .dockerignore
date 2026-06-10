@@ -1,0 +1,14 @@
+.git
+.github
+.claude
+.gemini
+.dockerignore
+.gitignore
+Dockerfile
+open-design
+*.png
+*.jpg
+*.jpeg
+*.webp
+*Screenshot*
+*Снимок-экрана*
