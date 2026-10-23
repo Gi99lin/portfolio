@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body style="margin:0">
+<title>Визуальный язык</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Commissioner:slnt,wght,FLAR,VOLM@-12..0,100..900,0..100,0..100&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: four complete slices of the personal page, stacked, each a different visual language,
+   all set in Commissioner (round-2 preset) with identical content so only the language changes.
+   A: chrome lives only inside the name. B: no effects, light editorial. C: dark gallery lit by
+   one soft light. D: chrome as a dimmed atmosphere behind solid surfaces. Each slice has at most
+   one thing that reacts to the cursor. The shell around them is Geist on near-black, by choice. */
+:root{
+  --shell-bg:#0A0A0B; --shell-fg:#ECEDEF; --shell-muted:#8D929B; --shell-line:rgba(236,237,239,.12); --focus:#8FA6FF;
+  --shell:"Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --mono:"Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --cf:"Commissioner", ui-sans-serif, system-ui, sans-serif;
+  --h-v:"FLAR" 100, "VOLM" 100, "slnt" 0; --b-v:"FLAR" 0, "VOLM" 0, "slnt" 0; --u-v:"FLAR" 50, "VOLM" 0, "slnt" 0;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--shell-bg);color:var(--shell-fg);margin:0;font:400 16px/1.6 var(--shell);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* ---------- shell ---------- */
+.intro{padding-block:56px 12px;display:grid;gap:16px}
+.eyebrow{margin:0;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--shell-muted)}
+.intro h1{margin:0;font:600 clamp(34px,5vw,60px)/1.02 var(--shell);letter-spacing:-.03em;text-wrap:balance;max-width:20ch}
+.intro p{margin:0;color:var(--shell-muted);max-width:68ch;font-size:16.5px}
+.intro p b{color:var(--shell-fg);font-weight:500}
+.jump{display:flex;flex-wrap:wrap;gap:8px}
+.jump a{font:500 12.5px/1 var(--mono);color:var(--shell-muted);text-decoration:none;padding:9px 12px;border:1px solid var(--shell-line);border-radius:999px}
+.jump a:hover{color:var(--shell-fg);border-color:var(--shell-fg)}
+.dir{padding-top:clamp(80px,9vw,128px);display:grid;gap:18px}
+.dir-h{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 20px;align-items:baseline}
+.dir-n{grid-row:span 2;font:600 clamp(40px,5vw,64px)/.8 var(--shell);color:var(--shell-muted)}
+.dir-h h2{margin:0;font:600 clamp(22px,2.6vw,32px)/1.1 var(--shell);letter-spacing:-.02em}
+.dir-h p{margin:0;color:var(--shell-muted);max-width:76ch}
+.dir-h p b{color:var(--shell-fg);font-weight:500}
+.foot{padding-block:110px 64px;color:var(--shell-muted);max-width:72ch}
+.foot b{color:var(--shell-fg);font-weight:500}
+
+/* ---------- shared page slice (Commissioner) ---------- */
+.site{position:relative;overflow:hidden;isolation:isolate;border-radius:24px;padding:clamp(20px,3vw,44px);display:grid;gap:clamp(56px,8vw,112px)}
+.h{font-family:var(--cf);font-variation-settings:var(--h-v);font-weight:740;letter-spacing:-.03em;line-height:.92}
+.b{font-family:var(--cf);font-variation-settings:var(--b-v);font-weight:400}
+.u{font-family:var(--cf);font-variation-settings:var(--u-v);font-weight:600}
+.c{font-family:var(--cf);font-variation-settings:var(--u-v);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.s-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px;position:relative;z-index:1}
+.s-brand{font-size:18px;line-height:1}
+.s-nav{display:flex;flex-wrap:wrap;gap:clamp(14px,2.4vw,28px);font-size:14.5px}
+.s-nav a{color:inherit;text-decoration:none;opacity:.86}
+.s-nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:5px}
+.s-hero{display:grid;gap:24px;position:relative;z-index:1}
+.s-name{margin:0;font-size:clamp(64px,12vw,184px)}
+.s-intro{margin:0;font-size:clamp(18px,1.8vw,23px);line-height:1.5;max-width:40ch}
+.s-btns{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+.btn{position:relative;display:inline-flex;align-items:center;border:0;border-radius:999px;padding:15px 22px;font-size:14px;line-height:1;text-decoration:none;white-space:nowrap;cursor:pointer;transition:background .25s,color .25s,box-shadow .25s,transform .25s cubic-bezier(.2,.8,.2,1)}
+.btn .arr{display:inline-block;max-width:0;opacity:0;overflow:hidden;transition:max-width .35s cubic-bezier(.2,.8,.2,1),opacity .25s,margin .35s}
+.btn:hover .arr,.btn:focus-visible .arr{max-width:1.2em;opacity:1;margin-left:10px}
+.btn:active{transform:scale(.965)}
+.lnk{color:inherit;font-size:14.5px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;transition:text-decoration-thickness .2s}
+.lnk:hover{text-decoration-thickness:2px}
+.s-sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:22px;position:relative;z-index:1}
+.s-sec-h h3{margin:0;font-size:clamp(34px,4.2vw,56px)}
+.s-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2vw,28px);position:relative;z-index:1}
+@media (max-width:760px){.s-grid{grid-template-columns:minmax(0,1fr)}}
+.proj{display:grid;gap:14px;text-decoration:none;color:inherit}
+.frame{position:relative;aspect-ratio:16/10;border-radius:16px;overflow:hidden;display:grid;place-items:center;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.frame svg{width:78%;height:auto;display:block}
+.proj-t{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.proj h4{margin:0;font-size:clamp(24px,2.4vw,30px);line-height:1}
+.proj p{margin:0;font-size:15px;line-height:1.55;max-width:52ch}
+.s-lab{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:center;position:relative;z-index:1}
+@media (max-width:760px){.s-lab{grid-template-columns:minmax(0,1fr)}}
+.torus{margin:0;font:400 8.5px/1.2 var(--mono);white-space:pre;overflow:hidden;max-width:100%}
+.s-lab h3{margin:0 0 12px;font-size:clamp(30px,3.4vw,44px)}
+.s-lab p{margin:0 0 18px;font-size:16px;line-height:1.55;max-width:46ch}
+.s-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px 24px;padding-top:20px;position:relative;z-index:1}
+.s-foot nav{display:flex;flex-wrap:wrap;gap:22px}
+
+/* =========== A · chrome only inside the name =========== */
+.a{background:#000000;color:#ECECEC}
+.a .muted{color:#8A8A8A}
+.a-name-wrap{position:relative;isolation:isolate}
+.a-gl{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:-1}
+.a-knock{margin:0;background:#000000;color:#FFFFFF;mix-blend-mode:multiply}
+.a .b1{background:#ECECEC;color:#000000}
+.a .b1:hover{background:#FFFFFF}
+.a .frame{background:#0C0C0C;color:#D8D8D8;box-shadow:inset 0 0 0 1px #1E1E1E}
+.a .proj:hover .frame{box-shadow:inset 0 0 0 1px #3A3A3A}
+.a .s-foot{border-top:1px solid #1E1E1E}
+.a .c{color:#8A8A8A}
+
+/* =========== B · no effects, light editorial =========== */
+.bsite{background:#F4F5F6;color:#0D0E10}
+.bsite .muted{color:#5E636B}
+.bsite .b1{background:#0D0E10;color:#F4F5F6}
+.bsite .b1:hover{background:#2A4036}
+.bsite .lnk{text-decoration-color:#2A4036}
+.bsite .frame{background:#E7E9EC;color:#0D0E10}
+.bsite .proj:hover .frame{transform:translateY(-4px)}
+.bsite .proj:hover h4{color:#2A4036}
+.bsite .s-foot{border-top:1px solid rgba(13,14,16,.12)}
+.bsite .c{color:#5E636B}
+.bsite .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#2A4036;margin-right:8px;vertical-align:1px}
+
+/* =========== C · dark gallery, one soft light =========== */
+.csite{--x:60%;--y:18%;background:#0B0B0C;color:#E8E6E3}
+.csite::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.csite::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(640px circle at var(--x) var(--y),rgba(255,244,228,.10),rgba(255,244,228,.03) 40%,transparent 70%);transition:background .1s}
+.csite .muted{color:#8C8A86}
+.csite .b1{background:transparent;color:#E8E6E3;box-shadow:inset 0 0 0 1px rgba(232,230,227,.4)}
+.csite .b1:hover{background:#E8E6E3;color:#0B0B0C}
+.csite .frame{background:#121212;color:#CFCBC4;box-shadow:inset 0 0 0 1px rgba(232,230,227,.08)}
+.csite .plaque{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;padding-top:12px;border-top:1px solid rgba(232,230,227,.12)}
+.csite .plaque .c{color:#8C8A86;grid-row:span 2;padding-top:3px}
+.csite .s-foot{border-top:1px solid rgba(232,230,227,.12)}
+.csite .c{color:#8C8A86}
+
+/* =========== D · chrome as a dimmed atmosphere =========== */
+.dsite{background:#08090B;color:#EEF0F3}
+.d-gl{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:-2}
+.d-dim{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(8,9,11,.62),rgba(8,9,11,.82) 45%,rgba(8,9,11,.9))}
+.dsite .muted{color:#A2A7AF}
+.dsite .b1{background:#EEF0F3;color:#08090B}
+.dsite .b1:hover{background:#FFFFFF}
+.dsite .card{background:#101215;border-radius:20px;padding:clamp(16px,2vw,24px);box-shadow:inset 0 0 0 1px rgba(238,240,243,.06)}
+.dsite .frame{background:#16181C;color:#D5D8DD}
+.dsite .proj:hover .frame{box-shadow:inset 0 0 0 1px rgba(238,240,243,.2)}
+.dsite .s-foot{border-top:1px solid rgba(238,240,243,.1)}
+.dsite .c{color:#A2A7AF}
+
+@media (prefers-reduced-motion: reduce){.btn,.btn .arr,.frame,.csite::after{transition:none}}
+</style>
+
+<header class="wrap intro">
+  <p class="eyebrow">Дизайн-система · визуальный язык · раунд 1</p>
+  <h1>Четыре языка для личной страницы</h1>
+  <p>Шрифт везде <b>Commissioner</b> (пресет раунда 2), содержимое одинаковое, меняется только язык: фон, поверхности, кнопки, рамки проектов. У каждого направления <b>не больше одной</b> вещи, которая реагирует на курсор. Картинки проектов пока схематичные, настоящие экраны появятся в странице v2.</p>
+  <nav class="jump" aria-label="Направления"><a href="#A">A · Хром только в имени</a><a href="#B">B · Без эффектов</a><a href="#C">C · Тёмная галерея</a><a href="#D">D · Хром как атмосфера</a></nav>
+</header>
+
+<main class="wrap" id="dirs"></main>
+
+<footer class="wrap foot"><p><b>Как ответить:</b> буква и что именно в ней работает или мешает: фон, рамки проектов, кнопки, ощущение «дорого». Части можно смешивать, например «фон из D, рамки из B».</p></footer>
+
+<script>
+(() => {
+"use strict";
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- schematic project pictures (theme-agnostic: currentColor) ---------- */
+const SK = {
+  dmaic: `<svg viewBox="0 0 320 200" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">${Array.from({length:17},(_,i)=>`<rect x="${14+i*17.2}" y="16" width="12" height="12" rx="2" ${i<6?'fill="currentColor" fill-opacity=".85"':'stroke-opacity=".45"'}/>`).join("")}<path d="M16 170 H304" stroke-opacity=".35"/>${[62,98,44,120,86,140,70].map((h,i)=>`<rect x="${30+i*40}" y="${170-h}" width="22" height="${h}" rx="3" fill="currentColor" fill-opacity="${i===5?'.9':'.22'}" stroke="none"/>`).join("")}<text x="304" y="58" text-anchor="end" fill="currentColor" stroke="none" font-family="Commissioner" font-size="24" font-weight="700">₽ ↓</text></svg>`,
+  resu: `<svg viewBox="0 0 320 200" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="18" y="22" width="150" height="34" rx="14" stroke-opacity=".5"/><rect x="60" y="68" width="150" height="34" rx="14" fill="currentColor" fill-opacity=".12"/><rect x="18" y="114" width="120" height="34" rx="14" stroke-opacity=".5"/><circle cx="256" cy="98" r="46" stroke-opacity=".25" stroke-width="8"/><path d="M256 52 A46 46 0 1 1 214 117" stroke-width="8" stroke-linecap="round"/><text x="256" y="106" text-anchor="middle" fill="currentColor" stroke="none" font-family="Commissioner" font-size="26" font-weight="700">82</text></svg>`,
+  test: `<svg viewBox="0 0 320 200" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M30 24 H96 L118 46 V176 H30 Z" stroke-opacity=".7"/>${[64,80,96,112,128,144].map((y,i)=>`<path d="M44 ${y} H${i%2?92:104}" stroke-opacity=".4"/>`).join("")}<path d="M136 100 H170 M160 90 L170 100 L160 110" stroke-opacity=".7"/>${[40,72,104,136].map((y,i)=>`<rect x="190" y="${y}" width="18" height="18" rx="4" ${i<3?'fill="currentColor" fill-opacity=".85"':''}/><path d="M220 ${y+9} H${i%2?280:296}" stroke-opacity=".45"/>`).join("")}</svg>`,
+  infra: `<svg viewBox="0 0 320 200" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M70 100 L160 50 L250 100 L160 150 Z M160 50 V150 M70 100 H250" stroke-opacity=".35"/>${[[160,50],[70,100],[250,100],[160,150],[160,100]].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="${i===4?16:11}" ${i===4?'fill="currentColor" fill-opacity=".9"':'fill="currentColor" fill-opacity=".12"'}/>`).join("")}</svg>`
+};
+const PROJECTS = [
+  { k: "dmaic", t: "DMAIC Studio", tag: "Lean + AI", d: "Проводит рабочий процесс через 17 шагов DMAIC и показывает в деньгах, где он теряет." },
+  { k: "resu", t: "ResuMatch", tag: "Telegram", d: "Движок резюме в Telegram и в вебе: проверка, оценка и переписывание с превью до оплаты." },
+  { k: "test", t: "Генератор тест-кейсов", tag: "On-prem", d: "Превращает требования в чек-листы и тест-кейсы и выгружает их в Test IT. Работает без интернета." },
+  { k: "infra", t: "Workinfra", tag: "Платформа", d: "Платформа для агентов на одной машине: шлюз к моделям, трассировка, MCP и оркестратор." }
+];
+
+/* ---------- one still frame of the ASCII torus ---------- */
+function torusText() {
+  const cols = 46, rows = 21, cw = 6, ch = 12, W = cols * cw, H = rows * ch, K = Math.min(W, H) * 0.55;
+  const A = 1.05, B = 0.62, RAMP = ".,-~:;=!*#$@", out = new Array(cols * rows).fill(" "), zb = new Float32Array(cols * rows);
+  const cA = Math.cos(A), sA = Math.sin(A), cB = Math.cos(B), sB = Math.sin(B);
+  for (let th = 0; th < 6.283; th += 0.05) { const ct = Math.cos(th), st = Math.sin(th);
+    for (let ph = 0; ph < 6.283; ph += 0.015) { const cp = Math.cos(ph), sp = Math.sin(ph), cx = 2 + ct, cy = st;
+      const x = cx * (cB * cp + sA * sB * sp) - cy * cA * sB, y = cx * (sB * cp - sA * cB * sp) + cy * cA * cB, ooz = 1 / (5 + cA * cx * sp + cy * sA);
+      const c = Math.floor((W / 2 + K * ooz * x) / cw), r = Math.floor((H / 2 - K * ooz * y) / ch);
+      if (c < 0 || c >= cols || r < 0 || r >= rows) continue;
+      const L = cp * ct * sB - cA * ct * sp - sA * st + cB * (cA * st - ct * sA * sp); if (L <= 0) continue;
+      const i = c + r * cols; if (ooz > zb[i]) { zb[i] = ooz; out[i] = RAMP[Math.min(11, Math.floor(L * 8))]; } } }
+  const lines = []; for (let r = 0; r < rows; r++) lines.push(out.slice(r * cols, (r + 1) * cols).join("").replace(/\s+$/, ""));
+  return lines.join("\n");
+}
+const TORUS = torusText();
+
+/* ---------- one page slice, dressed per direction ---------- */
+function slice(id, cls, opts) {
+  const projects = PROJECTS.map((p) => {
+    const caption = opts.plaque
+      ? `<div class="plaque"><span class="c">${p.tag}</span><h4 class="h">${p.t}</h4><p class="b muted">${p.d}</p></div>`
+      : `<div class="proj-t"><h4 class="h">${p.t}</h4><span class="c">${opts.dot ? '<span class="dot"></span>' : ""}${p.tag}</span></div><p class="b muted">${p.d}</p>`;
+    const inner = `<a class="proj" href="#${id}"><div class="frame">${SK[p.k]}</div>${caption}</a>`;
+    return opts.cards ? `<div class="card">${inner}</div>` : inner;
+  }).join("");
+  const name = opts.knock
+    ? `<div class="a-name-wrap"><canvas class="a-gl" aria-hidden="true"></canvas><h3 class="s-name h a-knock">Иван<br>Якимкин</h3></div>`
+    : `<h3 class="s-name h">Иван<br>Якимкин</h3>`;
+  return `
+  <div class="site ${cls}" id="site-${id}">
+    ${opts.atmo ? '<canvas class="d-gl" aria-hidden="true"></canvas><div class="d-dim" aria-hidden="true"></div>' : ""}
+    <div class="s-top"><span class="s-brand h">Иван Якимкин</span><nav class="s-nav u" aria-label="Пример навигации"><a href="#${id}">Проекты</a><a href="#${id}">Лаборатория</a><a href="#${id}">Контакты</a></nav></div>
+    <div class="s-hero">
+      ${name}
+      <p class="s-intro b">Делаю ИИ-сервисы и автоматизацию, которые работают в проде. Здесь собрано то, что получилось.</p>
+      <div class="s-btns"><a class="btn b1 u" href="#${id}">Смотреть проекты<span class="arr" aria-hidden="true">→</span></a><a class="lnk b" href="#${id}">Лаборатория</a></div>
+    </div>
+    <section aria-label="Проекты"><div class="s-sec-h"><h3 class="h">Проекты</h3><span class="c">4</span></div><div class="s-grid">${projects}</div></section>
+    <section class="s-lab" aria-label="Лаборатория"><pre class="torus muted" aria-hidden="true">${TORUS}</pre><div><h3 class="h">Лаборатория</h3><p class="b muted">Эффекты, которые не влезли ни в один проект: жидкий хром, ASCII-тор, кинетический шрифт, тактильная ручка. Каждый можно потрогать.</p><a class="lnk b" href="#${id}">Открыть лабораторию ↗</a></div></section>
+    <div class="s-foot"><span class="c">Личная страница · 2026</span><nav class="b" aria-label="Контакты"><a class="lnk" href="#${id}">Telegram</a><a class="lnk" href="#${id}">GitHub</a><a class="lnk" href="#${id}">Email</a></nav></div>
+  </div>`;
+}
+const DIRS = [
+  { id: "A", cls: "a", title: "Хром только в имени", desc: "Страница спокойная и чёрная, а жидкий металл живёт <b>только внутри букв имени</b> и рябит под курсором. Всё остальное подчёркнуто тихое: тёмные рамки, белая главная кнопка из варианта 6.", opts: { knock: true } },
+  { id: "B", cls: "bsite", title: "Без эффектов", desc: "Ни WebGL, ни фона. Светлая редакционная страница, где дорого выглядят <b>воздух, сетка и шрифт</b>. Единственный цвет — тот самый Frozen Deep Green в мелочах: точки, наведение, подчёркивания.", opts: { dot: true } },
+  { id: "C", cls: "csite", title: "Тёмная галерея", desc: "Тёмная зернистая страница, и <b>один мягкий свет</b> идёт за курсором, будто ходишь по залу с фонариком. Проекты подписаны как экспонаты: метка и название.", opts: { plaque: true } },
+  { id: "D", cls: "dsite", title: "Хром как атмосфера", desc: "Тот же жидкий хром под всей страницей, но <b>приглушённый до тёмной ртути</b>: его чувствуешь, а не разглядываешь. Содержимое лежит на сплошных карточках.", opts: { atmo: true, cards: true } }
+];
+document.getElementById("dirs").innerHTML = DIRS.map((d, i) => `
+  <section class="dir" id="${d.id}" aria-labelledby="${d.id}-h">
+    <div class="dir-h"><span class="dir-n">${d.id}</span><h2 id="${d.id}-h">${d.title}</h2><p>${d.desc}</p></div>
+    ${slice(d.id, d.cls, d.opts)}
+  </section>`).join("");
+
+/* ---------- liquid chrome (homepage v2 shader: smooth noise, fixed 560px scale) ---------- */
+const VS = "attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}";
+const FS = [
+  "precision highp float;",
+  "uniform vec2 uR; uniform float uT; uniform vec2 uM; uniform float uS; uniform float uRef;",
+  "float hash(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p, p+45.32); return fract(p.x*p.y); }",
+  "float noise(vec2 p){ vec2 i=floor(p); vec2 f=fract(p); vec2 u=f*f*f*(f*(f*6.0-15.0)+10.0);",
+  "  return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x), mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x), u.y); }",
+  "float fbm(vec2 p){ float v=0.0; float a=0.5; for(int i=0;i<4;i++){ v+=a*noise(p); p=p*2.03+vec2(1.7,9.2); a*=0.5; } return v; }",
+  "float height(vec2 p){",
+  "  vec2 q = vec2(fbm(p*1.2+vec2(0.0,uT*0.06)), fbm(p*1.2+vec2(5.2,-uT*0.05)));",
+  "  float h = fbm(p*1.4 + q*1.8 + vec2(uT*0.02,0.0));",
+  "  float d = distance(p, uM);",
+  "  h += uS*0.2*exp(-d*d*12.0)*(0.55+0.45*sin(d*30.0-uT*4.0));",
+  "  return h; }",
+  "void main(){",
+  "  vec2 p = gl_FragCoord.xy / uRef;",
+  "  float e = 1.5 / uRef;",
+  "  float hc = height(p);",
+  "  float hx = height(p+vec2(e,0.0));",
+  "  float hy = height(p+vec2(0.0,e));",
+  "  vec3 n = normalize(vec3((hc-hx)/e, (hc-hy)/e, 2.2));",
+  "  vec3 v = vec3(0.0,0.0,1.0);",
+  "  vec3 r = reflect(-v, n);",
+  "  float sky = 0.5+0.5*r.y;",
+  "  float bands = 0.5+0.5*sin(r.y*7.0 + r.x*2.5 + 1.2);",
+  "  vec3 col = mix(vec3(0.02,0.02,0.03), vec3(0.86,0.88,0.92), smoothstep(0.15,0.95, sky*bands));",
+  "  float fres = pow(1.0-clamp(dot(n,v),0.0,1.0), 1.6);",
+  "  vec3 film = 0.5+0.5*cos(6.2831*(vec3(0.0,0.33,0.67) + hc*2.2 + uT*0.02));",
+  "  col = mix(col, col*0.4 + film*0.75, clamp(fres*2.2,0.0,1.0));",
+  "  col += pow(max(r.y,0.0),30.0)*0.9;",
+  "  gl_FragColor = vec4(col,1.0);",
+  "}"
+].join("\n");
+function chrome(cv, host, refPx) {
+  let gl = null;
+  try { gl = cv.getContext("webgl", { antialias: false, alpha: false }); } catch (e) { gl = null; }
+  if (!gl) return null;
+  const compile = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); return null; } return s; };
+  const v = compile(gl.VERTEX_SHADER, VS), f = compile(gl.FRAGMENT_SHADER, FS);
+  if (!v || !f) return null;
+  const pr = gl.createProgram(); gl.attachShader(pr, v); gl.attachShader(pr, f); gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return null;
+  gl.useProgram(pr);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const U = {}; ["uR", "uT", "uM", "uS", "uRef"].forEach((n) => { U[n] = gl.getUniformLocation(pr, n); });
+  const scale = Math.min(window.devicePixelRatio || 1, 2) * 0.85, REF = refPx * scale;
+  const ptr = { x: 0, y: 0, on: false }, m = { x: 0.6, y: 0.5, s: 0 };
+  let W = 1, H = 1, visible = false, raf = 0;
+  host.addEventListener("pointermove", (e) => { ptr.x = e.clientX; ptr.y = e.clientY; ptr.on = true; });
+  host.addEventListener("pointerleave", () => { ptr.on = false; });
+  const draw = (t) => {
+    if (ptr.on) { const r = cv.getBoundingClientRect(); m.x += ((ptr.x - r.left) / r.width - m.x) * 0.08; m.y += (1 - (ptr.y - r.top) / r.height - m.y) * 0.08; }
+    m.s += ((ptr.on ? 1 : 0) - m.s) * 0.05;
+    gl.uniform2f(U.uR, W, H); gl.uniform1f(U.uT, t / 1000); gl.uniform1f(U.uRef, REF);
+    gl.uniform2f(U.uM, m.x * W / REF, m.y * H / REF); gl.uniform1f(U.uS, m.s);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  };
+  new ResizeObserver(() => { W = Math.max(1, Math.round(cv.clientWidth * scale)); H = Math.max(1, Math.round(cv.clientHeight * scale)); cv.width = W; cv.height = H; gl.viewport(0, 0, W, H); draw(performance.now() + 20000); }).observe(cv);
+  const tick = (t) => { raf = 0; draw(t); if (visible && !document.hidden && !reduce) raf = requestAnimationFrame(tick); };
+  const wake = () => { if (!raf && visible && !document.hidden && !reduce) raf = requestAnimationFrame(tick); };
+  new IntersectionObserver((es) => { visible = es[0].isIntersecting; wake(); }, { rootMargin: "80px" }).observe(cv);
+  document.addEventListener("visibilitychange", wake);
+  return draw;
+}
+/* A: the metal only behind the name; B, C: none; D: the whole slice, dimmed by a layer above it */
+const siteA = document.getElementById("site-A");
+chrome(siteA.querySelector(".a-gl"), siteA, 360);
+const siteD = document.getElementById("site-D");
+chrome(siteD.querySelector(".d-gl"), siteD, 560);
+
+/* C: one soft light follows the cursor */
+const siteC = document.getElementById("site-C");
+siteC.addEventListener("pointermove", (e) => {
+  const r = siteC.getBoundingClientRect();
+  siteC.style.setProperty("--x", (e.clientX - r.left) + "px"); siteC.style.setProperty("--y", (e.clientY - r.top) + "px");
+});
+siteC.addEventListener("pointerleave", () => { siteC.style.setProperty("--x", "60%"); siteC.style.setProperty("--y", "18%"); });
+})();
+</script>
+
+</body>
+</html>

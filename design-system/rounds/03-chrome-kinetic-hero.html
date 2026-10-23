@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body style="margin:0">
+<title>Chrome Kinetic Hero</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one full-bleed hero. Round 1's liquid-chrome WebGL surface (A) unchanged underneath,
+   round 1's Swiss hero (D) on top: 12-column grid, three-column top row, a kinetic surname that
+   reacts only to the cursor (no idle breathing), and the marquee. A thin strip below holds the
+   one open question: how the letters sit on the metal. Single dark look by choice. */
+:root{
+  --void:#07070A; --ink:#F2F4F7; --muted:#9BA3AF; --rule:rgba(242,244,247,.5); --grid:rgba(242,244,247,.07);
+  --cyan:#7FE7F2; --magenta:#E58BFF; --gold:#F6D58E;
+  --display:"Anybody", ui-sans-serif, system-ui, sans-serif;
+  --mono:"Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--void);color:var(--ink);margin:0;font:400 13px/1.5 var(--mono);-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+
+.hero{--pad:clamp(18px,3vw,40px);position:relative;overflow:hidden;isolation:isolate;container-type:inline-size;
+  min-height:max(560px,calc(100svh - 64px));display:grid;grid-template-rows:auto 1fr auto auto;
+  padding-top:var(--pad);padding-left:max(var(--pad),env(safe-area-inset-left,0px));padding-right:max(var(--pad),env(safe-area-inset-right,0px));background:var(--void)}
+.hero.no-gl{background:radial-gradient(90% 70% at 70% 40%,#D9DDE3 0%,#5B616B 30%,#17181D 60%,#07070A 100%)}
+.gl{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:-2;cursor:crosshair}
+.hero::before{content:"";position:absolute;inset:0 0 auto 0;height:180px;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(7,7,10,.72),rgba(7,7,10,0))}
+.grid{position:absolute;inset:0 max(var(--pad),env(safe-area-inset-right,0px)) 0 max(var(--pad),env(safe-area-inset-left,0px));z-index:-1;pointer-events:none;
+  border-left:1px solid var(--grid);background-image:linear-gradient(90deg,transparent calc(100% - 1px),var(--grid) 0);background-size:calc(100% / 12) 100%}
+
+.top{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;font:600 13px/1.25 var(--display);font-variation-settings:"wdth" 88;text-transform:uppercase;letter-spacing:.01em;color:var(--ink)}
+.top span:last-child{text-align:right}
+
+.name{margin:0 0 clamp(10px,1.6cqi,26px);font-family:var(--display);font-weight:800;font-size:14cqi;line-height:.8;text-transform:uppercase;
+  display:flex;justify-content:space-between;white-space:nowrap;letter-spacing:-.01em;align-self:end}
+.name span{display:block}
+.hero[data-letters="white"] .name{color:var(--ink);text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.hero[data-letters="invert"] .name{color:#FFFFFF;mix-blend-mode:difference}
+.hero[data-letters="chrome"] .name span{color:transparent;-webkit-background-clip:text;background-clip:text;
+  background-image:linear-gradient(180deg,#FFFFFF 0%,#CDD3DB 28%,#5E646E 47%,#1C1F25 52%,#A2AAB5 61%,#F4F6F9 79%,#B4BBC6 100%);filter:drop-shadow(0 2px 0 rgba(0,0,0,.5))}
+
+.marquee{position:relative;overflow:hidden;border-block:1.5px solid var(--rule);padding-block:11px;background:rgba(7,7,10,.55);
+  margin-left:calc(-1 * max(var(--pad),env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(var(--pad),env(safe-area-inset-right,0px)))}
+.track{display:flex;width:max-content;animation:marq 30s linear infinite}
+.track span{font:700 21px/1 var(--display);font-variation-settings:"wdth" 58;text-transform:uppercase;padding-right:.35em;white-space:nowrap;color:var(--ink)}
+.track b{font-weight:700;color:var(--cyan)}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+.strip{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 28px;padding-block:16px 22px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));border-top:1px solid rgba(242,244,247,.1)}
+.strip p{margin:0;color:var(--muted);max-width:70ch}
+.strip p b{color:var(--ink);font-weight:500}
+.seg{display:inline-flex;align-items:center;gap:10px;color:var(--muted)}
+.seg-btns{display:inline-flex;border:1px solid rgba(242,244,247,.22);border-radius:999px;padding:2px}
+.seg-btns button{border:0;background:transparent;color:var(--muted);font:500 12px/1 var(--mono);padding:8px 12px;border-radius:999px;cursor:pointer}
+.seg-btns button:hover{color:var(--ink)}
+.seg-btns button[aria-pressed="true"]{background:var(--ink);color:var(--void)}
+
+@media (max-width:560px){.top{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.top span:nth-child(2){display:none}}
+@media (prefers-reduced-motion: reduce){.track{animation:none}}
+</style>
+
+<section class="hero" id="hero" data-letters="white" aria-label="Portfolio hero">
+  <canvas class="gl" id="gl" aria-hidden="true"></canvas>
+  <div class="grid" aria-hidden="true"></div>
+  <div class="top"><span>Ivan</span><span>AI services<br>Automation<br>Infrastructure</span><span>Selected<br>work</span></div>
+  <div></div>
+  <h1 class="name" id="name" aria-label="Ivan Yakimkin">Yakimkin</h1>
+  <div class="marquee" aria-hidden="true"><div class="track">
+    <span>AI services <b>/</b> Automation <b>/</b> Infrastructure <b>/</b> Lean + AI <b>/</b> Telegram bots <b>/</b> Test generation <b>/</b>&nbsp;</span>
+    <span>AI services <b>/</b> Automation <b>/</b> Infrastructure <b>/</b> Lean + AI <b>/</b> Telegram bots <b>/</b> Test generation <b>/</b>&nbsp;</span>
+  </div></div>
+</section>
+
+<div class="strip">
+  <p><b>Round 3 start.</b> A's chrome background as is, with D's Swiss hero on top. The letters only move when your cursor is near, and rest when it leaves.</p>
+  <div class="seg"><span>Letters on the metal</span>
+    <div class="seg-btns" role="group" aria-label="Letter treatment">
+      <button type="button" data-l="white" aria-pressed="true">White</button>
+      <button type="button" data-l="invert" aria-pressed="false">Inverted</button>
+      <button type="button" data-l="chrome" aria-pressed="false">Chrome</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+"use strict";
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const hero = document.getElementById("hero");
+const cv = document.getElementById("gl");
+const nameEl = document.getElementById("name");
+
+/* shared cursor: the metal and the letters react to the same pointer */
+const ptr = { x: 0, y: 0, on: false };
+hero.addEventListener("pointermove", (e) => { ptr.x = e.clientX; ptr.y = e.clientY; ptr.on = true; wake(); });
+hero.addEventListener("pointerleave", () => { ptr.on = false; wake(); });
+
+/* ---------- A · liquid chrome, unchanged from round 1 ---------- */
+let drawGl = null;
+(function initChrome() {
+  let gl = null;
+  try { gl = cv.getContext("webgl", { antialias: false, alpha: false }); } catch (e) { gl = null; }
+  if (!gl) { hero.classList.add("no-gl"); return; }
+  const vs = "attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}";
+  const fs = [
+    "precision highp float;",
+    "uniform vec2 uR; uniform float uT; uniform vec2 uM; uniform float uS;",
+    "float hash(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p, p+45.32); return fract(p.x*p.y); }",
+    "float noise(vec2 p){ vec2 i=floor(p); vec2 f=fract(p); vec2 u=f*f*(3.0-2.0*f);",
+    "  return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x), mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x), u.y); }",
+    "float fbm(vec2 p){ float v=0.0; float a=0.5; for(int i=0;i<4;i++){ v+=a*noise(p); p=p*2.03+vec2(1.7,9.2); a*=0.5; } return v; }",
+    "float height(vec2 p){",
+    "  vec2 q = vec2(fbm(p*1.2+vec2(0.0,uT*0.06)), fbm(p*1.2+vec2(5.2,-uT*0.05)));",
+    "  float h = fbm(p*1.4 + q*1.8 + vec2(uT*0.02,0.0));",
+    "  float d = distance(p, uM);",
+    "  h += uS*0.2*exp(-d*d*12.0)*(0.55+0.45*sin(d*30.0-uT*4.0));",
+    "  return h; }",
+    "void main(){",
+    "  vec2 p = gl_FragCoord.xy / uR.y;",
+    "  float e = 1.5 / uR.y;",
+    "  float hc = height(p);",
+    "  float hx = height(p+vec2(e,0.0));",
+    "  float hy = height(p+vec2(0.0,e));",
+    "  vec3 n = normalize(vec3((hc-hx)/e, (hc-hy)/e, 2.2));",
+    "  vec3 v = vec3(0.0,0.0,1.0);",
+    "  vec3 r = reflect(-v, n);",
+    "  float sky = 0.5+0.5*r.y;",
+    "  float bands = 0.5+0.5*sin(r.y*7.0 + r.x*2.5 + 1.2);",
+    "  vec3 col = mix(vec3(0.02,0.02,0.03), vec3(0.86,0.88,0.92), smoothstep(0.15,0.95, sky*bands));",
+    "  float fres = pow(1.0-clamp(dot(n,v),0.0,1.0), 1.6);",
+    "  vec3 film = 0.5+0.5*cos(6.2831*(vec3(0.0,0.33,0.67) + hc*2.2 + uT*0.02));",
+    "  col = mix(col, col*0.4 + film*0.75, clamp(fres*2.2,0.0,1.0));",
+    "  col += pow(max(r.y,0.0),30.0)*0.9;",
+    "  vec2 q = gl_FragCoord.xy/uR - 0.5;",
+    "  col *= 1.0 - dot(q,q)*0.9;",
+    "  gl_FragColor = vec4(col,1.0);",
+    "}"
+  ].join("\n");
+  const compile = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); return null; } return s; };
+  const v = compile(gl.VERTEX_SHADER, vs), f = compile(gl.FRAGMENT_SHADER, fs);
+  if (!v || !f) { hero.classList.add("no-gl"); return; }
+  const pr = gl.createProgram(); gl.attachShader(pr, v); gl.attachShader(pr, f); gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { hero.classList.add("no-gl"); return; }
+  gl.useProgram(pr);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const uR = gl.getUniformLocation(pr, "uR"), uT = gl.getUniformLocation(pr, "uT"), uM = gl.getUniformLocation(pr, "uM"), uS = gl.getUniformLocation(pr, "uS");
+  let W = 1, H = 1;
+  const m = { x: 0.72, y: 0.5, s: 0 };
+  const scale = 0.7 * Math.min(window.devicePixelRatio || 1, 1.5);
+  drawGl = (t) => {
+    if (ptr.on) {
+      const r = cv.getBoundingClientRect();
+      const tx = (ptr.x - r.left) / r.width, ty = 1 - (ptr.y - r.top) / r.height;
+      m.x += (tx - m.x) * 0.08; m.y += (ty - m.y) * 0.08;
+    }
+    m.s += ((ptr.on ? 1 : 0) - m.s) * 0.05;
+    gl.uniform2f(uR, W, H); gl.uniform1f(uT, t / 1000); gl.uniform2f(uM, m.x * W / H, m.y); gl.uniform1f(uS, m.s);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  };
+  new ResizeObserver(() => {
+    W = Math.max(1, Math.round(cv.clientWidth * scale)); H = Math.max(1, Math.round(cv.clientHeight * scale));
+    cv.width = W; cv.height = H; gl.viewport(0, 0, W, H); drawGl(performance.now() + 20000);
+  }).observe(cv);
+})();
+
+/* ---------- D · kinetic surname, cursor-only (no idle breathing) ---------- */
+const REST = { w: 100, g: 760 };
+const word = nameEl.textContent.trim().toUpperCase();
+nameEl.textContent = "";
+const letters = Array.from(word).map((ch) => {
+  const s = document.createElement("span"); s.textContent = ch; s.setAttribute("aria-hidden", "true");
+  s.style.fontVariationSettings = '"wdth" ' + REST.w + ', "wght" ' + REST.g;
+  nameEl.appendChild(s); return { el: s, w: REST.w, g: REST.g };
+});
+function stepLetters() {
+  const rects = letters.map((l) => l.el.getBoundingClientRect());
+  const span = hero.clientWidth || 1;
+  let moving = false;
+  letters.forEach((l, i) => {
+    let tw = REST.w, tg = REST.g;
+    if (ptr.on) {
+      const cx = rects[i].left + rects[i].width / 2;
+      const p = Math.max(0, 1 - Math.abs(ptr.x - cx) / (span * 0.3));
+      const pe = p * p * (3 - 2 * p);
+      tw = 55 + pe * 95; tg = 260 + pe * 640;
+    }
+    const dw = tw - l.w, dg = tg - l.g;
+    if (Math.abs(dw) > 0.05 || Math.abs(dg) > 0.5) {
+      moving = true; l.w += dw * 0.14; l.g += dg * 0.14;
+      l.el.style.fontVariationSettings = '"wdth" ' + l.w.toFixed(1) + ', "wght" ' + l.g.toFixed(0);
+    }
+  });
+  return moving;
+}
+
+/* ---------- one loop, only while the hero is on screen ---------- */
+let visible = true, raf = 0;
+function tick(t) {
+  raf = 0;
+  if (drawGl && !reduce) drawGl(t);
+  const moving = stepLetters();
+  if (visible && !document.hidden && (!reduce || moving)) raf = requestAnimationFrame(tick);
+}
+function wake() { if (!raf && visible && !document.hidden) raf = requestAnimationFrame(tick); }
+new IntersectionObserver((es) => { visible = es[0].isIntersecting; if (visible) wake(); }).observe(hero);
+document.addEventListener("visibilitychange", wake);
+wake();
+
+/* ---------- letter treatment ---------- */
+const btns = Array.from(document.querySelectorAll("[data-l]"));
+btns.forEach((b) => b.addEventListener("click", () => {
+  hero.dataset.letters = b.dataset.l;
+  btns.forEach((o) => o.setAttribute("aria-pressed", String(o === b)));
+}));
+})();
+</script>
+
+</body>
+</html>

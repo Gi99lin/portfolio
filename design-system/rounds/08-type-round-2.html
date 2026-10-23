@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body style="margin:0">
+<title>Шрифт, раунд 2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:slnt,wght,CRSV,SHRP@-12..0,100..900,0..1,0..100&family=Commissioner:slnt,wght,FLAR,VOLM@-12..0,100..900,0..100,0..100&family=Science+Gothic:slnt,wdth,wght,CTRS@-10..0,50..200,100..900,0..85&family=Sofia+Sans:wght@1..1000&family=Sofia+Sans+Condensed:wght@1..1000&family=Onest:wght@100..900&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a neutral type lab, deliberately free of the window/chrome language (it may change).
+   One column of four specimens: Geologica with a live tuner first, then three Cyrillic relatives.
+   The shell (labels, controls, notes) is Geist so candidates stand apart. Light and dark themes,
+   switchable, because the page background is still undecided. */
+:root{
+  --bg:#F2F3F5; --surface:#FFFFFF; --fg:#0B0C0E; --muted:#5D626B; --line:rgba(11,12,14,.12); --line-strong:rgba(11,12,14,.32); --focus:#2F5BFF; --hover:#2A2D33;
+  --shell:"Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --mono:"Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#0B0C0E; --surface:#15171B; --fg:#EEF0F3; --muted:#9AA0A9; --line:rgba(238,240,243,.13); --line-strong:rgba(238,240,243,.34); --focus:#8FA6FF; --hover:#D4D7DC; color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#0B0C0E; --surface:#15171B; --fg:#EEF0F3; --muted:#9AA0A9; --line:rgba(238,240,243,.13); --line-strong:rgba(238,240,243,.34); --focus:#8FA6FF; --hover:#D4D7DC; color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);margin:0;font:400 16px/1.6 var(--shell);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;transition:background .3s,color .3s}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.meta-l{font:500 11px/1.35 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- shell ---------- */
+.intro{padding-block:56px 8px;display:grid;gap:18px}
+.eyebrow{margin:0;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.intro h1{margin:0;font:600 clamp(34px,5vw,60px)/1.02 var(--shell);letter-spacing:-.03em;text-wrap:balance;max-width:20ch}
+.intro p{margin:0;color:var(--muted);max-width:68ch;font-size:16.5px}
+.intro p b{color:var(--fg);font-weight:500}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{border:0;background:transparent;color:var(--muted);font:500 13px/1 var(--mono);padding:9px 14px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+.seg button:hover{color:var(--fg)}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.jump{display:flex;flex-wrap:wrap;gap:8px}
+.jump a{font:500 12.5px/1 var(--mono);color:var(--muted);text-decoration:none;padding:9px 12px;border:1px solid var(--line);border-radius:999px}
+.jump a:hover{color:var(--fg);border-color:var(--fg)}
+
+/* ---------- candidate tokens ---------- */
+.cand{--fd:var(--shell);--fdv:normal;--fdw:700;--fdt:0em;--fdcase:none;--fdlh:.9;--fdem:normal;--fdemv:normal;--fdemw:inherit;
+  --fb:var(--shell);--fbv:normal;--fbw:400;--fbt:0em;--fui:var(--shell);--fuiv:normal;--fuiw:600;--fuit:0em;--fuicase:none}
+.c-geo{--fd:"Geologica",ui-sans-serif,sans-serif;--fdv:"SHRP" 100,"CRSV" 0,"slnt" 0;--fdw:800;--fdt:-.035em;--fdlh:.9;--fdemv:"SHRP" 100,"CRSV" 1,"slnt" -12;
+  --fb:"Geologica",ui-sans-serif,sans-serif;--fbv:"SHRP" 0,"CRSV" 0,"slnt" 0;--fui:"Geologica",ui-sans-serif,sans-serif;--fuiv:"SHRP" 60,"CRSV" 0,"slnt" 0;--fuiw:600;--fuit:.005em}
+.c-com{--fd:"Commissioner",ui-sans-serif,sans-serif;--fdv:"FLAR" 100,"VOLM" 100,"slnt" 0;--fdw:740;--fdt:-.03em;--fdlh:.92;--fdemv:"FLAR" 100,"VOLM" 100,"slnt" -12;
+  --fb:"Commissioner",ui-sans-serif,sans-serif;--fbv:"FLAR" 0,"VOLM" 0,"slnt" 0;--fbt:.002em;--fui:"Commissioner",ui-sans-serif,sans-serif;--fuiv:"FLAR" 50,"VOLM" 0,"slnt" 0;--fuiw:600}
+.c-sci{--fd:"Science Gothic",ui-sans-serif,sans-serif;--fdv:"wdth" 150,"CTRS" 30,"slnt" 0;--fdw:700;--fdt:.005em;--fdcase:uppercase;--fdlh:.9;--fdemv:"wdth" 62,"CTRS" 30,"slnt" 0;
+  --fb:"Onest",ui-sans-serif,sans-serif;--fbt:-.003em;--fui:"Science Gothic",ui-sans-serif,sans-serif;--fuiv:"wdth" 112,"CTRS" 0,"slnt" 0;--fuiw:600;--fuit:.07em;--fuicase:uppercase}
+.c-sof{--fd:"Sofia Sans Condensed",ui-sans-serif,sans-serif;--fdw:820;--fdt:-.008em;--fdcase:uppercase;--fdlh:.86;--fdemw:300;
+  --fb:"Sofia Sans",ui-sans-serif,sans-serif;--fbt:.004em;--fbw:420;--fui:"Sofia Sans",ui-sans-serif,sans-serif;--fuiw:650;--fuit:.01em}
+.disp{font-family:var(--fd);font-variation-settings:var(--fdv);font-weight:var(--fdw);letter-spacing:var(--fdt);text-transform:var(--fdcase);line-height:var(--fdlh)}
+.disp em{font-style:var(--fdem);font-variation-settings:var(--fdemv);font-weight:var(--fdemw)}
+.body{font-family:var(--fb);font-variation-settings:var(--fbv);font-weight:var(--fbw);letter-spacing:var(--fbt);font-optical-sizing:auto}
+.ui{font-family:var(--fui);font-variation-settings:var(--fuiv);font-weight:var(--fuiw);letter-spacing:var(--fuit);text-transform:var(--fuicase)}
+.cap{font-family:var(--fui);font-variation-settings:var(--fuiv);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- candidate layout ---------- */
+.cand{padding-top:clamp(96px,11vw,160px);display:grid;gap:clamp(28px,4vw,48px)}
+.cand-head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 22px;align-items:baseline;border-top:1px solid var(--line);padding-top:22px}
+.num{grid-row:span 3;font:600 clamp(40px,5vw,64px)/.8 var(--shell);color:var(--muted)}
+.cand-title{margin:0;font-size:clamp(28px,3.4vw,44px);line-height:1}
+.cand-char{margin:0;max-width:72ch;font-size:16px}
+.cand-tags{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 0;padding:0;list-style:none}
+.cand-tags li{font:500 11.5px/1 var(--mono);padding:7px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.name{margin:0;font-size:clamp(60px,11.5vw,172px);min-width:0;overflow-wrap:anywhere}
+.c-sci .name{font-size:clamp(44px,8.4vw,124px)}
+.grid2{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(28px,4vw,72px)}
+@media (max-width:880px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.h1{margin:0 0 10px;font-size:clamp(38px,4.6vw,60px)}
+.h2{margin:0 0 22px;font-size:clamp(24px,2.6vw,34px);line-height:1.05}
+.para{margin:0 0 28px;font-size:clamp(18px,1.6vw,21px);line-height:1.55;max-width:46ch}
+.proj{display:grid;gap:6px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.proj h4{margin:0;font-size:clamp(24px,2.4vw,30px);line-height:1}
+.proj p{margin:0;color:var(--muted);font-size:15px;line-height:1.55}
+.proj .row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px 20px;margin-top:8px}
+.lnk{color:var(--fg);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px;font-size:14.5px;transition:text-decoration-thickness .2s}
+.lnk:hover{text-decoration-thickness:2px}
+.tipwrap{position:relative;display:inline-block;padding-top:44px}
+.tip{position:absolute;left:50%;top:0;transform:translateX(-50%);white-space:nowrap;background:var(--fg);color:var(--bg);font-size:12.5px;line-height:1;padding:9px 11px;border-radius:8px}
+.tip::after{content:"";position:absolute;left:50%;bottom:-5px;width:10px;height:10px;margin-left:-5px;background:var(--fg);transform:rotate(45deg);border-radius:2px}
+.glyphs{margin:0;font-size:clamp(30px,3.2vw,42px);line-height:1.18;overflow-wrap:anywhere}
+.nums{margin:16px 0 0;font-size:clamp(22px,2.2vw,28px);font-variant-numeric:tabular-nums}
+.small{display:grid;gap:12px;margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+.small .s14{margin:0;font-size:14px;line-height:1.55;color:var(--muted);max-width:52ch}
+.small .s12{margin:0}
+
+/* buttons, neutral: they must survive any background decision */
+.states{display:grid;gap:18px}
+.st-row{display:flex;flex-wrap:wrap;gap:18px 16px;align-items:flex-start}
+.st-row > .meta-l{flex:0 0 8.5rem;padding-top:14px}
+@media (max-width:700px){.st-row > .meta-l{flex-basis:100%;padding-top:0}}
+.st{display:grid;gap:10px;justify-items:start}
+.btn{position:relative;display:inline-flex;align-items:center;border:0;border-radius:999px;padding:15px 22px;font-size:14px;line-height:1;cursor:pointer;text-decoration:none;white-space:nowrap;transition:background .25s,color .25s,box-shadow .25s,transform .25s cubic-bezier(.2,.8,.2,1)}
+.btn .arr{display:inline-block;max-width:0;opacity:0;overflow:hidden;transition:max-width .35s cubic-bezier(.2,.8,.2,1),opacity .25s,margin .35s;margin-left:0}
+.btn:hover .arr,.btn.is-hover .arr{max-width:1.2em;opacity:1;margin-left:10px}
+.btn:active,.btn.is-press{transform:scale(.965)}
+.btn:focus-visible,.btn.is-focus{outline:2px solid var(--focus);outline-offset:4px}
+.b1{background:var(--fg);color:var(--bg)}
+.b1:hover,.b1.is-hover{background:var(--hover)}
+.b2{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 1px var(--line-strong)}
+.b2:hover,.b2.is-hover{box-shadow:inset 0 0 0 1.5px var(--fg)}
+.btn.is-off{background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line);cursor:not-allowed;transform:none}
+.btn.is-off .arr{display:none}
+
+/* Geologica tuner */
+.tuner{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px 28px;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.tn{display:grid;gap:8px}
+.tn-h{display:flex;justify-content:space-between;gap:10px}
+.tn-h output{font:500 12px/1.3 var(--mono);color:var(--fg)}
+.tn input[type="range"]{width:100%;accent-color:var(--fg)}
+.presets{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.presets button{border:1px solid var(--line);background:transparent;color:var(--fg);font:500 12.5px/1 var(--mono);padding:9px 12px;border-radius:999px;cursor:pointer}
+.presets button:hover{border-color:var(--fg)}
+.presets button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.code{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding-top:14px;border-top:1px solid var(--line)}
+.code code{font:400 12.5px/1.5 var(--mono);color:var(--fg);overflow-wrap:anywhere;flex:1 1 320px;min-width:0}
+.code button{border:1px solid var(--line);background:transparent;color:var(--fg);font:500 12px/1 var(--mono);padding:8px 11px;border-radius:999px;cursor:pointer}
+
+.foot{padding-block:120px 64px;color:var(--muted);max-width:72ch}
+.foot b{color:var(--fg);font-weight:500}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}body,.btn,.btn .arr{transition:none}}
+</style>
+
+<header class="wrap intro">
+  <p class="eyebrow">Дизайн-система · шрифт · раунд 2</p>
+  <h1>Geologica и три её родственника</h1>
+  <p>Окна и хром здесь <b>убраны специально</b>: фон ещё может поменяться, поэтому оцениваем сам шрифт на нейтральном тёмном и светлом фоне. Сначала идёт Geologica с настройщиком, чтобы понять, что именно в ней нравится: острота, вес, курсивные акценты. Дальше три шрифта той же породы, у всех есть кириллица.</p>
+  <div class="toolbar">
+    <div class="seg" role="group" aria-label="Тема"><button type="button" data-theme-set="dark">Тёмная</button><button type="button" data-theme-set="light">Светлая</button></div>
+    <div class="seg" role="group" aria-label="Язык образцов"><button type="button" data-lang="ru" aria-pressed="true">RU</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
+    <nav class="jump" aria-label="Кандидаты"><a href="#c1">1 · Geologica</a><a href="#c2">2 · Commissioner</a><a href="#c3">3 · Science Gothic</a><a href="#c4">4 · Sofia Sans</a></nav>
+  </div>
+</header>
+
+<main class="wrap" id="cands"></main>
+
+<footer class="wrap foot">
+  <p><b>Как ответить:</b> какой номер ближе, и если это Geologica, какой пресет или какие значения ползунков. Строку с настройкой можно скопировать кнопкой.</p>
+</footer>
+
+<script>
+(() => {
+"use strict";
+const T = {
+  ru: {
+    name: "Иван<br>Якимкин", h1: "Проекты", h2: "Лаборатория <em>эффектов</em>",
+    about: "Делаю ИИ-сервисы и автоматизацию, которые работают в проде: от Telegram-бота до платформы для агентов на своём сервере. Здесь собрано то, что получилось.",
+    projLine: "Проводит рабочий процесс через 17 шагов DMAIC и показывает в деньгах, где он теряет.",
+    small: "Мелкий текст, 14 px: подписи под проектами, пояснения в лаборатории, сноски. На этом размере шрифт либо держится, либо разваливается.",
+    btn: "Смотреть проекты", btn2: "Лаборатория", tip: "Откроется в новой вкладке",
+    glyphs: "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя"
+  },
+  en: {
+    name: "Ivan<br>Yakimkin", h1: "Projects", h2: "The effects <em>lab</em>",
+    about: "I build AI services and automation that run in production, from a Telegram bot to a self-hosted agent platform. This page collects what came out of it.",
+    projLine: "Walks a work process through the 17 steps of DMAIC and shows in money where it loses.",
+    small: "Small text, 14 px: captions under projects, notes in the lab, footnotes. At this size a typeface either holds up or falls apart.",
+    btn: "See the projects", btn2: "The lab", tip: "Opens in a new tab",
+    glyphs: "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+  }
+};
+const CANDS = [
+  { id: "c1", cls: "c-geo", title: "Geologica", tuner: true,
+    char: "Твой выбор из раунда 1. Ползунки ниже меняют только её: острота углов, вес и трекинг заголовка, курсивные акценты, регистр. Начни с пресетов.",
+    tags: ["кириллица", "острота 0–100", "курсивность", "наклон", "вес 100–900"] },
+  { id: "c2", cls: "c-com", title: "Commissioner",
+    char: "Ось «раструб»: окончания штрихов чуть расширяются, как след резца. Та же «сделанность», что острота у Geologica, только мягче и теплее. Текст набран без раструба, заголовки с ним.",
+    tags: ["кириллица", "раструб 0–100", "объём 0–100", "наклон"] },
+  { id: "c3", cls: "c-sci", title: "Science Gothic",
+    char: "Геометрия банковского гротеска: квадратные овалы и ширина от узкой до сверхширокой. Ось контраста делает штрихи неравными. Это самый «инженерный» вариант. Заголовки набраны им, текст Onest.",
+    tags: ["кириллица", "ширина 50–200", "контраст 0–85", "текст: Onest"] },
+  { id: "c4", cls: "c-sof", title: "Sofia Sans",
+    char: "Кириллица от болгарской студии Lettersoup, одна из самых аккуратных среди бесплатных. Узкое начертание для заголовков, обычное для текста. Самый спокойный из четырёх.",
+    tags: ["кириллица", "вес 1–1000", "узкое начертание"] }
+];
+const STATES = ["Покой", "Наведение", "Нажатие", "Фокус", "Недоступна"];
+const ST_CLS = ["", "is-hover", "is-press", "is-focus", "is-off"];
+
+const tunerHTML = `
+  <div class="tuner" id="tuner">
+    <div class="presets" role="group" aria-label="Пресеты">
+      <span class="meta-l">Пресеты</span>
+      <button type="button" data-preset="r1" aria-pressed="true">Как в раунде 1</button>
+      <button type="button" data-preset="soft" aria-pressed="false">Мягкая</button>
+      <button type="button" data-preset="sharpLight" aria-pressed="false">Острая и лёгкая</button>
+      <button type="button" data-preset="dense" aria-pressed="false">Плотная</button>
+      <button type="button" data-preset="cursive" aria-pressed="false">Курсивная</button>
+    </div>
+    <label class="tn"><span class="tn-h"><span class="meta-l">Острота заголовков</span><output id="o-dshrp"></output></span><input type="range" id="t-dshrp" min="0" max="100" step="1"></label>
+    <label class="tn"><span class="tn-h"><span class="meta-l">Острота текста</span><output id="o-bshrp"></output></span><input type="range" id="t-bshrp" min="0" max="100" step="1"></label>
+    <label class="tn"><span class="tn-h"><span class="meta-l">Вес заголовков</span><output id="o-dwght"></output></span><input type="range" id="t-dwght" min="200" max="900" step="10"></label>
+    <label class="tn"><span class="tn-h"><span class="meta-l">Трекинг заголовков</span><output id="o-dtrack"></output></span><input type="range" id="t-dtrack" min="-60" max="40" step="1"></label>
+    <label class="tn"><span class="tn-h"><span class="meta-l">Курсивность заголовков</span><output id="o-dcrsv"></output></span><input type="range" id="t-dcrsv" min="0" max="1" step="1"></label>
+    <label class="tn"><span class="tn-h"><span class="meta-l">Наклон заголовков</span><output id="o-dslnt"></output></span><input type="range" id="t-dslnt" min="-12" max="0" step="1"></label>
+    <label class="tn"><span class="tn-h"><span class="meta-l">Регистр заголовков</span><output id="o-dcase"></output></span><input type="range" id="t-dcase" min="0" max="1" step="1"></label>
+    <div class="code"><code id="t-code"></code><button type="button" id="t-copy">Скопировать</button></div>
+  </div>`;
+
+function candHTML(c, i) {
+  const prim = STATES.map((s, k) => `<div class="st"><a class="btn b1 ui ${ST_CLS[k]}" href="#${c.id}"${k === 4 ? ' aria-disabled="true"' : ""}><span data-t="btn"></span><span class="arr" aria-hidden="true">→</span></a><span class="meta-l">${s}</span></div>`).join("");
+  const sec = STATES.map((s, k) => `<div class="st"><a class="btn b2 ui ${ST_CLS[k]}" href="#${c.id}"${k === 4 ? ' aria-disabled="true"' : ""}><span data-t="btn2"></span><span class="arr" aria-hidden="true">→</span></a><span class="meta-l">${s}</span></div>`).join("");
+  return `
+  <section class="cand ${c.cls}" id="${c.id}" aria-labelledby="${c.id}-h">
+    <header class="cand-head">
+      <span class="num">${i + 1}</span>
+      <h2 class="cand-title disp" id="${c.id}-h">${c.title}</h2>
+      <p class="cand-char">${c.char}</p>
+      <ul class="cand-tags">${c.tags.map((t) => `<li>${t}</li>`).join("")}</ul>
+    </header>
+    ${c.tuner ? tunerHTML : ""}
+    <h3 class="name disp" data-t="name"></h3>
+    <div class="grid2">
+      <div>
+        <p class="h1 disp" data-t="h1"></p>
+        <p class="h2 disp" data-t="h2"></p>
+        <p class="para body" data-t="about"></p>
+        <div class="proj">
+          <h4 class="disp">DMAIC Studio</h4>
+          <p class="body" data-t="projLine"></p>
+          <div class="row"><span class="cap">Lean + AI · 2026</span><span class="tipwrap"><span class="tip body" role="tooltip" data-t="tip"></span><a class="lnk body" href="#${c.id}">dmaic.gigglin.tech ↗</a></span></div>
+        </div>
+      </div>
+      <div>
+        <p class="glyphs disp" data-t="glyphs"></p>
+        <p class="nums disp">0123456789 ₽ € № &amp; @ → ↗</p>
+        <div class="small"><span class="meta-l">Мелкие размеры</span><p class="s14 body" data-t="small"></p><p class="s12 cap">2026 · FastAPI · PostgreSQL · 17 шагов</p></div>
+      </div>
+    </div>
+    <div class="states">
+      <div class="st-row"><span class="meta-l">Главная кнопка</span>${prim}</div>
+      <div class="st-row"><span class="meta-l">Вторая кнопка</span>${sec}</div>
+    </div>
+  </section>`;
+}
+document.getElementById("cands").innerHTML = CANDS.map(candHTML).join("");
+document.querySelectorAll('[aria-disabled="true"]').forEach((a) => a.addEventListener("click", (e) => e.preventDefault()));
+
+/* ---------- Geologica tuner ---------- */
+const PRESETS = {
+  r1:         { dshrp: 100, bshrp: 0,  dwght: 800, dtrack: -35, dcrsv: 0, dslnt: 0,   dcase: 0 },
+  soft:       { dshrp: 0,   bshrp: 0,  dwght: 700, dtrack: -30, dcrsv: 0, dslnt: 0,   dcase: 0 },
+  sharpLight: { dshrp: 100, bshrp: 40, dwght: 320, dtrack: -45, dcrsv: 0, dslnt: 0,   dcase: 0 },
+  dense:      { dshrp: 70,  bshrp: 20, dwght: 900, dtrack: -55, dcrsv: 0, dslnt: 0,   dcase: 1 },
+  cursive:    { dshrp: 100, bshrp: 0,  dwght: 600, dtrack: -25, dcrsv: 1, dslnt: -12, dcase: 0 }
+};
+const geo = document.getElementById("c1");
+const ids = ["dshrp", "bshrp", "dwght", "dtrack", "dcrsv", "dslnt", "dcase"];
+const inp = Object.fromEntries(ids.map((k) => [k, document.getElementById("t-" + k)]));
+const out = Object.fromEntries(ids.map((k) => [k, document.getElementById("o-" + k)]));
+const codeEl = document.getElementById("t-code");
+function applyTuner() {
+  const v = Object.fromEntries(ids.map((k) => [k, Number(inp[k].value)]));
+  const dvs = `"SHRP" ${v.dshrp}, "CRSV" ${v.dcrsv}, "slnt" ${v.dslnt}`;
+  const tr = (v.dtrack / 1000).toFixed(3) + "em";
+  geo.style.setProperty("--fdv", dvs);
+  geo.style.setProperty("--fdw", String(v.dwght));
+  geo.style.setProperty("--fdt", tr);
+  geo.style.setProperty("--fdcase", v.dcase ? "uppercase" : "none");
+  geo.style.setProperty("--fdemv", `"SHRP" ${v.dshrp}, "CRSV" 1, "slnt" -12`);
+  geo.style.setProperty("--fbv", `"SHRP" ${v.bshrp}, "CRSV" 0, "slnt" 0`);
+  out.dshrp.textContent = v.dshrp; out.bshrp.textContent = v.bshrp; out.dwght.textContent = v.dwght;
+  out.dtrack.textContent = tr; out.dcrsv.textContent = v.dcrsv ? "вкл" : "выкл"; out.dslnt.textContent = v.dslnt + "°";
+  out.dcase.textContent = v.dcase ? "прописные" : "как есть";
+  codeEl.textContent = `заголовки: font-variation-settings: ${dvs}; font-weight: ${v.dwght}; letter-spacing: ${tr}${v.dcase ? "; text-transform: uppercase" : ""} · текст: "SHRP" ${v.bshrp}`;
+}
+function setPreset(name) {
+  const p = PRESETS[name]; ids.forEach((k) => { inp[k].value = p[k]; });
+  document.querySelectorAll("[data-preset]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.preset === name)));
+  applyTuner();
+}
+ids.forEach((k) => inp[k].addEventListener("input", () => {
+  document.querySelectorAll("[data-preset]").forEach((b) => b.setAttribute("aria-pressed", "false"));
+  applyTuner();
+}));
+document.querySelectorAll("[data-preset]").forEach((b) => b.addEventListener("click", () => setPreset(b.dataset.preset)));
+setPreset("r1");
+const copyBtn = document.getElementById("t-copy");
+copyBtn.addEventListener("click", () => {
+  const done = () => { copyBtn.textContent = "Скопировано"; setTimeout(() => { copyBtn.textContent = "Скопировать"; }, 1500); };
+  const manual = () => { const r = document.createRange(); r.selectNodeContents(codeEl); const s = window.getSelection(); s.removeAllRanges(); s.addRange(r); copyBtn.textContent = "Выделено, нажми ⌘C"; };
+  try { navigator.clipboard.writeText(codeEl.textContent).then(done, manual); } catch (e) { manual(); }
+});
+
+/* ---------- language and theme ---------- */
+const langBtns = Array.from(document.querySelectorAll("[data-lang]"));
+function setLang(lang) {
+  document.querySelectorAll("[data-t]").forEach((el) => { const v = T[lang][el.dataset.t]; if (v != null) el.innerHTML = v; });
+  langBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  document.documentElement.lang = lang;
+}
+langBtns.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
+setLang("ru");
+const themeBtns = Array.from(document.querySelectorAll("[data-theme-set]"));
+const sysDark = window.matchMedia("(prefers-color-scheme: dark)");
+function currentTheme() { return document.documentElement.dataset.theme || (sysDark.matches ? "dark" : "light"); }
+function paintThemeBtns() { const t = currentTheme(); themeBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.themeSet === t))); }
+themeBtns.forEach((b) => b.addEventListener("click", () => { document.documentElement.dataset.theme = b.dataset.themeSet; paintThemeBtns(); }));
+sysDark.addEventListener("change", paintThemeBtns);
+new MutationObserver(paintThemeBtns).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+paintThemeBtns();
+})();
+</script>
+
+</body>
+</html>

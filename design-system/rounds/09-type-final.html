@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body style="margin:0">
+<title>Шрифт, финал</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:slnt,wght,CRSV,SHRP@-12..0,100..900,0..1,0..100&family=Commissioner:slnt,wght,FLAR,VOLM@-12..0,100..900,0..100,0..100&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: the type final, Geologica vs Commissioner. Three steps down one column: two tuners side
+   by side (each with a live mini specimen), a blind test of eight paired situations with random
+   sides, and a realistic personal-page slice with a font switch. Both fonts read their settings
+   from root variables the tuners write, so every section always shows the current best versions.
+   Neutral light/dark theme; the shell is Geist so the two finalists stand apart. */
+:root{
+  --bg:#F2F3F5; --surface:#FFFFFF; --fg:#0B0C0E; --muted:#5D626B; --line:rgba(11,12,14,.12); --line-strong:rgba(11,12,14,.32); --focus:#2F5BFF; --hover:#2A2D33; --pick:#0B0C0E;
+  --shell:"Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --mono:"Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  /* finalists, written by the tuners */
+  --geo-dv:"SHRP" 100, "CRSV" 0, "slnt" 0; --geo-dw:800; --geo-dt:-.035em; --geo-dcase:none; --geo-emv:"SHRP" 100, "CRSV" 1, "slnt" -12; --geo-bv:"SHRP" 0, "CRSV" 0, "slnt" 0; --geo-uiv:"SHRP" 60, "CRSV" 0, "slnt" 0;
+  --com-dv:"FLAR" 100, "VOLM" 100, "slnt" 0; --com-dw:740; --com-dt:-.03em; --com-dcase:none; --com-emv:"FLAR" 100, "VOLM" 100, "slnt" -12; --com-bv:"FLAR" 0, "VOLM" 0, "slnt" 0; --com-uiv:"FLAR" 50, "VOLM" 0, "slnt" 0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#0B0C0E; --surface:#15171B; --fg:#EEF0F3; --muted:#9AA0A9; --line:rgba(238,240,243,.13); --line-strong:rgba(238,240,243,.34); --focus:#8FA6FF; --hover:#D4D7DC; --pick:#EEF0F3; color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#0B0C0E; --surface:#15171B; --fg:#EEF0F3; --muted:#9AA0A9; --line:rgba(238,240,243,.13); --line-strong:rgba(238,240,243,.34); --focus:#8FA6FF; --hover:#D4D7DC; --pick:#EEF0F3; color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);margin:0;font:400 16px/1.6 var(--shell);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;transition:background .3s,color .3s}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.meta-l{font:500 11px/1.35 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- finalists ---------- */
+.f-geo{--fd:"Geologica";--fdv:var(--geo-dv);--fdw:var(--geo-dw);--fdt:var(--geo-dt);--fdcase:var(--geo-dcase);--fdemv:var(--geo-emv);--fb:"Geologica";--fbv:var(--geo-bv);--fui:"Geologica";--fuiv:var(--geo-uiv)}
+.f-com{--fd:"Commissioner";--fdv:var(--com-dv);--fdw:var(--com-dw);--fdt:var(--com-dt);--fdcase:var(--com-dcase);--fdemv:var(--com-emv);--fb:"Commissioner";--fbv:var(--com-bv);--fui:"Commissioner";--fuiv:var(--com-uiv)}
+.disp{font-family:var(--fd),ui-sans-serif,sans-serif;font-variation-settings:var(--fdv);font-weight:var(--fdw);letter-spacing:var(--fdt);text-transform:var(--fdcase);line-height:.92}
+.disp em{font-style:normal;font-variation-settings:var(--fdemv)}
+.body{font-family:var(--fb),ui-sans-serif,sans-serif;font-variation-settings:var(--fbv);font-weight:400}
+.ui{font-family:var(--fui),ui-sans-serif,sans-serif;font-variation-settings:var(--fuiv);font-weight:600}
+.cap{font-family:var(--fui),ui-sans-serif,sans-serif;font-variation-settings:var(--fuiv);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- shell ---------- */
+.intro{padding-block:56px 8px;display:grid;gap:18px}
+.eyebrow{margin:0;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.intro h1{margin:0;font:600 clamp(34px,5vw,60px)/1.02 var(--shell);letter-spacing:-.03em;text-wrap:balance;max-width:20ch}
+.intro p{margin:0;color:var(--muted);max-width:68ch;font-size:16.5px}
+.intro ol{margin:0;padding-left:20px;color:var(--muted);display:grid;gap:4px;max-width:68ch}
+.intro ol b{color:var(--fg);font-weight:500}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{border:0;background:transparent;color:var(--muted);font:500 13px/1 var(--mono);padding:9px 14px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+.seg button:hover{color:var(--fg)}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.step{padding-top:clamp(88px,10vw,140px);display:grid;gap:28px}
+.step-h{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 20px;align-items:baseline;border-top:1px solid var(--line);padding-top:22px}
+.step-n{grid-row:span 2;font:600 clamp(40px,5vw,64px)/.8 var(--shell);color:var(--muted)}
+.step-h h2{margin:0;font:600 clamp(24px,2.8vw,34px)/1.1 var(--shell);letter-spacing:-.02em}
+.step-h p{margin:0;color:var(--muted);max-width:70ch}
+
+/* ---------- step 1: tuners ---------- */
+.tuners{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:900px){.tuners{grid-template-columns:minmax(0,1fr)}}
+.tpanel{display:grid;gap:18px;align-content:start;padding:20px;border:1px solid var(--line);border-radius:18px;background:var(--surface);min-width:0}
+.tp-title{margin:0;font-size:30px;line-height:1}
+.presets{display:flex;flex-wrap:wrap;gap:8px}
+.presets button{border:1px solid var(--line);background:transparent;color:var(--fg);font:500 12px/1 var(--mono);padding:8px 11px;border-radius:999px;cursor:pointer}
+.presets button:hover{border-color:var(--fg)}
+.presets button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.sliders{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px}
+@media (max-width:480px){.sliders{grid-template-columns:minmax(0,1fr)}}
+.tn{display:grid;gap:6px}
+.tn-h{display:flex;justify-content:space-between;gap:10px}
+.tn-h output{font:500 12px/1.3 var(--mono);color:var(--fg)}
+.tn input[type="range"]{width:100%;accent-color:var(--fg)}
+.mini{display:grid;gap:12px;padding-top:16px;border-top:1px solid var(--line)}
+.mini p{margin:0;font-size:17px;line-height:1.55;max-width:46ch}
+.mini .mini-name{font-size:clamp(44px,5.6vw,76px);line-height:.92;max-width:none}
+.mini .mini-h2{font-size:26px;line-height:1.05}
+.codeline{font:400 11.5px/1.5 var(--mono);color:var(--muted);overflow-wrap:anywhere}
+
+/* ---------- step 2: blind test ---------- */
+.bt{display:grid;gap:18px}
+.bt-bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 20px}
+.bt-progress{display:flex;gap:6px}
+.bt-progress i{width:26px;height:4px;border-radius:2px;background:var(--line)}
+.bt-progress i.done{background:var(--fg)}
+.bt-progress i.now{background:var(--muted)}
+.bt-q{margin:0;font:500 15px/1.4 var(--shell)}
+.bt-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media (max-width:760px){.bt-pair{grid-template-columns:minmax(0,1fr)}}
+.bt-card{position:relative;display:grid;align-content:space-between;gap:24px;min-height:300px;text-align:left;padding:clamp(20px,2.6vw,32px);border:1px solid var(--line);border-radius:18px;background:var(--surface);color:var(--fg);cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.bt-card:hover{border-color:var(--fg)}
+.bt-card:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.bt-side{display:flex;justify-content:space-between;gap:10px}
+.bt-body{display:grid;gap:14px;min-width:0}
+.bt-done{display:grid;gap:18px;padding:clamp(20px,2.6vw,32px);border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+.score{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 28px}
+.score b{font:600 clamp(40px,6vw,72px)/1 var(--shell);letter-spacing:-.02em}
+.score span{font:500 15px/1.3 var(--shell);color:var(--muted)}
+.rounds{list-style:none;margin:0;padding:0;display:grid;gap:6px;max-width:640px}
+.rounds li{display:flex;justify-content:space-between;gap:12px;font-size:14px;border-bottom:1px solid var(--line);padding:7px 0}
+.rounds li span:last-child{font-family:var(--mono);font-size:12.5px}
+.again{justify-self:start;border:1px solid var(--line-strong);background:transparent;color:var(--fg);font:500 13px/1 var(--mono);padding:11px 15px;border-radius:999px;cursor:pointer}
+.again:hover{border-color:var(--fg)}
+
+/* situation pieces (shared by test and pages) */
+.x-name{margin:0;font-size:clamp(52px,6.4vw,92px)}
+.x-h1{margin:0;font-size:clamp(36px,4vw,54px)}
+.x-h2{margin:0;font-size:clamp(22px,2.2vw,28px);line-height:1.05}
+.x-para{margin:0;font-size:clamp(17px,1.5vw,19px);line-height:1.6;max-width:44ch}
+.x-proj{display:grid;gap:6px}
+.x-proj h4{margin:0;font-size:clamp(24px,2.4vw,30px);line-height:1}
+.x-proj p{margin:0;color:var(--muted);font-size:15px;line-height:1.55}
+.x-small{margin:0;font-size:14px;line-height:1.55;color:var(--muted);max-width:48ch}
+.x-nums{margin:0;font-size:clamp(28px,3vw,40px);font-variant-numeric:tabular-nums;line-height:1.15}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{position:relative;display:inline-flex;align-items:center;border:0;border-radius:999px;padding:15px 22px;font-size:14px;line-height:1;text-decoration:none;white-space:nowrap;transition:background .25s,box-shadow .25s,transform .25s cubic-bezier(.2,.8,.2,1)}
+.btn .arr{display:inline-block;max-width:0;opacity:0;overflow:hidden;transition:max-width .35s cubic-bezier(.2,.8,.2,1),opacity .25s,margin .35s}
+a.btn:hover .arr{max-width:1.2em;opacity:1;margin-left:10px}
+a.btn:active{transform:scale(.965)}
+.b1{background:var(--fg);color:var(--bg)}
+a.b1:hover{background:var(--hover)}
+.b2{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 1px var(--line-strong)}
+a.b2:hover{box-shadow:inset 0 0 0 1.5px var(--fg)}
+
+/* ---------- step 3: live page ---------- */
+.live{border:1px solid var(--line);border-radius:22px;background:var(--surface);padding:clamp(20px,3vw,44px);display:grid;gap:clamp(40px,6vw,80px);transition:background .3s}
+.lv-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px}
+.lv-brand{font-size:18px;line-height:1}
+.lv-nav{display:flex;flex-wrap:wrap;gap:clamp(14px,2.4vw,28px);font-size:14.5px}
+.lv-nav a{color:var(--fg);text-decoration:none}
+.lv-nav a:hover{text-decoration:underline;text-underline-offset:5px}
+.lv-hero{display:grid;gap:22px}
+.lv-name{margin:0;font-size:clamp(60px,11vw,168px)}
+.lv-intro{margin:0;font-size:clamp(18px,1.8vw,23px);line-height:1.5;max-width:40ch}
+.lv-list{border-top:1px solid var(--line)}
+.lv-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) auto;gap:8px 32px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line)}
+@media (max-width:760px){.lv-row{grid-template-columns:minmax(0,1fr)}}
+.lv-row h4{margin:0;font-size:clamp(24px,2.6vw,34px);line-height:1}
+.lv-row p{margin:0;color:var(--muted);font-size:15.5px;line-height:1.55}
+.lv-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px 24px;padding-top:18px;border-top:1px solid var(--line)}
+.lv-foot a{color:var(--fg);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px;font-size:15px}
+.lv-foot a:hover{text-decoration-thickness:2px}
+
+.foot{padding-block:110px 64px;color:var(--muted);max-width:72ch}
+.foot b{color:var(--fg);font-weight:500}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}body,.btn,.btn .arr,.bt-card{transition:none}}
+</style>
+
+<header class="wrap intro">
+  <p class="eyebrow">Дизайн-система · шрифт · финал</p>
+  <h1>Geologica против Commissioner</h1>
+  <p>Два кандидата идут вровень, поэтому разводим их тремя способами:</p>
+  <ol>
+    <li><b>Подстрой обоих,</b> если хочешь, чтобы сравнивались лучшие версии. Можно пропустить, настройки по умолчанию взяты из раунда 2.</li>
+    <li><b>Слепой тест:</b> 8 пар, сторона случайная, названий не видно. В конце будет счёт.</li>
+    <li><b>Живая страница</b> с переключателем: оба шрифта в одной и той же вёрстке.</li>
+  </ol>
+  <div class="toolbar">
+    <div class="seg" role="group" aria-label="Тема"><button type="button" data-theme-set="dark">Тёмная</button><button type="button" data-theme-set="light">Светлая</button></div>
+    <div class="seg" role="group" aria-label="Язык образцов"><button type="button" data-lang="ru" aria-pressed="true">RU</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ============ STEP 1 ============ -->
+  <section class="step" id="tune" aria-labelledby="tune-h">
+    <div class="step-h"><span class="step-n">1</span><h2 id="tune-h">Настройка</h2><p>Каждый ползунок сразу меняет и образец под ним, и слепой тест, и живую страницу ниже.</p></div>
+    <div class="tuners">
+      <div class="tpanel f-geo">
+        <h3 class="tp-title disp">Geologica</h3>
+        <div class="presets" role="group" aria-label="Пресеты Geologica">
+          <button type="button" data-g-preset="r2" aria-pressed="true">Раунд 2</button>
+          <button type="button" data-g-preset="soft" aria-pressed="false">Мягкая</button>
+          <button type="button" data-g-preset="light" aria-pressed="false">Острая и лёгкая</button>
+          <button type="button" data-g-preset="dense" aria-pressed="false">Плотная</button>
+        </div>
+        <div class="sliders">
+          <label class="tn"><span class="tn-h"><span class="meta-l">Острота заголовков</span><output id="go-dshrp"></output></span><input type="range" id="g-dshrp" min="0" max="100"></label>
+          <label class="tn"><span class="tn-h"><span class="meta-l">Острота текста</span><output id="go-bshrp"></output></span><input type="range" id="g-bshrp" min="0" max="100"></label>
+          <label class="tn"><span class="tn-h"><span class="meta-l">Вес заголовков</span><output id="go-dwght"></output></span><input type="range" id="g-dwght" min="200" max="900" step="10"></label>
+          <label class="tn"><span class="tn-h"><span class="meta-l">Трекинг заголовков</span><output id="go-dtrack"></output></span><input type="range" id="g-dtrack" min="-60" max="40"></label>
+        </div>
+        <div class="mini"><p class="mini-name disp" data-t="nameShort"></p><p class="mini-h2 disp" data-t="h2"></p><p class="body" data-t="about"></p><p class="codeline" id="g-code"></p></div>
+      </div>
+      <div class="tpanel f-com">
+        <h3 class="tp-title disp">Commissioner</h3>
+        <div class="presets" role="group" aria-label="Пресеты Commissioner">
+          <button type="button" data-c-preset="r2" aria-pressed="true">Раунд 2</button>
+          <button type="button" data-c-preset="plain" aria-pressed="false">Без раструба</button>
+          <button type="button" data-c-preset="light" aria-pressed="false">Лёгкий раструб</button>
+          <button type="button" data-c-preset="dense" aria-pressed="false">Плотный</button>
+        </div>
+        <div class="sliders">
+          <label class="tn"><span class="tn-h"><span class="meta-l">Раструб заголовков</span><output id="co-dflar"></output></span><input type="range" id="c-dflar" min="0" max="100"></label>
+          <label class="tn"><span class="tn-h"><span class="meta-l">Раструб текста</span><output id="co-bflar"></output></span><input type="range" id="c-bflar" min="0" max="100"></label>
+          <label class="tn"><span class="tn-h"><span class="meta-l">Объём заголовков</span><output id="co-dvolm"></output></span><input type="range" id="c-dvolm" min="0" max="100"></label>
+          <label class="tn"><span class="tn-h"><span class="meta-l">Вес заголовков</span><output id="co-dwght"></output></span><input type="range" id="c-dwght" min="200" max="900" step="10"></label>
+          <label class="tn"><span class="tn-h"><span class="meta-l">Трекинг заголовков</span><output id="co-dtrack"></output></span><input type="range" id="c-dtrack" min="-60" max="40"></label>
+        </div>
+        <div class="mini"><p class="mini-name disp" data-t="nameShort"></p><p class="mini-h2 disp" data-t="h2"></p><p class="body" data-t="about"></p><p class="codeline" id="c-code"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STEP 2 ============ -->
+  <section class="step" id="blind" aria-labelledby="blind-h">
+    <div class="step-h"><span class="step-n">2</span><h2 id="blind-h">Слепой тест</h2><p>Выбирай вариант, который выглядит дороже. Можно кликать или нажимать ← и →. Сторона каждый раз случайная, так что пропустить шрифт по положению не выйдет.</p></div>
+    <div class="bt" id="bt"></div>
+  </section>
+
+  <!-- ============ STEP 3 ============ -->
+  <section class="step" id="live-s" aria-labelledby="live-h">
+    <div class="step-h"><span class="step-n">3</span><h2 id="live-h">Живая страница</h2><p>Кусок будущей личной страницы, нейтральный, без окон и хрома. Переключай шрифт и тему и смотри на страницу целиком, а не на отдельные буквы.</p></div>
+    <div class="toolbar"><div class="seg" role="group" aria-label="Шрифт страницы"><button type="button" data-live="f-geo" aria-pressed="true">Geologica</button><button type="button" data-live="f-com" aria-pressed="false">Commissioner</button></div></div>
+    <div class="live f-geo" id="live">
+      <div class="lv-top"><span class="lv-brand disp" data-t="brand"></span><nav class="lv-nav ui" aria-label="Пример навигации"><a href="#live-s" data-t="navA"></a><a href="#live-s" data-t="navB"></a><a href="#live-s" data-t="navC"></a></nav></div>
+      <div class="lv-hero"><h3 class="lv-name disp" data-t="name"></h3><p class="lv-intro body" data-t="intro"></p><div class="btns"><a class="btn b1 ui" href="#live-s"><span data-t="btn"></span><span class="arr" aria-hidden="true">→</span></a><a class="btn b2 ui" href="#live-s"><span data-t="btn2"></span><span class="arr" aria-hidden="true">→</span></a></div></div>
+      <div class="lv-list">
+        <div class="lv-row"><h4 class="disp">DMAIC Studio</h4><p class="body" data-t="p1"></p><span class="cap">Lean + AI</span></div>
+        <div class="lv-row"><h4 class="disp">ResuMatch</h4><p class="body" data-t="p2"></p><span class="cap">Telegram</span></div>
+        <div class="lv-row"><h4 class="disp" data-t="p3t"></h4><p class="body" data-t="p3"></p><span class="cap">On-prem</span></div>
+        <div class="lv-row"><h4 class="disp">Workinfra</h4><p class="body" data-t="p4"></p><span class="cap">Platform</span></div>
+      </div>
+      <div class="lv-foot"><span class="cap" data-t="footL"></span><span style="display:flex;gap:22px;flex-wrap:wrap"><a class="body" href="#live-s">Telegram</a><a class="body" href="#live-s">GitHub</a><a class="body" href="#live-s">Email</a></span></div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap foot"><p><b>Как ответить:</b> пришли счёт слепого теста и что сказала живая страница. Если подстраивал, скопируй строки настроек из шага 1.</p></footer>
+
+<script>
+(() => {
+"use strict";
+const T = {
+  ru: {
+    name: "Иван<br>Якимкин", nameShort: "Якимкин", brand: "Иван Якимкин", h1: "Проекты", h2: "Лаборатория <em>эффектов</em>",
+    about: "Делаю ИИ-сервисы и автоматизацию, которые работают в проде: от Telegram-бота до платформы для агентов на своём сервере.",
+    intro: "Делаю ИИ-сервисы и автоматизацию, которые работают в проде. Здесь собрано то, что получилось.",
+    projLine: "Проводит рабочий процесс через 17 шагов DMAIC и показывает в деньгах, где он теряет.",
+    small: "Мелкий текст, 14 px: подписи под проектами, пояснения в лаборатории, сноски.",
+    btn: "Смотреть проекты", btn2: "Лаборатория", navA: "Проекты", navB: "Лаборатория", navC: "Контакты",
+    p1: "Проводит рабочий процесс через 17 шагов DMAIC и показывает в деньгах, где он теряет.",
+    p2: "Движок резюме в Telegram и в вебе: проверка, оценка и переписывание с превью до оплаты.",
+    p3t: "Генератор тест-кейсов", p3: "Превращает требования в чек-листы и тест-кейсы и выгружает их в Test IT. Работает без интернета.",
+    p4: "Платформа для агентов на одной машине: шлюз к моделям, трассировка, MCP и оркестратор.",
+    footL: "Личная страница · 2026"
+  },
+  en: {
+    name: "Ivan<br>Yakimkin", nameShort: "Yakimkin", brand: "Ivan Yakimkin", h1: "Projects", h2: "The effects <em>lab</em>",
+    about: "I build AI services and automation that run in production, from a Telegram bot to a self-hosted agent platform.",
+    intro: "I build AI services and automation that run in production. This page collects what came out of it.",
+    projLine: "Walks a work process through the 17 steps of DMAIC and shows in money where it loses.",
+    small: "Small text, 14 px: captions under projects, notes in the lab, footnotes.",
+    btn: "See the projects", btn2: "The lab", navA: "Projects", navB: "Lab", navC: "Contact",
+    p1: "Walks a work process through the 17 steps of DMAIC and shows in money where it loses.",
+    p2: "A resume engine in Telegram and on the web: check, scoring, and a rewrite with a preview before payment.",
+    p3t: "Test case generator", p3: "Turns requirements into checklists and test cases and uploads them to Test IT. Runs offline.",
+    p4: "An agent platform on one machine: model gateway, tracing, MCP and an orchestrator.",
+    footL: "Personal page · 2026"
+  }
+};
+let lang = "ru";
+const root = document.documentElement;
+
+/* ---------- tuners write root variables ---------- */
+const G = { r2: { dshrp: 100, bshrp: 0, dwght: 800, dtrack: -35 }, soft: { dshrp: 0, bshrp: 0, dwght: 700, dtrack: -30 }, light: { dshrp: 100, bshrp: 40, dwght: 320, dtrack: -45 }, dense: { dshrp: 70, bshrp: 20, dwght: 900, dtrack: -55 } };
+const C = { r2: { dflar: 100, bflar: 0, dvolm: 100, dwght: 740, dtrack: -30 }, plain: { dflar: 0, bflar: 0, dvolm: 0, dwght: 700, dtrack: -30 }, light: { dflar: 50, bflar: 20, dvolm: 40, dwght: 600, dtrack: -25 }, dense: { dflar: 100, bflar: 30, dvolm: 100, dwght: 900, dtrack: -50 } };
+const gIds = ["dshrp", "bshrp", "dwght", "dtrack"], cIds = ["dflar", "bflar", "dvolm", "dwght", "dtrack"];
+const gIn = Object.fromEntries(gIds.map((k) => [k, document.getElementById("g-" + k)]));
+const cIn = Object.fromEntries(cIds.map((k) => [k, document.getElementById("c-" + k)]));
+const em = (n) => (n / 1000).toFixed(3) + "em";
+function applyG() {
+  const v = Object.fromEntries(gIds.map((k) => [k, Number(gIn[k].value)]));
+  root.style.setProperty("--geo-dv", `"SHRP" ${v.dshrp}, "CRSV" 0, "slnt" 0`);
+  root.style.setProperty("--geo-emv", `"SHRP" ${v.dshrp}, "CRSV" 1, "slnt" -12`);
+  root.style.setProperty("--geo-dw", String(v.dwght));
+  root.style.setProperty("--geo-dt", em(v.dtrack));
+  root.style.setProperty("--geo-bv", `"SHRP" ${v.bshrp}, "CRSV" 0, "slnt" 0`);
+  document.getElementById("go-dshrp").textContent = v.dshrp; document.getElementById("go-bshrp").textContent = v.bshrp;
+  document.getElementById("go-dwght").textContent = v.dwght; document.getElementById("go-dtrack").textContent = em(v.dtrack);
+  document.getElementById("g-code").textContent = `Geologica · заголовки SHRP ${v.dshrp}, вес ${v.dwght}, трекинг ${em(v.dtrack)} · текст SHRP ${v.bshrp}`;
+}
+function applyC() {
+  const v = Object.fromEntries(cIds.map((k) => [k, Number(cIn[k].value)]));
+  root.style.setProperty("--com-dv", `"FLAR" ${v.dflar}, "VOLM" ${v.dvolm}, "slnt" 0`);
+  root.style.setProperty("--com-emv", `"FLAR" ${v.dflar}, "VOLM" ${v.dvolm}, "slnt" -12`);
+  root.style.setProperty("--com-dw", String(v.dwght));
+  root.style.setProperty("--com-dt", em(v.dtrack));
+  root.style.setProperty("--com-bv", `"FLAR" ${v.bflar}, "VOLM" 0, "slnt" 0`);
+  document.getElementById("co-dflar").textContent = v.dflar; document.getElementById("co-bflar").textContent = v.bflar;
+  document.getElementById("co-dvolm").textContent = v.dvolm; document.getElementById("co-dwght").textContent = v.dwght;
+  document.getElementById("co-dtrack").textContent = em(v.dtrack);
+  document.getElementById("c-code").textContent = `Commissioner · заголовки FLAR ${v.dflar}, VOLM ${v.dvolm}, вес ${v.dwght}, трекинг ${em(v.dtrack)} · текст FLAR ${v.bflar}`;
+}
+function presetG(name) { gIds.forEach((k) => { gIn[k].value = G[name][k]; }); document.querySelectorAll("[data-g-preset]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.gPreset === name))); applyG(); }
+function presetC(name) { cIds.forEach((k) => { cIn[k].value = C[name][k]; }); document.querySelectorAll("[data-c-preset]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.cPreset === name))); applyC(); }
+gIds.forEach((k) => gIn[k].addEventListener("input", () => { document.querySelectorAll("[data-g-preset]").forEach((b) => b.setAttribute("aria-pressed", "false")); applyG(); }));
+cIds.forEach((k) => cIn[k].addEventListener("input", () => { document.querySelectorAll("[data-c-preset]").forEach((b) => b.setAttribute("aria-pressed", "false")); applyC(); }));
+document.querySelectorAll("[data-g-preset]").forEach((b) => b.addEventListener("click", () => presetG(b.dataset.gPreset)));
+document.querySelectorAll("[data-c-preset]").forEach((b) => b.addEventListener("click", () => presetC(b.dataset.cPreset)));
+presetG("r2"); presetC("r2");
+
+/* ---------- blind test ---------- */
+const SITUATIONS = [
+  { q: "Имя крупно", html: () => `<p class="x-name disp">${T[lang].name}</p>` },
+  { q: "Заголовок раздела", html: () => `<p class="x-h1 disp">${T[lang].h1}</p><p class="x-h2 disp">${T[lang].h2}</p>` },
+  { q: "Абзац о себе", html: () => `<p class="x-para body">${T[lang].intro} ${T[lang].about}</p>` },
+  { q: "Строка проекта", html: () => `<div class="x-proj"><h4 class="disp">DMAIC Studio</h4><p class="body">${T[lang].projLine}</p><span class="cap">Lean + AI · FastAPI</span></div>` },
+  { q: "Кнопки", html: () => `<div class="btns"><span class="btn b1 ui">${T[lang].btn}</span><span class="btn b2 ui">${T[lang].btn2}</span></div><p class="x-small body">${T[lang].small}</p>` },
+  { q: "Цифры", html: () => `<p class="x-nums disp">${lang === "ru" ? "17 шагов · 4 проекта" : "17 steps · 4 projects"}<br>₽ 4 900 · 2026</p>` },
+  { q: "Мелкий текст", html: () => `<p class="x-small body">${T[lang].p2}</p><p class="x-small body">${T[lang].p4}</p><span class="cap">Telegram · GitHub · Email</span>` },
+  { q: "Латиница", html: () => `<p class="x-name disp">Ivan<br>Yakimkin</p><p class="x-h2 disp">${T.en.h2}</p>` }
+];
+const NAMES = { "f-geo": "Geologica", "f-com": "Commissioner" };
+const bt = document.getElementById("bt");
+let order = [], answers = [], idx = 0;
+function startTest() {
+  order = SITUATIONS.map(() => (Math.random() < 0.5 ? ["f-geo", "f-com"] : ["f-com", "f-geo"]));
+  answers = []; idx = 0; renderTest();
+}
+function renderTest() {
+  if (idx >= SITUATIONS.length) return renderResult();
+  const s = SITUATIONS[idx], [l, r] = order[idx];
+  const prog = SITUATIONS.map((_, i) => `<i class="${i < idx ? "done" : i === idx ? "now" : ""}"></i>`).join("");
+  bt.innerHTML = `
+    <div class="bt-bar"><p class="bt-q">${idx + 1} из ${SITUATIONS.length} · ${s.q}</p><div class="bt-progress" aria-hidden="true">${prog}</div></div>
+    <div class="bt-pair">
+      <div role="button" tabindex="0" class="bt-card ${l}" data-pick="0" aria-label="Выбрать вариант слева"><div class="bt-side"><span class="meta-l">Слева</span><span class="meta-l">←</span></div><div class="bt-body">${s.html()}</div></div>
+      <div role="button" tabindex="0" class="bt-card ${r}" data-pick="1" aria-label="Выбрать вариант справа"><div class="bt-side"><span class="meta-l">Справа</span><span class="meta-l">→</span></div><div class="bt-body">${s.html()}</div></div>
+    </div>`;
+  bt.querySelectorAll("[data-pick]").forEach((b) => {
+    b.addEventListener("click", () => pick(Number(b.dataset.pick)));
+    b.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(Number(b.dataset.pick)); } });
+  });
+}
+function pick(side) { answers[idx] = order[idx][side]; idx++; renderTest(); }
+function renderResult() {
+  const g = answers.filter((a) => a === "f-geo").length, c = answers.length - g;
+  const rows = SITUATIONS.map((s, i) => `<li><span>${s.q}</span><span>${NAMES[answers[i]]}</span></li>`).join("");
+  bt.innerHTML = `
+    <div class="bt-done">
+      <span class="meta-l">Результат</span>
+      <div class="score"><b class="f-geo"><span class="disp" style="font-size:inherit;color:var(--fg)">Geologica ${g}</span></b><span>против</span><b class="f-com"><span class="disp" style="font-size:inherit;color:var(--fg)">Commissioner ${c}</span></b></div>
+      <ul class="rounds">${rows}</ul>
+      <button type="button" class="again" id="again">Пройти ещё раз</button>
+    </div>`;
+  document.getElementById("again").addEventListener("click", startTest);
+}
+document.addEventListener("keydown", (e) => {
+  if (idx >= SITUATIONS.length || !bt.querySelector("[data-pick]")) return;
+  const tag = (document.activeElement && document.activeElement.tagName) || "";
+  if (tag === "INPUT" || tag === "TEXTAREA") return;
+  const rect = bt.getBoundingClientRect();
+  if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+  if (e.key === "ArrowLeft") { pick(0); e.preventDefault(); }
+  else if (e.key === "ArrowRight") { pick(1); e.preventDefault(); }
+});
+startTest();
+
+/* ---------- live page font switch ---------- */
+const live = document.getElementById("live"), liveBtns = Array.from(document.querySelectorAll("[data-live]"));
+liveBtns.forEach((b) => b.addEventListener("click", () => {
+  live.classList.remove("f-geo", "f-com"); live.classList.add(b.dataset.live);
+  liveBtns.forEach((o) => o.setAttribute("aria-pressed", String(o === b)));
+}));
+
+/* ---------- language and theme ---------- */
+const langBtns = Array.from(document.querySelectorAll("[data-lang]"));
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll("[data-t]").forEach((el) => { const v = T[l][el.dataset.t]; if (v != null) el.innerHTML = v; });
+  langBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === l)));
+  root.lang = l;
+  if (idx < SITUATIONS.length) renderTest();
+}
+langBtns.forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
+setLang("ru");
+const themeBtns = Array.from(document.querySelectorAll("[data-theme-set]"));
+const sysDark = window.matchMedia("(prefers-color-scheme: dark)");
+const paintTheme = () => { const t = root.dataset.theme || (sysDark.matches ? "dark" : "light"); themeBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.themeSet === t))); };
+themeBtns.forEach((b) => b.addEventListener("click", () => { root.dataset.theme = b.dataset.themeSet; paintTheme(); }));
+sysDark.addEventListener("change", paintTheme);
+paintTheme();
+})();
+</script>
+
+</body>
+</html>

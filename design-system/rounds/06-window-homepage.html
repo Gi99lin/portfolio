@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body style="margin:0">
+<title>Window Homepage</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: the "window" system. One live liquid-chrome surface is fixed under the whole page and
+   is the only thing that reacts to the cursor. The page is one black sheet (an SVG mask) with a
+   hole for every [data-hole] element, so windows slide over the same metal as you scroll.
+   Text inside a window inverts the metal (difference); the lens shows it as a negative; the Lab
+   word is cut out of the sheet (multiply). No ancestor of blended text may form a stacking
+   context, so sections never use transform, filter, opacity or container queries. */
+:root{
+  --void:#07070A; --ink:#F2F4F7; --muted:#9BA3AF; --line:rgba(242,244,247,.14); --cyan:#7FE7F2;
+  --display:"Anybody", ui-sans-serif, system-ui, sans-serif;
+  --body:"Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --mono:"Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--ink);margin:0;font:400 16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+a{color:inherit}
+.page{position:relative;isolation:isolate}
+.gl{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:-2;pointer-events:none}
+.no-gl .gl{display:none}
+.no-gl{background:radial-gradient(90% 70% at 70% 40%,#D9DDE3 0%,#5B616B 30%,#17181D 60%,#07070A 100%) fixed}
+.cover{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block}
+.cover .hole{transform-box:fill-box;transform-origin:center;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.cover .hole.grow{transform:scale(1.07)}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* ---------- type and shared pieces ---------- */
+.inv{color:#FFFFFF;mix-blend-mode:difference}
+.label{margin:0;font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.muted{color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.eyebrow{margin:0 0 14px;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* lens: shows the metal (or the black sheet) as a negative */
+.lens{position:absolute;inset:0;pointer-events:none;border-radius:inherit;-webkit-backdrop-filter:invert(1) contrast(1.15);backdrop-filter:invert(1) contrast(1.15)}
+/* lens button: a small lens; on the black sheet it reads as a white pill, over metal it pulls into focus */
+.lb{position:relative;display:inline-flex;align-items:center;gap:10px;border:0;background:transparent;text-decoration:none;padding:16px 24px;border-radius:999px;cursor:pointer;font:700 13px/1 var(--display);font-variation-settings:"wdth" 108;text-transform:uppercase;letter-spacing:.06em;color:#FFFFFF}
+.lb::before{content:"";position:absolute;inset:0;border-radius:inherit;-webkit-backdrop-filter:invert(1) blur(7px);backdrop-filter:invert(1) blur(7px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);transition:-webkit-backdrop-filter .45s,backdrop-filter .45s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.lb span{position:relative;mix-blend-mode:difference}
+.lb:hover::before,.lb:focus-visible::before{-webkit-backdrop-filter:invert(1) blur(0px);backdrop-filter:invert(1) blur(0px);transform:scale(1.05)}
+/* hole button: a hole in the sheet; the label inverts the metal; the hole opens wider on hover */
+.hb{position:relative;display:inline-flex;align-items:center;gap:8px;border:0;background:transparent;text-decoration:none;color:#FFFFFF;mix-blend-mode:difference;padding:16px 22px;border-radius:999px;cursor:pointer;font:700 13px/1 var(--display);font-variation-settings:"wdth" 108;text-transform:uppercase;letter-spacing:.06em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+.hb.chip{padding:10px 14px;font-size:11.5px}
+
+/* ---------- hero (4 + 6) ---------- */
+.hero{padding-block:20px 0;display:grid;gap:18px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{font:700 14px/1 var(--display);font-variation-settings:"wdth" 110;text-transform:uppercase;letter-spacing:.06em;text-decoration:none}
+.window{position:relative;border-radius:clamp(20px,2.6vw,34px);min-height:clamp(440px,66vh,700px);display:grid;align-items:end;padding:clamp(14px,2vw,26px)}
+.window-tag{position:absolute;top:clamp(16px,2vw,26px);left:clamp(16px,2vw,26px)}
+.island{position:relative;width:min(100%,720px);padding:clamp(18px,2.4vw,30px);border-radius:14px;overflow:hidden}
+.island-body{position:relative;display:grid;gap:clamp(12px,1.6vw,20px)}
+.name{margin:0;font:800 clamp(42px,8.4vw,116px)/.8 var(--display);font-variation-settings:"wdth" 100;text-transform:uppercase;letter-spacing:-.01em;color:#FFFFFF;mix-blend-mode:difference;display:flex;justify-content:space-between;white-space:nowrap}
+.hero-foot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px 40px;align-items:end}
+.hero-foot p{margin:0;max-width:56ch;color:var(--muted);font-size:16.5px}
+.hero-foot p b{color:var(--ink);font-weight:500}
+@media (max-width:720px){.hero-foot{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- sections ---------- */
+.section{padding-top:clamp(110px,13vw,180px)}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:18px 40px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,52px)}
+.sec-title{margin:0;font:800 clamp(44px,7vw,104px)/.82 var(--display);font-variation-settings:"wdth" 90;text-transform:uppercase;letter-spacing:-.01em}
+.sec-sub{margin:0;color:var(--muted);max-width:42ch}
+
+/* work: an index where every project owns a small window */
+.work{border-top:1px solid var(--line)}
+.wrow{display:grid;grid-template-columns:clamp(88px,10vw,148px) minmax(0,1fr) minmax(0,15rem) auto;gap:16px clamp(16px,2.8vw,40px);align-items:center;padding-block:clamp(18px,2.4vw,30px);border-bottom:1px solid var(--line)}
+.slot{position:relative;aspect-ratio:16/10;border-radius:12px;display:grid;place-items:center}
+.slot b{font:800 clamp(20px,2.4vw,34px)/1 var(--display);font-variation-settings:"wdth" 125;color:#FFFFFF;mix-blend-mode:difference}
+.wmain h3{margin:0 0 8px;font:800 clamp(24px,3vw,42px)/.95 var(--display);font-variation-settings:"wdth" 100;text-transform:uppercase;letter-spacing:-.005em}
+.wmain p{margin:0;color:var(--muted);max-width:60ch;font-size:15px}
+.wmeta{list-style:none;margin:0;padding:0;display:grid;gap:5px;font:500 11.5px/1.4 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.wmeta li:first-child{color:var(--ink)}
+@media (max-width:860px){.wrow{grid-template-columns:clamp(72px,20vw,110px) minmax(0,1fr)}.wmeta,.wrow > .hb{grid-column:2}.wrow > .hb{justify-self:start}}
+
+/* lab: the word is cut out of the sheet */
+.lab-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:start}
+@media (max-width:920px){.lab-grid{grid-template-columns:minmax(0,1fr)}}
+.lab-grid > div{min-width:0}
+.knock{display:inline-block;max-width:100%;background:#000000;color:#FFFFFF;mix-blend-mode:multiply;font:900 clamp(120px,18.5vw,290px)/.76 var(--display);font-variation-settings:"wdth" 100;text-transform:uppercase;letter-spacing:-.02em;padding:.05em .04em .02em}
+.knock-cap{margin:18px 0 0}
+.lab-side h3{margin:0;font:800 clamp(26px,3vw,40px)/1 var(--display);font-variation-settings:"wdth" 96;text-transform:uppercase;text-wrap:balance}
+.lab-side > p{margin:14px 0 0;color:var(--muted);max-width:52ch}
+.lab-list{list-style:none;margin:26px 0;padding:0;border-top:1px solid var(--line)}
+.lab-list li{display:grid;grid-template-columns:minmax(0,10.5rem) minmax(0,1fr);gap:4px 20px;padding:14px 0;border-bottom:1px solid var(--line)}
+.lab-list b{font:700 14.5px/1.35 var(--display);font-variation-settings:"wdth" 100;text-transform:uppercase;letter-spacing:.02em}
+.lab-list span{color:var(--muted);font-size:14.5px}
+@media (max-width:520px){.lab-list li{grid-template-columns:minmax(0,1fr)}}
+.specimen{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px 24px;align-items:end;margin-bottom:28px}
+@media (max-width:520px){.specimen{grid-template-columns:minmax(0,1fr)}}
+.torus{margin:0;font:400 9px/1.2 var(--mono);color:var(--ink);white-space:pre;overflow:hidden;max-width:100%}
+
+/* contact: the closing window mirrors the hero */
+.contact-window{position:relative;border-radius:clamp(20px,2.6vw,34px);min-height:clamp(380px,54vh,580px);display:grid;align-content:space-between;gap:28px;padding:clamp(20px,3vw,40px)}
+.contact-line{margin:0;font:800 clamp(36px,6.6vw,100px)/.88 var(--display);font-variation-settings:"wdth" 86;text-transform:uppercase;letter-spacing:-.01em;color:#FFFFFF;mix-blend-mode:difference;max-width:15ch;text-wrap:balance}
+.contact-foot{display:flex;justify-content:space-between;align-items:center;gap:16px 28px;flex-wrap:wrap;margin-top:18px}
+
+.footer{display:flex;justify-content:space-between;align-items:center;gap:14px 28px;flex-wrap:wrap;padding-block:clamp(80px,10vw,140px) 36px;font:500 12px/1.5 var(--mono);color:var(--muted)}
+
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.lb::before,.cover .hole{transition:none}}
+</style>
+
+<div class="page" id="top">
+  <canvas class="gl" id="gl" aria-hidden="true"></canvas>
+  <svg class="cover" id="cover" aria-hidden="true"></svg>
+
+  <!-- ================= HERO ================= -->
+  <header class="wrap hero">
+    <div class="topbar">
+      <a class="brand" href="#top">Ivan Yakimkin</a>
+      <nav class="row" aria-label="Main">
+        <a class="hb chip" href="#work" data-hole>Work</a>
+        <a class="hb chip" href="#lab" data-hole>Lab</a>
+        <a class="hb chip" href="#contact" data-hole>Contact</a>
+      </nav>
+    </div>
+    <div class="window" data-hole>
+      <p class="label inv window-tag">Live surface · move the cursor</p>
+      <div class="island">
+        <div class="lens" aria-hidden="true"></div>
+        <div class="island-body">
+          <p class="label inv">AI services · Automation · Infrastructure</p>
+          <h1 class="name" aria-label="Ivan Yakimkin">Yakimkin</h1>
+        </div>
+      </div>
+    </div>
+    <div class="hero-foot">
+      <p><b>I build AI services and automation that run in production:</b> a Lean coach for process owners, a resume engine in Telegram, an on-prem test case generator, and the platform they run on.</p>
+      <div class="row"><a class="lb" href="#work"><span>See the work</span></a><a class="lb" href="#contact"><span>Get in touch</span></a></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= WORK ================= -->
+    <section class="wrap section" id="work" aria-labelledby="work-h">
+      <div class="sec-head">
+        <div><p class="eyebrow">Selected work</p><h2 class="sec-title" id="work-h">In production</h2></div>
+        <p class="sec-sub">Four systems that real people use every week, from a Telegram bot to an air-gapped on-prem product.</p>
+      </div>
+      <div class="work">
+        <article class="wrow" data-hover-scope>
+          <div class="slot" data-hole><b>DM</b></div>
+          <div class="wmain"><h3>DMAIC Studio</h3><p>Walks one work process through the 17 steps of DMAIC and shows, in money, where it loses and where AI would pay off.</p></div>
+          <ul class="wmeta"><li>Lean + AI</li><li>FastAPI · PostgreSQL</li><li>dmaic.gigglin.tech</li></ul>
+          <a class="hb chip" href="#work" data-hole>Case ↗</a>
+        </article>
+        <article class="wrow" data-hover-scope>
+          <div class="slot" data-hole><b>RM</b></div>
+          <div class="wmain"><h3>ResuMatch</h3><p>A resume engine in Telegram and on the web: parse check, scoring, and a rewrite with a preview before payment.</p></div>
+          <ul class="wmeta"><li>HR bot</li><li>Python · FastAPI · Next.js</li><li>Telegram + web</li></ul>
+          <a class="hb chip" href="#work" data-hole>Case ↗</a>
+        </article>
+        <article class="wrow" data-hover-scope>
+          <div class="slot" data-hole><b>TC</b></div>
+          <div class="wmain"><h3>Test case generator</h3><p>Turns requirement documents into checklists and test cases with an LLM, lets QA review them, and uploads them to Test IT.</p></div>
+          <ul class="wmeta"><li>QA tooling</li><li>LLM · Docker</li><li>On-prem, air-gapped</li></ul>
+          <a class="hb chip" href="#work" data-hole>Case ↗</a>
+        </article>
+        <article class="wrow" data-hover-scope>
+          <div class="slot" data-hole><b>WI</b></div>
+          <div class="wmain"><h3>Workinfra</h3><p>A self-hosted agent platform on one VM: LLM gateway, tracing, MCP gateway, workflow runtime and orchestrator.</p></div>
+          <ul class="wmeta"><li>Platform</li><li>Self-hosted</li><li>Multi-tenant</li></ul>
+          <a class="hb chip" href="#work" data-hole>Case ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= LAB ================= -->
+    <section class="wrap section" id="lab" aria-labelledby="lab-h">
+      <div class="lab-grid">
+        <div>
+          <p class="eyebrow">The lab</p>
+          <div class="knock" data-hole="inset" role="img" aria-label="Lab">Lab</div>
+          <p class="label muted knock-cap">The letters are holes in the page. Scroll and watch the metal move through them.</p>
+        </div>
+        <div class="lab-side">
+          <h3 id="lab-h">Experiments that didn't fit a client brief</h3>
+          <p>A separate page where the effects from this site live on their own, each one interactive and explained.</p>
+          <ul class="lab-list">
+            <li><b>Liquid chrome</b><span>The WebGL surface under this page, four octaves of noise and a thin-film tint</span></li>
+            <li><b>ASCII torus</b><span>A spinning donut drawn with twelve characters; drag it to turn it</span></li>
+            <li><b>Kinetic type</b><span>Letters that change width and weight as the cursor passes</span></li>
+            <li><b>Tactile knob</b><span>A hardware-style control with real travel and click sounds</span></li>
+          </ul>
+          <div class="specimen">
+            <pre class="torus" id="torus" aria-hidden="true"></pre>
+            <div><p class="label muted">Specimen · torus, frame 1</p><div class="row" style="margin-top:14px"><a class="hb" href="#lab" data-hole>Open the lab ↗</a></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT ================= -->
+    <section class="wrap section" id="contact" aria-labelledby="contact-h">
+      <div class="contact-window" data-hole>
+        <p class="label inv">Contact</p>
+        <h2 class="contact-line" id="contact-h">Describe the routine you want to automate</h2>
+        <p class="label inv">From a Telegram bot to an on-prem platform</p>
+      </div>
+      <div class="contact-foot">
+        <p class="muted" style="margin:0;max-width:48ch">One message is enough: what you do by hand today, and how often. I'll answer with what can be automated and roughly what it takes.</p>
+        <div class="row"><a class="lb" href="#contact"><span>Write in Telegram</span></a><a class="hb chip" href="#contact" data-hole>Email</a><a class="hb chip" href="#contact" data-hole>GitHub ↗</a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <span>Ivan Yakimkin · 2026</span>
+    <span>Mockup · window system, draft 1 · the metal is the only thing that reacts to you</span>
+    <a class="hb chip" href="#top" data-hole>Top ↑</a>
+  </footer>
+</div>
+
+<script>
+(() => {
+"use strict";
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const NS = "http://www.w3.org/2000/svg";
+const page = document.querySelector(".page");
+
+/* ---------- one global pointer: the metal reacts wherever you are ---------- */
+const ptr = { x: 0, y: 0, on: false };
+window.addEventListener("pointermove", (e) => { ptr.x = e.clientX; ptr.y = e.clientY; ptr.on = true; });
+document.addEventListener("pointerleave", () => { ptr.on = false; });
+window.addEventListener("blur", () => { ptr.on = false; });
+
+/* ---------- round 1 liquid-chrome shader, unchanged, fixed under the page ---------- */
+const VS = "attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}";
+const FS = [
+  "precision highp float;",
+  "uniform vec2 uR; uniform float uT; uniform vec2 uM; uniform float uS; uniform float uRef;",
+  "float hash(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p, p+45.32); return fract(p.x*p.y); }",
+  "float noise(vec2 p){ vec2 i=floor(p); vec2 f=fract(p); vec2 u=f*f*f*(f*(f*6.0-15.0)+10.0);",
+  "  return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x), mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x), u.y); }",
+  "float fbm(vec2 p){ float v=0.0; float a=0.5; for(int i=0;i<4;i++){ v+=a*noise(p); p=p*2.03+vec2(1.7,9.2); a*=0.5; } return v; }",
+  "float height(vec2 p){",
+  "  vec2 q = vec2(fbm(p*1.2+vec2(0.0,uT*0.06)), fbm(p*1.2+vec2(5.2,-uT*0.05)));",
+  "  float h = fbm(p*1.4 + q*1.8 + vec2(uT*0.02,0.0));",
+  "  float d = distance(p, uM);",
+  "  h += uS*0.2*exp(-d*d*12.0)*(0.55+0.45*sin(d*30.0-uT*4.0));",
+  "  return h; }",
+  "void main(){",
+  "  vec2 p = gl_FragCoord.xy / uRef;",
+  "  float e = 1.5 / uRef;",
+  "  float hc = height(p);",
+  "  float hx = height(p+vec2(e,0.0));",
+  "  float hy = height(p+vec2(0.0,e));",
+  "  vec3 n = normalize(vec3((hc-hx)/e, (hc-hy)/e, 2.2));",
+  "  vec3 v = vec3(0.0,0.0,1.0);",
+  "  vec3 r = reflect(-v, n);",
+  "  float sky = 0.5+0.5*r.y;",
+  "  float bands = 0.5+0.5*sin(r.y*7.0 + r.x*2.5 + 1.2);",
+  "  vec3 col = mix(vec3(0.02,0.02,0.03), vec3(0.86,0.88,0.92), smoothstep(0.15,0.95, sky*bands));",
+  "  float fres = pow(1.0-clamp(dot(n,v),0.0,1.0), 1.6);",
+  "  vec3 film = 0.5+0.5*cos(6.2831*(vec3(0.0,0.33,0.67) + hc*2.2 + uT*0.02));",
+  "  col = mix(col, col*0.4 + film*0.75, clamp(fres*2.2,0.0,1.0));",
+  "  col += pow(max(r.y,0.0),30.0)*0.9;",
+  "  vec2 q = gl_FragCoord.xy/uR - 0.5;",
+  "  col *= 1.0 - dot(q,q)*0.9;",
+  "  gl_FragColor = vec4(col,1.0);",
+  "}"
+].join("\n");
+
+let draw = null;
+(function initChrome() {
+  const cv = document.getElementById("gl");
+  let gl = null;
+  try { gl = cv.getContext("webgl", { antialias: false, alpha: false }); } catch (e) { gl = null; }
+  if (!gl) { page.classList.add("no-gl"); return; }
+  const compile = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); return null; } return s; };
+  const v = compile(gl.VERTEX_SHADER, VS), f = compile(gl.FRAGMENT_SHADER, FS);
+  if (!v || !f) { page.classList.add("no-gl"); return; }
+  const pr = gl.createProgram(); gl.attachShader(pr, v); gl.attachShader(pr, f); gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { page.classList.add("no-gl"); return; }
+  gl.useProgram(pr);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const uR = gl.getUniformLocation(pr, "uR"), uT = gl.getUniformLocation(pr, "uT"), uM = gl.getUniformLocation(pr, "uM"), uS = gl.getUniformLocation(pr, "uS"), uRefL = gl.getUniformLocation(pr, "uRef");
+  let W = 1, H = 1;
+  const m = { x: 0.7, y: 0.5, s: 0 };
+  /* sharper render than before, and a fixed 560 CSS px reference so the metal and the cursor
+     ripple keep the scale of the round 1 hero no matter how tall the window is */
+  const scale = Math.min(window.devicePixelRatio || 1, 2) * 0.85;
+  const REF = 560 * scale;
+  draw = (t) => {
+    if (ptr.on) {
+      m.x += (ptr.x / Math.max(1, cv.clientWidth) - m.x) * 0.08;
+      m.y += (1 - ptr.y / Math.max(1, cv.clientHeight) - m.y) * 0.08;
+    }
+    m.s += ((ptr.on ? 1 : 0) - m.s) * 0.05;
+    gl.uniform2f(uR, W, H); gl.uniform1f(uT, t / 1000); gl.uniform1f(uRefL, REF);
+    gl.uniform2f(uM, m.x * W / REF, m.y * H / REF); gl.uniform1f(uS, m.s);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  };
+  new ResizeObserver(() => {
+    W = Math.max(1, Math.round(cv.clientWidth * scale)); H = Math.max(1, Math.round(cv.clientHeight * scale));
+    cv.width = W; cv.height = H; gl.viewport(0, 0, W, H); draw(performance.now() + 20000);
+  }).observe(cv);
+})();
+
+/* ---------- the black sheet: one hole per [data-hole], laid out from the DOM ---------- */
+(function initCover() {
+  const svg = document.getElementById("cover");
+  const defs = document.createElementNS(NS, "defs"), mask = document.createElementNS(NS, "mask");
+  mask.setAttribute("id", "sheet-holes"); mask.setAttribute("maskUnits", "userSpaceOnUse");
+  const all = document.createElementNS(NS, "rect"); all.setAttribute("fill", "#FFFFFF"); mask.appendChild(all);
+  const g = document.createElementNS(NS, "g"); mask.appendChild(g); defs.appendChild(mask); svg.appendChild(defs);
+  const sheet = document.createElementNS(NS, "rect"); sheet.setAttribute("fill", "#07070A"); sheet.setAttribute("mask", "url(#sheet-holes)"); svg.appendChild(sheet);
+  const els = Array.from(document.querySelectorAll("[data-hole]"));
+  const holes = els.map((el) => {
+    const r = document.createElementNS(NS, "rect"); r.setAttribute("fill", "#000000"); r.setAttribute("class", "hole"); g.appendChild(r);
+    const interactive = el.matches("a, button");
+    const scope = el.closest("[data-hover-scope]") || (interactive ? el : null);
+    if (scope) {
+      const on = () => r.classList.add("grow"), off = () => r.classList.remove("grow");
+      scope.addEventListener("pointerenter", on); scope.addEventListener("pointerleave", off);
+      if (interactive) { el.addEventListener("focus", on); el.addEventListener("blur", off); }
+    }
+    return r;
+  });
+  const layout = () => {
+    const pb = page.getBoundingClientRect();
+    svg.setAttribute("viewBox", "0 0 " + pb.width + " " + pb.height);
+    [all, sheet].forEach((r) => { r.setAttribute("width", pb.width); r.setAttribute("height", pb.height); });
+    els.forEach((el, i) => {
+      const b = el.getBoundingClientRect(), inset = el.dataset.hole === "inset" ? 2 : 0;
+      const rad = parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0;
+      const r = holes[i];
+      r.setAttribute("x", b.left - pb.left + inset); r.setAttribute("y", b.top - pb.top + inset);
+      r.setAttribute("width", Math.max(0, b.width - inset * 2)); r.setAttribute("height", Math.max(0, b.height - inset * 2));
+      r.setAttribute("rx", Math.min(rad, b.height / 2));
+    });
+  };
+  new ResizeObserver(layout).observe(page);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  window.addEventListener("load", layout);
+  layout();
+})();
+
+/* ---------- lab specimen: one still frame of the ASCII torus ---------- */
+(function drawTorus() {
+  const cols = 52, rows = 24, cw = 6, ch = 12, W = cols * cw, H = rows * ch, K = Math.min(W, H) * 0.55;
+  const A = 1.05, B = 0.62, RAMP = ".,-~:;=!*#$@";
+  const out = new Array(cols * rows).fill(" "), zb = new Float32Array(cols * rows);
+  const cA = Math.cos(A), sA = Math.sin(A), cB = Math.cos(B), sB = Math.sin(B);
+  for (let th = 0; th < 6.283; th += 0.05) {
+    const ct = Math.cos(th), st = Math.sin(th);
+    for (let ph = 0; ph < 6.283; ph += 0.015) {
+      const cp = Math.cos(ph), sp = Math.sin(ph), cx = 2 + ct, cy = st;
+      const x = cx * (cB * cp + sA * sB * sp) - cy * cA * sB;
+      const y = cx * (sB * cp - sA * cB * sp) + cy * cA * cB;
+      const ooz = 1 / (5 + cA * cx * sp + cy * sA);
+      const c = Math.floor((W / 2 + K * ooz * x) / cw), r = Math.floor((H / 2 - K * ooz * y) / ch);
+      if (c < 0 || c >= cols || r < 0 || r >= rows) continue;
+      const L = cp * ct * sB - cA * ct * sp - sA * st + cB * (cA * st - ct * sA * sp);
+      if (L <= 0) continue;
+      const i = c + r * cols;
+      if (ooz > zb[i]) { zb[i] = ooz; out[i] = RAMP[Math.min(11, Math.floor(L * 8))]; }
+    }
+  }
+  const lines = [];
+  for (let r = 0; r < rows; r++) lines.push(out.slice(r * cols, (r + 1) * cols).join("").replace(/\s+$/, ""));
+  document.getElementById("torus").textContent = lines.join("\n");
+})();
+
+/* ---------- animate the metal while the page is visible ---------- */
+let raf = 0;
+const tick = (t) => { raf = 0; if (!draw) return; draw(t); if (!document.hidden && !reduce) raf = requestAnimationFrame(tick); };
+document.addEventListener("visibilitychange", () => { if (!document.hidden && !raf && !reduce) raf = requestAnimationFrame(tick); });
+if (!reduce) raf = requestAnimationFrame(tick);
+})();
+</script>
+
+</body>
+</html>

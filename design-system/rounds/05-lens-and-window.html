@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body style="margin:0">
+<title>Lens and Window</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: six stacked heroes on one base (round 1 liquid chrome = the only interactive thing,
+   a static inverted surname). Two families: LENS (an element that shows the metal as a negative)
+   and WINDOW (a black page with holes that reveal the metal). Each family's buttons are built from
+   its own idea: lens buttons are small lenses that pull into focus, window buttons are holes that
+   open wider. Single dark look by choice; every hero is an isolated stacking context. */
+:root{
+  --void:#07070A; --ink:#F2F4F7; --muted:#9BA3AF; --line:rgba(242,244,247,.14); --cyan:#7FE7F2;
+  --display:"Anybody", ui-sans-serif, system-ui, sans-serif;
+  --body:"Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --mono:"Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--void);color:var(--ink);margin:0;font:400 15px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* ---------- shell ---------- */
+.intro{padding-block:48px 8px;display:grid;gap:14px}
+.eyebrow{margin:0;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.intro h1{margin:0;font:800 clamp(34px,5vw,60px)/.95 var(--display);font-variation-settings:"wdth" 80;text-transform:uppercase;letter-spacing:-.01em;text-wrap:balance}
+.intro p{margin:0;color:var(--muted);max-width:68ch}
+.base{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 0;padding:0;list-style:none}
+.base li{font:500 12px/1 var(--mono);padding:7px 10px;border:1px solid var(--line);border-radius:999px}
+.var{padding-block:52px 0;display:grid;gap:16px}
+.var-head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 18px;align-items:baseline}
+.num{grid-row:span 2;font:800 clamp(44px,6vw,72px)/.8 var(--display);font-variation-settings:"wdth" 60}
+.var-head h2{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;font:700 clamp(20px,2.4vw,26px)/1.1 var(--display);font-variation-settings:"wdth" 110;text-transform:uppercase;letter-spacing:.01em}
+.fam{font:500 11px/1 var(--mono);letter-spacing:.08em;padding:5px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.var-head p{margin:0;color:var(--muted);max-width:74ch}
+.var-head p b{color:var(--ink);font-weight:500}
+.foot{padding-block:56px 80px;color:var(--muted);max-width:70ch}
+
+/* ---------- shared hero base ---------- */
+.hero{position:relative;overflow:hidden;isolation:isolate;container-type:inline-size;border-radius:22px;background:var(--void);min-height:clamp(560px,58vw,700px);padding:22px clamp(18px,3vw,36px) clamp(18px,3vw,34px)}
+.gl{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:-3;cursor:crosshair}
+.no-gl{background:radial-gradient(90% 70% at 70% 40%,#D9DDE3 0%,#5B616B 30%,#17181D 60%,#07070A 100%)}
+.kname{margin:0;font-family:var(--display);font-weight:800;font-variation-settings:"wdth" 100;text-transform:uppercase;line-height:.8;white-space:nowrap;color:#FFFFFF;mix-blend-mode:difference;letter-spacing:-.01em}
+.inv{color:#FFFFFF;mix-blend-mode:difference}
+.label{margin:0;font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.topfade::before{content:"";position:absolute;inset:0 0 auto 0;height:150px;z-index:-2;pointer-events:none;background:linear-gradient(180deg,rgba(7,7,10,.7),rgba(7,7,10,0))}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.between{justify-content:space-between}
+
+/* lens: shows whatever is behind it as a negative */
+.lens{position:absolute;inset:0;pointer-events:none;-webkit-backdrop-filter:invert(1) contrast(1.15);backdrop-filter:invert(1) contrast(1.15)}
+
+/* LENS BUTTON: a small lens; at rest it is out of focus, on hover it pulls sharp */
+.lb{position:relative;border:0;background:transparent;padding:15px 22px;border-radius:999px;cursor:pointer;font:700 13px/1 var(--display);font-variation-settings:"wdth" 108;text-transform:uppercase;letter-spacing:.06em;color:#FFFFFF}
+.lb::before{content:"";position:absolute;inset:0;border-radius:inherit;-webkit-backdrop-filter:invert(1) blur(7px);backdrop-filter:invert(1) blur(7px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);transition:-webkit-backdrop-filter .45s,backdrop-filter .45s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.lb span{position:relative;mix-blend-mode:difference}
+.lb:hover::before,.lb:focus-visible::before{-webkit-backdrop-filter:invert(1) blur(0px);backdrop-filter:invert(1) blur(0px);transform:scale(1.06)}
+.lb.chip{padding:9px 13px;font-size:11.5px}
+.lb.round{width:64px;height:64px;padding:0;display:grid;place-items:center;font:400 22px/1 var(--body)}
+
+/* WINDOW: a black cover with holes; [data-hole] elements punch through it (built in JS) */
+.cover{position:absolute;inset:0;width:100%;height:100%;z-index:-2;pointer-events:none;display:block}
+.cover .hole{transform-box:fill-box;transform-origin:center;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.cover .hole.grow{transform:scale(1.07)}
+/* HOLE BUTTON: a hole in the page; the label inverts the metal behind it; on hover the hole opens wider */
+.hb{position:relative;border:0;background:transparent;color:#FFFFFF;mix-blend-mode:difference;padding:17px 24px;border-radius:999px;cursor:pointer;font:700 13px/1 var(--display);font-variation-settings:"wdth" 108;text-transform:uppercase;letter-spacing:.06em}
+.hb.chip{padding:9px 13px;font-size:11.5px}
+.hb.sq{border-radius:10px}
+.plain{color:var(--ink)}
+.dim{color:var(--muted)}
+
+/* ---------- 1 · Lens, refined ---------- */
+.v1{display:grid;grid-template-rows:auto 1fr}
+.v1-island{position:relative;align-self:end;width:min(100%,60cqi);padding:clamp(20px,3cqi,36px);border-radius:8px;overflow:hidden}
+.v1-island .lens{border-radius:inherit}
+.v1-body{position:relative;display:grid;gap:clamp(14px,2cqi,22px)}
+.v1 .kname{font-size:9.4cqi}
+
+/* ---------- 2 · Circle lens ---------- */
+.v2{display:grid;grid-template-rows:auto 1fr auto;justify-items:center}
+.v2-circle{position:absolute;left:50%;top:50%;width:min(52cqi,82%);aspect-ratio:1;max-width:100%;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden}
+.v2-circle .lens{border-radius:50%}
+.v2 .kname{align-self:center;font-size:12.6cqi;font-variation-settings:"wdth" 122;position:relative}
+.v2-sub{position:relative;margin-top:clamp(14px,2cqi,22px);text-align:center}
+.v2-btns{display:flex;flex-wrap:wrap;gap:22px;justify-content:center;align-items:center}
+.v2-btns .pair{display:flex;align-items:center;gap:12px;font:600 12.5px/1.2 var(--display);font-variation-settings:"wdth" 100;text-transform:uppercase;letter-spacing:.05em}
+.v2-mid{display:grid;justify-items:center;align-self:center}
+
+/* ---------- 3 · Split seam ---------- */
+.v3{display:grid;grid-template-rows:auto 1fr auto}
+.v3-seam{position:absolute;top:0;bottom:0;right:0;width:46%}
+.v3 .kname{align-self:center;justify-self:center;font-size:13cqi;position:relative}
+.v3-foot{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+
+/* ---------- 4 · Window, refined ---------- */
+.v4{display:grid;grid-template-rows:auto 1fr auto;gap:18px}
+.v4-window{position:relative;border-radius:clamp(18px,3cqi,32px);min-height:320px;display:grid;align-content:space-between;padding:clamp(16px,2.4cqi,28px)}
+.v4 .kname{font-size:14.6cqi;display:flex;justify-content:space-between}
+.v4-foot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 32px;align-items:end}
+.v4-foot p{margin:0;max-width:48ch;font-size:15.5px}
+.v4-foot p b{color:var(--ink);font-weight:500}
+@media (max-width:640px){.v4-foot{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- 5 · Name as window ---------- */
+.v5{padding:0}
+.v5 .gl{filter:brightness(1.3) contrast(1.08)}
+.mcover{position:absolute;inset:0;background:#000000;mix-blend-mode:multiply;display:grid;grid-template-rows:auto 1fr auto;padding:22px clamp(18px,3vw,36px) clamp(18px,3vw,34px);color:#FFFFFF}
+.v5-name{align-self:center;margin:0;font-family:var(--display);font-weight:900;font-variation-settings:"wdth" 104;font-size:15.4cqi;line-height:.8;text-transform:uppercase;white-space:nowrap;display:flex;justify-content:space-between;letter-spacing:-.01em}
+.v5-big{margin:0;font:700 clamp(18px,2.2cqi,26px)/1.25 var(--display);font-variation-settings:"wdth" 96;text-transform:uppercase;max-width:30ch}
+.wb{border:2px solid #FFFFFF;background:#FFFFFF;color:#000000;padding:16px 24px;border-radius:999px;cursor:pointer;font:800 13px/1 var(--display);font-variation-settings:"wdth" 108;text-transform:uppercase;letter-spacing:.06em;transition:background .3s,color .3s}
+.wb:hover,.wb:focus-visible{background:#000000;color:#FFFFFF}
+.v5-nav{display:flex;justify-content:space-between;align-items:center;gap:16px;font:700 14px/1 var(--display);font-variation-settings:"wdth" 100;text-transform:uppercase;letter-spacing:.04em}
+.v5-nav div{display:flex;gap:clamp(12px,2.4vw,28px)}
+
+/* ---------- 6 · Window + lens ---------- */
+.v6{display:grid;grid-template-rows:auto 1fr auto;gap:18px}
+.v6-window{position:relative;border-radius:clamp(18px,3cqi,32px);min-height:320px;display:grid;align-items:end;padding:clamp(14px,2.2cqi,26px)}
+.v6-island{position:relative;width:min(100%,56cqi);padding:clamp(18px,2.6cqi,30px);border-radius:12px;overflow:hidden}
+.v6-island .lens{border-radius:inherit}
+.v6-body{position:relative;display:grid;gap:clamp(12px,1.8cqi,20px)}
+.v6 .kname{font-size:8.6cqi;display:flex;justify-content:space-between}
+.v6-foot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 32px;align-items:end}
+.v6-foot p{margin:0;max-width:48ch}
+@media (max-width:640px){.v6-foot{grid-template-columns:minmax(0,1fr)}}
+
+@media (prefers-reduced-motion: reduce){.lb::before,.cover .hole,.wb{transition:none}}
+</style>
+
+<main class="wrap">
+  <section class="intro">
+    <p class="eyebrow">Round 4 · lens and window</p>
+    <h1>Lens, window, and one of both</h1>
+    <p>The metal is now the only thing that reacts to you. The letters stay still and inverted. Buttons belong to their island: <b class="plain">lens buttons</b> are small lenses that start blurry and pull into focus on hover; <b class="plain">window buttons</b> are holes in the page that open wider on hover.</p>
+    <ul class="base" aria-label="Shared base"><li>Chrome is the only interactive layer</li><li>Static inverted letters</li><li>No ticker</li></ul>
+  </section>
+
+  <!-- 1 -->
+  <section class="var">
+    <header class="var-head"><span class="num">1</span><h2>Lens, refined <span class="fam">lens</span></h2><p>Last round's lens with still letters. Navigation and buttons are small lenses inside it, so they show the real metal again, blurred until you point at them.</p></header>
+    <div class="hero v1 topfade" data-hero>
+      <canvas class="gl" aria-hidden="true"></canvas>
+      <div class="row between"><span class="label inv">Ivan Yakimkin</span><nav class="row" aria-label="Variant 1 navigation"><button class="lb chip" type="button"><span>Work</span></button><button class="lb chip" type="button"><span>Lab</span></button><button class="lb chip" type="button"><span>Contact</span></button></nav></div>
+      <div class="v1-island">
+        <div class="lens" aria-hidden="true"></div>
+        <div class="v1-body">
+          <p class="label inv">AI services · Automation · Infrastructure</p>
+          <h3 class="kname">Yakimkin</h3>
+          <div class="row"><button class="lb" type="button"><span>See the work</span></button><button class="lb" type="button"><span>Get in touch</span></button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="var">
+    <header class="var-head"><span class="num">2</span><h2>Circle lens <span class="fam">lens</span></h2><p>A round lens in the middle, and your name is wider than it. Inside the circle the letters look cut out; outside they invert the metal. Buttons are round lenses with an arrow.</p></header>
+    <div class="hero v2" data-hero>
+      <canvas class="gl" aria-hidden="true"></canvas>
+      <div class="v2-circle" aria-hidden="true"><div class="lens"></div></div>
+      <div class="row between" style="width:100%"><span class="label inv">IY</span><span class="label inv">Work · Lab · About · Contact</span></div>
+      <div class="v2-mid">
+        <h3 class="kname">Yakimkin</h3>
+        <p class="label inv v2-sub">Ivan · AI services, automation, infrastructure</p>
+      </div>
+      <div class="v2-btns">
+        <span class="pair inv"><button class="lb round" type="button" aria-label="See the work"><span>↘</span></button>See the work</span>
+        <span class="pair inv"><button class="lb round" type="button" aria-label="Get in touch"><span>↗</span></button>Get in touch</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="var">
+    <header class="var-head"><span class="num">3</span><h2>Split seam <span class="fam">lens</span></h2><p>The right part of the hero is one tall lens. Your name crosses the seam, so half of it is cut out and half inverts. The same lens button looks negative on one side and real on the other.</p></header>
+    <div class="hero v3" data-hero>
+      <canvas class="gl" aria-hidden="true"></canvas>
+      <div class="v3-seam" aria-hidden="true"><div class="lens"></div></div>
+      <div class="row between"><span class="label inv">Ivan Yakimkin</span><span class="label inv">AI services · Automation · Infrastructure</span></div>
+      <h3 class="kname">Yakimkin</h3>
+      <div class="v3-foot"><button class="lb" type="button"><span>See the work</span></button><span class="label inv">Open for projects</span><button class="lb" type="button"><span>Get in touch</span></button></div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="var">
+    <header class="var-head"><span class="num">4</span><h2>Window, refined <span class="fam">window</span></h2><p>A black page with holes. The big window holds your name; navigation chips and buttons are smaller holes, and each one opens a little wider when you point at it.</p></header>
+    <div class="hero v4" data-hero>
+      <canvas class="gl" aria-hidden="true"></canvas>
+      <svg class="cover" aria-hidden="true"></svg>
+      <div class="row between"><span class="label plain">Ivan Yakimkin</span><nav class="row" aria-label="Variant 4 navigation"><button class="hb chip" type="button" data-hole>Work</button><button class="hb chip" type="button" data-hole>Lab</button><button class="hb chip" type="button" data-hole>Contact</button></nav></div>
+      <div class="v4-window" data-hole>
+        <p class="label inv">Live render · move the cursor</p>
+        <h3 class="kname">Yakimkin</h3>
+      </div>
+      <div class="v4-foot">
+        <p class="dim"><b>AI services, automation and infrastructure</b> that run in production: a Lean coach for process owners, a resume engine in Telegram, an on-prem test case generator.</p>
+        <div class="row"><button class="hb" type="button" data-hole>See the work</button><button class="hb sq" type="button" data-hole>↗</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="var">
+    <header class="var-head"><span class="num">5</span><h2>Name as window <span class="fam">window</span></h2><p>The letters themselves are the holes: the page is black and the metal shows only through your name, the navigation and the buttons. Here the name is cut out rather than inverted.</p></header>
+    <div class="hero v5" data-hero>
+      <canvas class="gl" aria-hidden="true"></canvas>
+      <div class="mcover">
+        <nav class="v5-nav" aria-label="Variant 5 navigation"><span>IY</span><div><span>Work</span><span>Lab</span><span>About</span><span>Contact</span></div></nav>
+        <h3 class="v5-name" aria-label="Yakimkin"><span>Y</span><span>A</span><span>K</span><span>I</span><span>M</span><span>K</span><span>I</span><span>N</span></h3>
+        <div class="row between" style="align-items:end"><p class="v5-big">AI services, automation and infrastructure that run in production</p><div class="row"><button class="wb" type="button">See the work</button><button class="wb" type="button">Contact</button></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="var">
+    <header class="var-head"><span class="num">6</span><h2>Window + lens <span class="fam">both</span></h2><p>The black page with one window, and a lens inside the window carrying your name. Lens buttons sit on the black page, where a lens turns black into white.</p></header>
+    <div class="hero v6" data-hero>
+      <canvas class="gl" aria-hidden="true"></canvas>
+      <svg class="cover" aria-hidden="true"></svg>
+      <div class="row between"><span class="label plain">Ivan Yakimkin</span><nav class="row" aria-label="Variant 6 navigation"><button class="lb chip" type="button"><span>Work</span></button><button class="lb chip" type="button"><span>Lab</span></button><button class="lb chip" type="button"><span>Contact</span></button></nav></div>
+      <div class="v6-window" data-hole>
+        <div class="v6-island">
+          <div class="lens" aria-hidden="true"></div>
+          <div class="v6-body"><p class="label inv">AI services · Automation · Infrastructure</p><h3 class="kname">Yakimkin</h3></div>
+        </div>
+      </div>
+      <div class="v6-foot">
+        <p class="dim">A Lean coach for process owners, a resume engine in Telegram, an on-prem test case generator, and the platform they run on.</p>
+        <div class="row"><button class="lb" type="button"><span>See the work</span></button><button class="lb" type="button"><span>Get in touch</span></button></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Tell me by number what works and what to combine.</p>
+</main>
+
+<script>
+(() => {
+"use strict";
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const NS = "http://www.w3.org/2000/svg";
+
+/* ---------- round 1 liquid-chrome shader, unchanged ---------- */
+const VS = "attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}";
+const FS = [
+  "precision highp float;",
+  "uniform vec2 uR; uniform float uT; uniform vec2 uM; uniform float uS;",
+  "float hash(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p, p+45.32); return fract(p.x*p.y); }",
+  "float noise(vec2 p){ vec2 i=floor(p); vec2 f=fract(p); vec2 u=f*f*(3.0-2.0*f);",
+  "  return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x), mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x), u.y); }",
+  "float fbm(vec2 p){ float v=0.0; float a=0.5; for(int i=0;i<4;i++){ v+=a*noise(p); p=p*2.03+vec2(1.7,9.2); a*=0.5; } return v; }",
+  "float height(vec2 p){",
+  "  vec2 q = vec2(fbm(p*1.2+vec2(0.0,uT*0.06)), fbm(p*1.2+vec2(5.2,-uT*0.05)));",
+  "  float h = fbm(p*1.4 + q*1.8 + vec2(uT*0.02,0.0));",
+  "  float d = distance(p, uM);",
+  "  h += uS*0.2*exp(-d*d*12.0)*(0.55+0.45*sin(d*30.0-uT*4.0));",
+  "  return h; }",
+  "void main(){",
+  "  vec2 p = gl_FragCoord.xy / uR.y;",
+  "  float e = 1.5 / uR.y;",
+  "  float hc = height(p);",
+  "  float hx = height(p+vec2(e,0.0));",
+  "  float hy = height(p+vec2(0.0,e));",
+  "  vec3 n = normalize(vec3((hc-hx)/e, (hc-hy)/e, 2.2));",
+  "  vec3 v = vec3(0.0,0.0,1.0);",
+  "  vec3 r = reflect(-v, n);",
+  "  float sky = 0.5+0.5*r.y;",
+  "  float bands = 0.5+0.5*sin(r.y*7.0 + r.x*2.5 + 1.2);",
+  "  vec3 col = mix(vec3(0.02,0.02,0.03), vec3(0.86,0.88,0.92), smoothstep(0.15,0.95, sky*bands));",
+  "  float fres = pow(1.0-clamp(dot(n,v),0.0,1.0), 1.6);",
+  "  vec3 film = 0.5+0.5*cos(6.2831*(vec3(0.0,0.33,0.67) + hc*2.2 + uT*0.02));",
+  "  col = mix(col, col*0.4 + film*0.75, clamp(fres*2.2,0.0,1.0));",
+  "  col += pow(max(r.y,0.0),30.0)*0.9;",
+  "  vec2 q = gl_FragCoord.xy/uR - 0.5;",
+  "  col *= 1.0 - dot(q,q)*0.9;",
+  "  gl_FragColor = vec4(col,1.0);",
+  "}"
+].join("\n");
+
+function makeChrome(cv, ptr, seed) {
+  let gl = null;
+  try { gl = cv.getContext("webgl", { antialias: false, alpha: false }); } catch (e) { gl = null; }
+  const fail = () => { cv.parentElement.classList.add("no-gl"); cv.style.display = "none"; return null; };
+  if (!gl) return fail();
+  const compile = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); return null; } return s; };
+  const v = compile(gl.VERTEX_SHADER, VS), f = compile(gl.FRAGMENT_SHADER, FS);
+  if (!v || !f) return fail();
+  const pr = gl.createProgram(); gl.attachShader(pr, v); gl.attachShader(pr, f); gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return fail();
+  gl.useProgram(pr);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const uR = gl.getUniformLocation(pr, "uR"), uT = gl.getUniformLocation(pr, "uT"), uM = gl.getUniformLocation(pr, "uM"), uS = gl.getUniformLocation(pr, "uS");
+  let W = 1, H = 1;
+  const m = { x: 0.7, y: 0.5, s: 0 };
+  const scale = 0.65 * Math.min(window.devicePixelRatio || 1, 1.5);
+  const draw = (t) => {
+    if (ptr.on) {
+      const r = cv.getBoundingClientRect();
+      m.x += ((ptr.x - r.left) / r.width - m.x) * 0.08; m.y += (1 - (ptr.y - r.top) / r.height - m.y) * 0.08;
+    }
+    m.s += ((ptr.on ? 1 : 0) - m.s) * 0.05;
+    gl.uniform2f(uR, W, H); gl.uniform1f(uT, t / 1000 + seed); gl.uniform2f(uM, m.x * W / H, m.y); gl.uniform1f(uS, m.s);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  };
+  new ResizeObserver(() => {
+    W = Math.max(1, Math.round(cv.clientWidth * scale)); H = Math.max(1, Math.round(cv.clientHeight * scale));
+    cv.width = W; cv.height = H; gl.viewport(0, 0, W, H); draw(performance.now() + 20000);
+  }).observe(cv);
+  return draw;
+}
+
+/* ---------- window cover: a black sheet with a hole for every [data-hole] ---------- */
+let maskSeq = 0;
+function initCover(hero) {
+  const svg = hero.querySelector("svg.cover"); if (!svg) return;
+  const id = "hole-mask-" + (++maskSeq);
+  const defs = document.createElementNS(NS, "defs"), mask = document.createElementNS(NS, "mask");
+  mask.setAttribute("id", id); mask.setAttribute("maskUnits", "userSpaceOnUse");
+  const all = document.createElementNS(NS, "rect"); all.setAttribute("fill", "#FFFFFF"); mask.appendChild(all);
+  const g = document.createElementNS(NS, "g"); mask.appendChild(g); defs.appendChild(mask); svg.appendChild(defs);
+  const sheet = document.createElementNS(NS, "rect"); sheet.setAttribute("fill", "#07070A"); sheet.setAttribute("mask", "url(#" + id + ")"); svg.appendChild(sheet);
+  const els = Array.from(hero.querySelectorAll("[data-hole]"));
+  const holes = els.map((el) => {
+    const r = document.createElementNS(NS, "rect"); r.setAttribute("fill", "#000000"); r.setAttribute("class", "hole"); g.appendChild(r);
+    if (el.tagName === "BUTTON") {
+      const on = () => r.classList.add("grow"), off = () => r.classList.remove("grow");
+      el.addEventListener("pointerenter", on); el.addEventListener("pointerleave", off);
+      el.addEventListener("focus", on); el.addEventListener("blur", off);
+    }
+    return r;
+  });
+  const layout = () => {
+    const hb = hero.getBoundingClientRect();
+    svg.setAttribute("viewBox", "0 0 " + hb.width + " " + hb.height);
+    [all, sheet].forEach((r) => { r.setAttribute("width", hb.width); r.setAttribute("height", hb.height); });
+    els.forEach((el, i) => {
+      const b = el.getBoundingClientRect(), rad = parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0;
+      const r = holes[i];
+      r.setAttribute("x", b.left - hb.left); r.setAttribute("y", b.top - hb.top);
+      r.setAttribute("width", b.width); r.setAttribute("height", b.height); r.setAttribute("rx", Math.min(rad, b.height / 2));
+    });
+  };
+  new ResizeObserver(layout).observe(hero);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  layout();
+}
+
+/* ---------- each hero: own pointer and shader, runs only while on screen ---------- */
+document.querySelectorAll("[data-hero]").forEach((hero, idx) => {
+  const ptr = { x: 0, y: 0, on: false };
+  const cv = hero.querySelector(".gl");
+  const draw = cv ? makeChrome(cv, ptr, idx * 37.0) : null;
+  initCover(hero);
+  let visible = false, raf = 0;
+  const tick = (t) => { raf = 0; if (!draw || reduce) return; draw(t); if (visible && !document.hidden) raf = requestAnimationFrame(tick); };
+  const wake = () => { if (!raf && visible && !document.hidden && !reduce) raf = requestAnimationFrame(tick); };
+  hero.addEventListener("pointermove", (e) => { ptr.x = e.clientX; ptr.y = e.clientY; ptr.on = true; wake(); });
+  hero.addEventListener("pointerleave", () => { ptr.on = false; });
+  new IntersectionObserver((es) => { visible = es[0].isIntersecting; if (visible) wake(); }, { rootMargin: "80px" }).observe(hero);
+  document.addEventListener("visibilitychange", wake);
+});
+})();
+</script>
+
+</body>
+</html>
